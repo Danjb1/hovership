@@ -5,26 +5,23 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public float speed;
+    public float rotSpeed;
 
-    private Rigidbody rb;
+    // Use this for initialization
+    void Start () {
 
-	// Use this for initialization
-	void Start () {
-        rb = GetComponent<Rigidbody>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
-    private void FixedUpdate() {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+    // Update is called once per frame
+    void Update() {
+        float x = Input.GetAxis("Horizontal") * Time.deltaTime * rotSpeed;
+        float z = Input.GetAxis("Vertical") * Time.deltaTime * speed;
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        // Don't allow backwards movement
+        z = Mathf.Max(z, 0.0f);
 
-        rb.AddForce(movement * speed);
-
+        transform.Rotate(0, x, 0);
+        transform.Translate(0, 0, z);
     }
+
 }
