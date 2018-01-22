@@ -9,24 +9,17 @@ public class CameraController : MonoBehaviour {
     public float height;
     public float distanceToPlayer;
 
-    private Vector3 playerPrevPos;
-
     // Use this for initialization
     void Start () {
         PositionBehindPlayer();
-        playerPrevPos = player.transform.position;
     }
 	
 	// Update is called once per frame
 	void LateUpdate () {
-
         PositionBehindPlayer();
-
-        // Remember last player position
-        playerPrevPos = player.transform.position;
     }
 
-    void PositionBehindPlayer() {
+    private void PositionBehindPlayer() {
 
         // Determine camera position based on player facing
         Vector3 forward = player.transform.forward;

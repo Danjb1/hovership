@@ -5,4 +5,3 @@ To Do
  - Implement gravity
  - Implement jump mechanics
  - Player should reset after falling off the edge
- - Flat shading
