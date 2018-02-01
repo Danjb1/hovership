@@ -285,9 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b0e1ec94f69fe4680a10c94231b1fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  rotSpeed: 275
-  jumpStrength: 1
+  speed: 0.75
+  rotSpeed: 250
+  jumpStrength: 15
 --- !u!143 &751144145
 CharacterController:
   m_ObjectHideFlags: 0
