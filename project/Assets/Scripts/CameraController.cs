@@ -24,9 +24,8 @@ public class CameraController : MonoBehaviour {
         // Determine camera position based on player facing
         Vector3 forward = player.transform.forward;
 
-        // Position behind the player and face him
+        // Position behind the player
         transform.position = player.transform.position - forward * distanceToPlayer;
-        transform.LookAt(player.transform.position);
 
         // Raise to the desired height
         transform.position = new Vector3(
@@ -35,6 +34,8 @@ public class CameraController : MonoBehaviour {
                 transform.position.z
         );
 
+        // Face the player
+        transform.LookAt(player.transform.position);
     }
 
 }

@@ -2,6 +2,9 @@
 To Do
 ================================================================================
 
- - Implement gravity
- - Implement jump mechanics
+ - Move physics constants to somewhere global
+ - Why is our gravity constant so different to "real world" gravity if we are
+    working in metres?
+ - Use RequireComponent attribute?
+ - Limit velocity
  - Player should reset after falling off the edge

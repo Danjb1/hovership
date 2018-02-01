@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 751144143}
   - component: {fileID: 751144142}
   - component: {fileID: 751144144}
+  - component: {fileID: 751144145}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -284,8 +285,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b0e1ec94f69fe4680a10c94231b1fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  rotSpeed: 300
+  speed: 1
+  rotSpeed: 275
+  jumpStrength: 1
+--- !u!143 &751144145
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751144140}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1476153625
 GameObject:
   m_ObjectHideFlags: 0
