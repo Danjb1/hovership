@@ -2,9 +2,12 @@
 To Do
 ================================================================================
 
+ - Turns out, real-world gravity is not fun! Let's reduce this and tweak the
+    player's jump accordingly
  - Move physics constants to somewhere global
- - Why is our gravity constant so different to "real world" gravity if we are
-    working in metres?
  - Use RequireComponent attribute?
  - Limit velocity
- - Player should reset after falling off the edge
+ - Use virtual buttons
+ - Improve documentation (e.g. include units)
+ - Don't jerk the camera upwards when the player jumps?
+ - Is friction being correctly applied in a framerate-independent fashion?
