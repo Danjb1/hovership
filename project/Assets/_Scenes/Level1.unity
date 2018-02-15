@@ -371,8 +371,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   rotSpeed: 200
-  jumpStrength: 2
-  minJumpTime: 0.15
+  jumpStrength: 1.75
+  minJumpTime: 0.1
   maxJumpTime: 0.25
 --- !u!143 &751144145
 CharacterController:
@@ -571,7 +571,7 @@ MonoBehaviour:
   player: {fileID: 751144140}
   height: 1.5
   targetOffsetY: 1
-  distanceToPlayer: 3
+  distanceToTarget: 3
 --- !u!1 &1712957317
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,12 +2,12 @@
 To Do
 ================================================================================
 
- - Turns out, real-world gravity is not fun! Let's reduce this and tweak the
-    player's jump accordingly
+ - Move camera smoothly in the y-axis when player lands
+ - Re-engage player camera tracking when player falls below last grounded y
+ - Reduce jump force (jump seems way too high now that camera is staying still)
+ - Is friction being correctly applied in a framerate-independent fashion?
+ - Limit velocity
  - Move physics constants to somewhere global
  - Use RequireComponent attribute?
- - Limit velocity
  - Use virtual buttons
  - Improve documentation (e.g. include units)
- - Don't jerk the camera upwards when the player jumps?
- - Is friction being correctly applied in a framerate-independent fashion?

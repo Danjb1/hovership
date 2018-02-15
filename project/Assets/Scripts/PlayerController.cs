@@ -36,12 +36,12 @@ public class PlayerController : MonoBehaviour {
     /**
      * Gravity, in metres per second squared.
      */
-    private const float GRAVITY = -9.81f;
+    private const float GRAVITY = -3f;
 
     /**
      * Maximum y-speed, in metres per second.
      */
-    private const float MAX_SPEED_Y = 20f;
+    private const float MAX_SPEED_Y = 25f;
 
     /**
      * Friction multiplier.
@@ -159,8 +159,9 @@ public class PlayerController : MonoBehaviour {
         // Apply gravity and / or jump force
         float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
 
-        // Limit downward vertical velocity
+        // Limit vertical velocity
         newVelocityY = Mathf.Max(newVelocityY, -MAX_SPEED_Y);
+        newVelocityY = Mathf.Min(newVelocityY, MAX_SPEED_Y);
 
         return new Vector3(newVelocityX, newVelocityY, newVelocityZ);
     }
