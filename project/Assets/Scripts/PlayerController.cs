@@ -202,11 +202,11 @@ public class PlayerController : MonoBehaviour {
     void LateUpdate() {
         // Respawn if we have fallen out of the world
         if (transform.position.y < RESPAWN_Y) {
-            respawn();
+            Respawn();
         }
     }
 
-    private void respawn() {
+    private void Respawn() {
         transform.position = new Vector3(
                 spawn.x,
                 spawn.y,

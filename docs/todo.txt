@@ -3,6 +3,7 @@ To Do
 ================================================================================
 
  - Move camera smoothly in the y-axis when player lands
+    - Almost there - fix problems in CameraController script
  - Re-engage player camera tracking when player falls below last grounded y
  - Reduce jump force (jump seems way too high now that camera is staying still)
  - Is friction being correctly applied in a framerate-independent fashion?
