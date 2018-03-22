@@ -1,8 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Script Properties
+    ///////////////////////////////////////////////////////////////////////////
 
     /**
      * Speed of the player's acceleration.
@@ -33,6 +36,10 @@ public class PlayerController : MonoBehaviour {
      */
     public float maxJumpTime;
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Physics Constants
+    ///////////////////////////////////////////////////////////////////////////
+
     /**
      * Gravity, in metres per second squared.
      */
@@ -53,16 +60,52 @@ public class PlayerController : MonoBehaviour {
      */
     private const float RESPAWN_Y = -25f;
 
+    ///////////////////////////////////////////////////////////////////////////
+    // PlayerController
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * The CharacterController in control of the player's physics.
+     */
     private CharacterController controller;
+
+    /**
+     * The position where the player will respawn.
+     */
     private Vector3 spawn;
+
+    /**
+     * Current velocity.
+     */
     private Vector3 velocity;
+
+    /**
+     * Flag set during ascent when jumping.
+     */
     private bool jumping;
+
+    /**
+     * Time elaspsed during the current ascent.
+     */
     private float spentJumpTime;
 
-    // Use this for initialization
+    /**
+     * Flag set if the player was grounded last frame.
+     */
+    private bool previouslyGrounded;
+
+    /**
+     * List of registered CharacterListeners.
+     */
+    private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
+
+    /**
+     * Initialises this controller.
+     */
     void Start () {
         controller = GetComponent<CharacterController>();
 
+        // Remember the spawn point
         spawn = new Vector3(
                 transform.position.x,
                 transform.position.y,
@@ -70,7 +113,9 @@ public class PlayerController : MonoBehaviour {
         );
     }
 
-    // Update is called once per frame
+    /**
+     * Moves the player according to the user input.
+     */
     void Update() {
 
         // Apply rotation
@@ -199,13 +244,37 @@ public class PlayerController : MonoBehaviour {
         return GRAVITY;
     }
 
+    /**
+     * Updates the player logic after all movement has finished.
+     */
     void LateUpdate() {
+
         // Respawn if we have fallen out of the world
         if (transform.position.y < RESPAWN_Y) {
             Respawn();
         }
+
+        // Notify listeners when we land!
+        if (!previouslyGrounded && controller.isGrounded) {
+            foreach (ICharacterListener listener in characterListeners) {
+                listener.CharacterLanded();
+            }
+            previouslyGrounded = true;
+        } else if (!controller.isGrounded) {
+            previouslyGrounded = false;
+        }
     }
 
+    /**
+     * Registers the given listener for physics-related callbacks.
+     */
+    public void RegisterCharacterListener(ICharacterListener listener) {
+        characterListeners.Add(listener);
+    }
+
+    /**
+     * Moves the player back to the spawn point.
+     */
     private void Respawn() {
         transform.position = new Vector3(
                 spawn.x,

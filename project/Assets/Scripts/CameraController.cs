@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour, ICharacterListener {
 
-    /**
-     * Time taken to reach the vertical destination, in seconds.
-     */
-    private const float VERTICAL_MOVEMENT_TIME = 1.0f;
+    ///////////////////////////////////////////////////////////////////////////
+    // Script Properties
+    ///////////////////////////////////////////////////////////////////////////
 
     public GameObject player;
 
@@ -29,13 +27,24 @@ public class CameraController : MonoBehaviour {
      */
     public float distanceToTarget;
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Movement Constants
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Time taken to reach the vertical destination, in seconds.
+     */
+    private const float VERTICAL_MOVEMENT_TIME = 1.0f;
+
     /**
      * Minimum y-position before the camera will stop moving.
      */
     private const float MIN_Y = -5f;
 
-    private CharacterController playerPhysics;
-
+    ///////////////////////////////////////////////////////////////////////////
+    // CameraController
+    ///////////////////////////////////////////////////////////////////////////
+    
     /**
      * Last grounded Y of the player.
      */
@@ -56,39 +65,23 @@ public class CameraController : MonoBehaviour {
      */
     private float speedY;
 
-    private bool verticalSpeedSet;
-
-    // Use this for initialization
+    /**
+     * Initialises this controller.
+     */
     void Start () {
-        playerPhysics = player.GetComponent<CharacterController>();
+
+        // Register this class as a CharacterListener for the Player
+        PlayerController playerCtrl = player.GetComponent<PlayerController>();
+        playerCtrl.RegisterCharacterListener(this);
+
         targetY = player.transform.position.y;
         PositionBehindPlayer();
     }
 	
-	// Update is called once per frame
+	/**
+     * Move the Camera towards the optimal position.
+     */
 	void LateUpdate () {
-
-        // Remember last grounded height
-        if (playerPhysics.isGrounded) {
-
-            // Do this just once every time we're grounded!
-            if (!verticalSpeedSet) {
-
-                lastGroundedY = player.transform.position.y;
-
-                optimalTargetY = lastGroundedY;
-
-                // Calculate distance to optimal position
-                float dy = optimalTargetY - targetY;
-
-                // Calculate vertical speed required to reach optimal position in time
-                speedY = dy / VERTICAL_MOVEMENT_TIME;
-
-                verticalSpeedSet = true;
-            }
-        } else {
-            verticalSpeedSet = false;
-        }
 
         float prevTargetY = targetY;
         targetY += speedY * Time.deltaTime;
@@ -120,7 +113,7 @@ public class CameraController : MonoBehaviour {
     /**
      * Positions the camera behind the player.
      */
-    private void PositionBehindPlayer() {
+    public void PositionBehindPlayer() {
         PositionBehindTarget(player.transform.position, player.transform.forward);
     }
 
@@ -138,23 +131,29 @@ public class CameraController : MonoBehaviour {
             target.z - forward.z * distanceToTarget);
 
         // Raise to the desired height
-        float newY = transform.position.y + height;
-        newY = Mathf.Max(newY, MIN_Y);
-        transform.position = new Vector3(
-                transform.position.x,
-                newY,
-                transform.position.z
-        );
+        float newY = Mathf.Max(transform.position.y + height, MIN_Y);
+        transform.position = VectorUtils.SetY(transform.position, newY);
 
         // Adjust target based on y-offset
-        target = new Vector3(
-                target.x,
-                target.y + targetOffsetY,
-                target.z
-        );
+        target = VectorUtils.SetY(target, target.y + targetOffsetY);
 
         // Face the target
         transform.LookAt(target);
+    }
+
+    /**
+     * Called whenever the Player lands.
+     */
+    public void CharacterLanded() {
+
+        lastGroundedY = player.transform.position.y;
+        optimalTargetY = lastGroundedY;
+
+        // Calculate distance to optimal position
+        float dy = optimalTargetY - targetY;
+
+        // Calculate vertical speed required to reach optimal position in time
+        speedY = dy / VERTICAL_MOVEMENT_TIME;
     }
 
 }
