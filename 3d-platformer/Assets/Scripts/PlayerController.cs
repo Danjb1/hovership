@@ -43,12 +43,12 @@ public class PlayerController : MonoBehaviour {
     /**
      * Gravity, in metres per second squared.
      */
-    private const float GRAVITY = -3f;
+    private const float GRAVITY = -1f;
 
     /**
      * Maximum y-speed, in metres per second.
      */
-    private const float MAX_SPEED_Y = 25f;
+    private const float MAX_SPEED_Y = 15f;
 
     /**
      * Friction multiplier.
@@ -215,12 +215,7 @@ public class PlayerController : MonoBehaviour {
      * Determines the acceleration to apply based on vertical input.
      */
     private float GetAcceleration() {
-        float acceleration = Input.GetAxisRaw("Vertical") * speed;
-
-        // Don't allow backwards movement
-        acceleration = Mathf.Max(acceleration, 0.0f);
-
-        return acceleration;
+        return Input.GetAxisRaw("Vertical") * speed;
     }
 
     /**
@@ -282,6 +277,10 @@ public class PlayerController : MonoBehaviour {
                 spawn.z
         );
         velocity = new Vector3(0, 0, 0);
+
+        foreach (ICharacterListener listener in characterListeners) {
+            listener.CharacterTeleported();
+        }
     }
 
 }

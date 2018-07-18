@@ -371,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   rotSpeed: 200
-  jumpStrength: 1.75
+  jumpStrength: 0.65
   minJumpTime: 0.1
   maxJumpTime: 0.25
 --- !u!143 &751144145

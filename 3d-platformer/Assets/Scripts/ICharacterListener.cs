@@ -2,4 +2,6 @@
 
     void CharacterLanded();
 
+    void CharacterTeleported();
+
 }

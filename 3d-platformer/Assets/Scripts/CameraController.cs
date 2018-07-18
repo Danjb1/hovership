@@ -38,8 +38,10 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
     /**
      * Minimum y-position before the camera will stop moving.
+     * 
+     * TODO: Make this dependent on player size.
      */
-    private const float MIN_Y = -5f;
+    private const float MIN_Y = 0.4999f;
 
     ///////////////////////////////////////////////////////////////////////////
     // CameraController
@@ -77,29 +79,31 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         targetY = player.transform.position.y;
         PositionBehindPlayer();
     }
-	
-	/**
+
+    void Update() {
+
+        // Follow the player when falling out of the world
+        if (player.transform.position.y < MIN_Y) {
+            targetY = player.transform.position.y;
+            optimalTargetY = targetY;
+        }
+    }
+
+    /**
      * Move the Camera towards the optimal position.
      */
-	void LateUpdate () {
+    void LateUpdate () {
 
         float prevTargetY = targetY;
         targetY += speedY * Time.deltaTime;
         
-        // If we have gone past our destination...
-        // (using XOR to check if signs are different)
-        // Casting to ints is enormously imprecise => FIX THIS!
-        if (((int)(prevTargetY - optimalTargetY) ^ (int)(targetY - optimalTargetY)) < 0) {
-            // Camera has reached (or gone past) its destination
-            targetY = optimalTargetY;
-            speedY = 0;
-        } else if (Mathf.Abs(prevTargetY - optimalTargetY) < Mathf.Abs(targetY - optimalTargetY)) {
-            // Somehow we are moving further away from the optimal position!
-            // This should never happen => FIX THIS!
+        // If we have gone past our destination, stop at the destination
+        if ((prevTargetY < optimalTargetY && targetY > optimalTargetY) ||
+                (prevTargetY > optimalTargetY && targetY < optimalTargetY)) {
             targetY = optimalTargetY;
             speedY = 0;
         }
-
+        
         // Determine camera target for this frame
         Vector3 target = new Vector3(
                 player.transform.position.x,
@@ -154,6 +158,13 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
         // Calculate vertical speed required to reach optimal position in time
         speedY = dy / VERTICAL_MOVEMENT_TIME;
+    }
+
+    public void CharacterTeleported() {
+
+        // Just snap to the new position
+        targetY = player.transform.position.y;
+        optimalTargetY = targetY;
     }
 
 }
