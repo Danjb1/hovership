@@ -38,32 +38,8 @@ public class PlayerController : MonoBehaviour {
 
     /**
      * The maximum speed the player can move in the horizontal plane.
-     */ 
+     */
     public float maxHorizontalSpeed;
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Physics Constants
-    ///////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Gravity, in metres per second squared.
-     */
-    private const float GRAVITY = -0.5f;
-
-    /**
-     * Maximum y-speed, in metres per second.
-     */
-    private const float MAX_SPEED_Y = 15f;
-
-    /**
-     * Friction multiplier.
-     */
-    private const float FRICTION = 0.9f;
-
-    /**
-     * Minimum y-position before the player will respawn.
-     */
-    private const float RESPAWN_Y = -25f;
 
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
@@ -202,16 +178,16 @@ public class PlayerController : MonoBehaviour {
 
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
-            newVelocityX *= FRICTION;
-            newVelocityZ *= FRICTION;
+            newVelocityX *= Physics.FRICTION;
+            newVelocityZ *= Physics.FRICTION;
         }
 
         // Apply gravity and / or jump force
         float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
-        newVelocityY = Mathf.Max(newVelocityY, -MAX_SPEED_Y);
-        newVelocityY = Mathf.Min(newVelocityY, MAX_SPEED_Y);
+        newVelocityY = Mathf.Max(newVelocityY, -Physics.MAX_PLAYER_SPEED_Y);
+        newVelocityY = Mathf.Min(newVelocityY, Physics.MAX_PLAYER_SPEED_Y);
 
         // Limit horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
@@ -251,7 +227,7 @@ public class PlayerController : MonoBehaviour {
             return jumpStrength;
         }
 
-        return GRAVITY;
+        return Physics.GRAVITY;
     }
 
     /**
@@ -260,7 +236,7 @@ public class PlayerController : MonoBehaviour {
     void LateUpdate() {
 
         // Respawn if we have fallen out of the world
-        if (transform.position.y < RESPAWN_Y) {
+        if (transform.position.y < Physics.RESPAWN_Y) {
             Respawn();
         }
 
