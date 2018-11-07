@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     // Movement Constants
     ///////////////////////////////////////////////////////////////////////////
 
-    private const float SLERP_INTERVAL = 0.1f;
+    private const float SLERP_INTERVAL = 0.2f;
 
     /**
      * Time taken to reach the vertical destination, in seconds.
@@ -130,7 +130,8 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         // Determine new position somewhere between current and optimal
         Vector3 newPos = target + Vector3.Slerp(targetToCamera, targetToOptimalCamera, SLERP_INTERVAL);
 
-        transform.position = newPos;
+        // Correct for over-the-pole slerp movement
+        transform.position = new Vector3(newPos.x, optimalPosition.y, newPos.z);
     }
 
     /**

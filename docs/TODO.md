@@ -2,7 +2,7 @@
 
  - Add unit tests
 
- - Fix slerp changing camera height
+ - Enforce a minimum / maximum camera distance
 
  - Physics behave strangely with slopes
 
@@ -11,5 +11,3 @@
  - Use virtual buttons
 
  - Improve documentation (e.g. include units)
-
- - Prevent player from adhering to steep slopes
