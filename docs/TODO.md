@@ -2,7 +2,9 @@
 
  - Add unit tests
 
- - Rotate camera gradually
+ - Fix slerp changing camera height
+
+ - Physics behave strangely with slopes
 
  - Move physics constants to somewhere global
 

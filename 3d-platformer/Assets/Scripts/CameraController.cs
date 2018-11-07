@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     // Movement Constants
     ///////////////////////////////////////////////////////////////////////////
 
+    private const float SLERP_INTERVAL = 0.1f;
+
     /**
      * Time taken to reach the vertical destination, in seconds.
      */
@@ -111,7 +113,24 @@ public class CameraController : MonoBehaviour, ICharacterListener {
                 player.transform.position.z
         );
 
-        PositionBehindTarget(target, player.transform.forward);
+        SlerpToOptimalFollowPosition(target, player.transform.forward);
+        LookAtTarget(target);
+    }
+
+    /**
+     * Gradually move towards the optimal position for a given target.
+     */
+    public void SlerpToOptimalFollowPosition(Vector3 target, Vector3 forward) {
+
+        // Determine vectors used in slerp
+        Vector3 optimalPosition = GetOptimalPosition(target, forward);
+        Vector3 targetToCamera = transform.position - target;
+        Vector3 targetToOptimalCamera = optimalPosition - target;
+
+        // Determine new position somewhere between current and optimal
+        Vector3 newPos = target + Vector3.Slerp(targetToCamera, targetToOptimalCamera, SLERP_INTERVAL);
+
+        transform.position = newPos;
     }
 
     /**
@@ -129,14 +148,34 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private void PositionBehindTarget(Vector3 target, Vector3 forward) {
 
         // Position behind the target
-        transform.position = new Vector3(
-            target.x - forward.x * distanceToTarget,
-            target.y - forward.y * distanceToTarget,
-            target.z - forward.z * distanceToTarget);
+        transform.position = GetOptimalPosition(target, forward);
 
-        // Raise to the desired height
-        float newY = Mathf.Max(transform.position.y + height, MIN_Y);
-        transform.position = VectorUtils.SetY(transform.position, newY);
+        LookAtTarget(target);
+    }
+
+    /**
+     * Determines the optimal camera position for the given target.
+     */
+    private Vector3 GetOptimalPosition(Vector3 target, Vector3 forward) {
+
+        // Start off with the desired distance behind the target
+        Vector3 optimalPos = new Vector3(
+               target.x - forward.x * distanceToTarget,
+               target.y - forward.y * distanceToTarget,
+               target.z - forward.z * distanceToTarget
+        );
+
+        // Raise to the desired height, keeping within the limits
+        float newY = Mathf.Max(optimalPos.y + height, MIN_Y);
+        optimalPos = VectorUtils.SetY(optimalPos, newY);
+
+        return optimalPos;
+    }
+
+    /**
+     * Rotates the camera to look at a target, respecting the desired offset.
+     */
+    private void LookAtTarget(Vector3 target) {
 
         // Adjust target based on y-offset
         target = VectorUtils.SetY(target, target.y + targetOffsetY);
