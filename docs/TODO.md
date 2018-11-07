@@ -4,8 +4,6 @@
 
  - Rotate camera gradually
 
- - Move physics constants to somewhere global
-
  - Use RequireComponent attribute?
 
  - Use virtual buttons
