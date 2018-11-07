@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Speed of the player's acceleration.
+     * Player's acceleration, in metres per second per second.
      */
-    public float speed;
+    public float acceleration;
 
     /**
      * Speed of the player's horizontal rotation.
@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour {
      */
     public float maxJumpTime;
 
+    /**
+     * The maximum speed the player can move in the horizontal plane.
+     */ 
+    public float maxHorizontalSpeed;
+
     ///////////////////////////////////////////////////////////////////////////
     // Physics Constants
     ///////////////////////////////////////////////////////////////////////////
@@ -43,7 +48,7 @@ public class PlayerController : MonoBehaviour {
     /**
      * Gravity, in metres per second squared.
      */
-    private const float GRAVITY = -1f;
+    private const float GRAVITY = -0.5f;
 
     /**
      * Maximum y-speed, in metres per second.
@@ -208,14 +213,24 @@ public class PlayerController : MonoBehaviour {
         newVelocityY = Mathf.Max(newVelocityY, -MAX_SPEED_Y);
         newVelocityY = Mathf.Min(newVelocityY, MAX_SPEED_Y);
 
-        return new Vector3(newVelocityX, newVelocityY, newVelocityZ);
+        // Limit horizontal velocity
+        Vector2 horizontalVelocity = Vector2.ClampMagnitude(
+                new Vector2(newVelocityX, newVelocityZ),
+                maxHorizontalSpeed
+        );
+
+        return new Vector3(
+                horizontalVelocity.x,
+                newVelocityY,
+                horizontalVelocity.y
+        );
     }
 
     /**
      * Determines the acceleration to apply based on vertical input.
      */
     private float GetAcceleration() {
-        return Input.GetAxisRaw("Vertical") * speed;
+        return Input.GetAxisRaw("Vertical") * acceleration;
     }
 
     /**

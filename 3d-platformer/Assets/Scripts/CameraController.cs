@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     /**
      * Time taken to reach the vertical destination, in seconds.
      */
-    private const float VERTICAL_MOVEMENT_TIME = 1.0f;
+    private const float VERTICAL_MOVEMENT_TIME = 0.4f;
 
     /**
      * Minimum y-position before the camera will stop moving.
