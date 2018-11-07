@@ -9,3 +9,5 @@
  - Use virtual buttons
 
  - Improve documentation (e.g. include units)
+
+ - Prevent player from adhering to steep slopes
