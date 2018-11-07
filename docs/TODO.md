@@ -2,11 +2,7 @@
 
  - Add unit tests
 
- - Re-engage player camera tracking when player falls below last grounded y
-
- - Is friction being correctly applied in a framerate-independent fashion?
-
- - Limit velocity
+ - Rotate camera gradually
 
  - Move physics constants to somewhere global
 
