@@ -23,14 +23,30 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     public float targetOffsetY;
 
     /*
-     * Distance between the camera and the target.
+     * Resting distance between the camera and the target.
      */
     public float distanceToTarget;
+
+    /**
+     * Multiple of the resting camera distance used to find maximum distance.
+     */
+    public float maxDistanceMultiplier;
+
+    /**
+     * Multiple of the resting camera distance used to find minimum distance.
+     */
+    public float minDistanceMultiplier;
+
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Movement Constants
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * The fraction (0-1) of the intervening arc angle made up per frame when
+     * slerping behind the player.
+     */
     private const float SLERP_INTERVAL = 0.1f;
 
     /**
@@ -70,6 +86,16 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private float speedY;
 
     /**
+     * Maximum permissible distance to the target.
+     */
+    private float maxDistanceToTarget;
+
+    /**
+     * Minimum permissible distance to the target.
+     */
+    private float minDistanceToTarget;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -77,6 +103,9 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         // Register this class as a CharacterListener for the Player
         PlayerController playerCtrl = player.GetComponent<PlayerController>();
         playerCtrl.RegisterCharacterListener(this);
+
+        maxDistanceToTarget = maxDistanceMultiplier * distanceToTarget;
+        minDistanceToTarget = minDistanceMultiplier * distanceToTarget;
 
         targetY = player.transform.position.y;
         PositionBehindPlayer();
@@ -128,10 +157,47 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         Vector3 targetToOptimalCamera = optimalPosition - target;
 
         // Determine new position somewhere between current and optimal
-        Vector3 newPos = target + Vector3.Slerp(targetToCamera, targetToOptimalCamera, SLERP_INTERVAL);
+        Vector3 newPos = target + Vector3.Slerp(
+                targetToCamera, targetToOptimalCamera, SLERP_INTERVAL);
 
         // Correct for over-the-pole slerp movement
         transform.position = new Vector3(newPos.x, optimalPosition.y, newPos.z);
+
+        /* 
+         * Check if the camera is too close to or far from the player.
+         * N.B. this happens because the slerp is taking place over an ellipsoid
+         * surface, not a sphere, when player is moving.
+         */
+        Vector2 flatPos = VectorUtils.Flatten(transform.position);
+        Vector2 flatTargetPos = VectorUtils.Flatten(target);
+        Vector2 flatPath = VectorUtils.GetResultant(flatPos, flatTargetPos);
+        float desiredDistance;
+        
+        if (flatPath.magnitude > maxDistanceToTarget) {
+            desiredDistance = maxDistanceToTarget;
+        } else if (flatPath.magnitude < minDistanceToTarget) {
+            desiredDistance = minDistanceToTarget;
+        } else {
+            return;
+        }
+
+        // Set follow distance to desired value
+        CorrectFollowDistance(
+                flatPath, 
+                VectorUtils.Flatten(target), 
+                desiredDistance, 
+                optimalPosition.y
+        );
+    }
+
+    /**
+     * Move the camera back or forward in its current angle to a given distance
+     * from some target, at a given height.
+     */
+    private void CorrectFollowDistance(
+            Vector2 arrow, Vector2 target, float distance, float height) {
+        Vector2 newPos = VectorUtils.BacktrackVector(arrow, target, distance);
+        transform.position = VectorUtils.Extrude(newPos, height);
     }
 
     /**
