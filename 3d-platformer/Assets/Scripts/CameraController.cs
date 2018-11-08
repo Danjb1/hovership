@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     // Movement Constants
     ///////////////////////////////////////////////////////////////////////////
 
-    private const float SLERP_INTERVAL = 0.2f;
+    private const float SLERP_INTERVAL = 0.1f;
 
     /**
      * Time taken to reach the vertical destination, in seconds.

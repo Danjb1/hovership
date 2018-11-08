@@ -178,8 +178,11 @@ public class PlayerController : MonoBehaviour {
 
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
-            newVelocityX *= Physics.FRICTION;
-            newVelocityZ *= Physics.FRICTION;
+            float friction = controller.isGrounded
+                    ? Physics.FRICTION
+                    : Physics.AIR_FRICTION;
+            newVelocityX *= friction;
+            newVelocityZ *= friction;
         }
 
         // Apply gravity and / or jump force

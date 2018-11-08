@@ -621,8 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b0e1ec94f69fe4680a10c94231b1fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 3
-  rotSpeed: 350
+  acceleration: 0.35
+  rotSpeed: 250
   jumpStrength: 0.65
   minJumpTime: 0.15
   maxJumpTime: 0.225

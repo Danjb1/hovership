@@ -4,6 +4,8 @@
 
  - Enforce a minimum / maximum camera distance
 
+ - Player rotation should have some acceleration to it
+
  - Physics behave strangely with slopes
 
  - Use RequireComponent attribute?
