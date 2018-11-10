@@ -194,7 +194,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     private void CorrectFollowDistance(
             Vector2 arrow, Vector2 target, float distance, float height) {
-        Vector2 newPos = VectorUtils.BacktrackVector(arrow, target, distance);
+        Vector2 newPos = VectorUtils.Backtrack(arrow, target, distance);
         transform.position = VectorUtils.Extrude(newPos, height);
     }
 

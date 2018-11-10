@@ -40,7 +40,7 @@ public class VectorUtils {
      * destination would originate from if scaled to a given length, anchored
      * at the destination.
      */
-    public static Vector2 BacktrackVector(
+    public static Vector2 Backtrack(
             Vector2 arrow, Vector2 destination, float length) {
 
         float scaleFactor = length/arrow.magnitude;
