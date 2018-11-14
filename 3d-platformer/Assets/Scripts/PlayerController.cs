@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IGroundedListener {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -44,12 +45,7 @@ public class PlayerController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
-
-    /**
-     * The CharacterController in control of the player's physics.
-     */
-    private CharacterController controller;
-
+    
     /**
      * The position where the player will respawn.
      */
@@ -71,6 +67,11 @@ public class PlayerController : MonoBehaviour {
     private float spentJumpTime;
 
     /**
+     * Flag set if the player is currently grounded.
+     */
+    private bool grounded;
+
+    /**
      * Flag set if the player was grounded last frame.
      */
     private bool previouslyGrounded;
@@ -84,7 +85,6 @@ public class PlayerController : MonoBehaviour {
      * Initialises this controller.
      */
     void Start () {
-        controller = GetComponent<CharacterController>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour {
         );
 
         // Handle jumping / landing
-        if (controller.isGrounded && Input.GetKeyDown(KeyCode.Space)) {
+        if (grounded && Input.GetKeyDown(KeyCode.Space)) {
             jumping = true;
         }
         if (jumping) {
@@ -132,8 +132,8 @@ public class PlayerController : MonoBehaviour {
                 forward.z * velocity.z * Time.deltaTime
         );
 
-        // Move using our CharacterController
-        controller.Move(moveDir);
+        // Move the desired amount
+        transform.position += moveDir;
     }
 
     /**
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour {
 
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
-            float friction = controller.isGrounded
+            float friction = grounded
                     ? Physics.FRICTION
                     : Physics.AIR_FRICTION;
             newVelocityX *= friction;
@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour {
      */
     private float GetPrevVelocityY() {
         // Reset vertical velocity when player is grounded
-        return controller.isGrounded ? 0 : velocity.y;
+        return grounded ? 0 : velocity.y;
     }
 
     /**
@@ -228,6 +228,11 @@ public class PlayerController : MonoBehaviour {
         // Jumping
         if (jumping) {
             return jumpStrength;
+        }
+
+        // Grounded
+        if (grounded) {
+            return 0;
         }
 
         return Physics.GRAVITY;
@@ -244,12 +249,12 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Notify listeners when we land!
-        if (!previouslyGrounded && controller.isGrounded) {
+        if (!previouslyGrounded && grounded) {
             foreach (ICharacterListener listener in characterListeners) {
                 listener.CharacterLanded();
             }
             previouslyGrounded = true;
-        } else if (!controller.isGrounded) {
+        } else if (!grounded) {
             previouslyGrounded = false;
         }
     }
@@ -277,4 +282,16 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other) {
+    }
+    
+    private void OnTriggerStay(Collider other) {
+    }
+
+    private void OnTriggerExit(Collider other) {
+    }
+
+    public void SetGrounded(bool grounded) {
+        this.grounded = grounded;
+    }
 }
