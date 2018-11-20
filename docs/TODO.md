@@ -2,11 +2,11 @@
 
  - Fix player physics
 
-    - Player sometimes falls through the ground
-
     - Player sometimes can't jump properly
 
     - Player doesn't collide with obstacles
+
+    - Smooth out hover motion (currently twitches)
 
  - Add unit tests
 

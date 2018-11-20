@@ -121,7 +121,11 @@ public class PlayerController : MonoBehaviour {
 
         // Determine whether player is grounded
         currentHeight = GetDistanceToGround();
-        grounded = currentHeight <= restingHeight;
+        if (currentHeight <= restingHeight && currentHeight != 0f) {
+            grounded = true;
+        } else {
+            grounded = false;
+        }
 
         // Apply rotation
         Vector3 rotation = GetRotation();
@@ -236,9 +240,9 @@ public class PlayerController : MonoBehaviour {
     private float GetDistanceToGround() {
         RaycastHit hit;
         Vector3 raycastStart = new Vector3(
-                playerCollider.center.x,
+                playerCollider.transform.position.x,
                 playerCollider.transform.position.y - playerCollider.size.y - 0.01f,
-                playerCollider.center.z
+                playerCollider.transform.position.z
         );
 
         // Ping ground
