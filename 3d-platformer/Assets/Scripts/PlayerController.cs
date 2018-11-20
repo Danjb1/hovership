@@ -99,15 +99,17 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
 
     /**
      * Moves the player according to the user input.
+     * 
+     * Anything physics-related goes here.
      */
-    void Update() {
+    void FixedUpdate() {
 
         // Apply rotation
         Vector3 rotation = GetRotation();
         transform.Rotate(
-                rotation.x * Time.deltaTime,
-                rotation.y * Time.deltaTime,
-                rotation.z * Time.deltaTime
+                rotation.x * Time.fixedDeltaTime,
+                rotation.y * Time.fixedDeltaTime,
+                rotation.z * Time.fixedDeltaTime
         );
 
         // Handle jumping / landing
@@ -115,7 +117,7 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
             jumping = true;
         }
         if (jumping) {
-            spentJumpTime += Time.deltaTime;
+            spentJumpTime += Time.fixedDeltaTime;
             if (HasJumpFinished()) {
                 // End jump
                 jumping = false;
@@ -130,9 +132,9 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
         // direction and delta time
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 moveDir = new Vector3(
-                forward.x * velocity.x * Time.deltaTime,
-                velocity.y * Time.deltaTime,
-                forward.z * velocity.z * Time.deltaTime
+                forward.x * velocity.x * Time.fixedDeltaTime,
+                velocity.y * Time.fixedDeltaTime,
+                forward.z * velocity.z * Time.fixedDeltaTime
         );
 
         // Move the desired amount
@@ -192,8 +194,9 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
         float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
-        newVelocityY = Mathf.Max(newVelocityY, -PhysicsHelper.MAX_PLAYER_SPEED_Y);
-        newVelocityY = Mathf.Min(newVelocityY, PhysicsHelper.MAX_PLAYER_SPEED_Y);
+        newVelocityY = Mathf.Clamp(newVelocityY,
+            -PhysicsHelper.MAX_PLAYER_SPEED_Y,
+            PhysicsHelper.MAX_PLAYER_SPEED_Y);
 
         // Limit horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
