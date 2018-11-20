@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 
     /**
      * The minimum amount of time a jump will last.
-     * 
+     *
      * This prevents jerky-looking movements when the jump key is tapped very
      * briefly.
      */
@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour {
     public float maxJumpTime;
 
     /**
+     * The height at which the ship will hover at rest.
+     */
+    public float restingHeight;
+
+    /**
      * The maximum speed the player can move in the horizontal plane.
      */
     public float maxHorizontalSpeed;
@@ -46,6 +51,16 @@ public class PlayerController : MonoBehaviour {
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * The current height of the ship above the surface below.
+     */
+    private float currentHeight;
+
+    /**
+     * The player's box collider, representing the boundaries of its body.
+     */
+    private BoxCollider playerCollider;
+  
     /**
      * Player's Rigidbody component.
      */
@@ -94,6 +109,7 @@ public class PlayerController : MonoBehaviour {
      */
     void Start () {
 
+        playerCollider = GetComponent<BoxCollider>();
         rigidbody = GetComponent<Rigidbody>();
 
         // Remember the spawn point
@@ -110,6 +126,14 @@ public class PlayerController : MonoBehaviour {
      * Anything physics-related goes here.
      */
     void FixedUpdate() {
+
+        // Determine whether player is grounded
+        currentHeight = GetDistanceToGround();
+        if (currentHeight <= restingHeight && currentHeight != 0f) {
+            grounded = true;
+        } else {
+            grounded = false;
+        }
 
         // Apply rotation
         Vector3 rotation = GetRotation();
@@ -200,7 +224,8 @@ public class PlayerController : MonoBehaviour {
             newVelocityZ *= friction;
         }
 
-        // Apply gravity and / or jump force
+        // Determine new vertical velocity considering gravity, jumping and
+        // hovering
         float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
@@ -219,6 +244,22 @@ public class PlayerController : MonoBehaviour {
                 newVelocityY,
                 horizontalVelocity.y
         );
+    }
+
+    /**
+     * Determine the distance to the surface beneath using a Raycast.
+     */
+    private float GetDistanceToGround() {
+        RaycastHit hit;
+        Vector3 raycastStart = new Vector3(
+                playerCollider.transform.position.x,
+                playerCollider.transform.position.y - playerCollider.size.y - 0.01f,
+                playerCollider.transform.position.z
+        );
+
+        // Ping ground
+        Physics.Raycast(raycastStart, Vector3.down, out hit, Mathf.Infinity);
+        return hit.distance;
     }
 
     /**
@@ -246,12 +287,20 @@ public class PlayerController : MonoBehaviour {
             return jumpStrength;
         }
 
-        // Grounded
+        // Hovering
         if (grounded) {
-            return 0;
+            return CalculateHoverRate();
         }
 
+        // Falling
         return PhysicsHelper.GRAVITY;
+    }
+
+    /**
+     * Provide the speed at which the player should hover upwards this frame.
+     */
+    private float CalculateHoverRate() {
+        return 0.1f;
     }
 
     /**
@@ -297,5 +346,5 @@ public class PlayerController : MonoBehaviour {
             listener.CharacterTeleported();
         }
     }
-    
+
 }

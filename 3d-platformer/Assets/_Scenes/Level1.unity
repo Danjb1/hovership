@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657993, g: 0.49641424, b: 0.57481825, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657958, g: 0.49641377, b: 0.5748177, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -634,6 +634,7 @@ MonoBehaviour:
   jumpStrength: 0.65
   minJumpTime: 0.15
   maxJumpTime: 0.225
+  restingHeight: 0.4
   maxHorizontalSpeed: 15
 --- !u!65 &751144145
 BoxCollider:
