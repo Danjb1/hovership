@@ -81,6 +81,9 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
      */
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
 
+    // Minimum player vertical position before respawning, in metres
+    public const float RESPAWN_Y = -25f;
+
     /**
      * Initialises this controller.
      */
@@ -179,8 +182,8 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
             float friction = grounded
-                    ? Physics.FRICTION
-                    : Physics.AIR_FRICTION;
+                    ? PhysicsHelper.FRICTION
+                    : PhysicsHelper.AIR_FRICTION;
             newVelocityX *= friction;
             newVelocityZ *= friction;
         }
@@ -189,8 +192,8 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
         float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
-        newVelocityY = Mathf.Max(newVelocityY, -Physics.MAX_PLAYER_SPEED_Y);
-        newVelocityY = Mathf.Min(newVelocityY, Physics.MAX_PLAYER_SPEED_Y);
+        newVelocityY = Mathf.Max(newVelocityY, -PhysicsHelper.MAX_PLAYER_SPEED_Y);
+        newVelocityY = Mathf.Min(newVelocityY, PhysicsHelper.MAX_PLAYER_SPEED_Y);
 
         // Limit horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
@@ -235,7 +238,7 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
             return 0;
         }
 
-        return Physics.GRAVITY;
+        return PhysicsHelper.GRAVITY;
     }
 
     /**
@@ -244,7 +247,7 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
     void LateUpdate() {
 
         // Respawn if we have fallen out of the world
-        if (transform.position.y < Physics.RESPAWN_Y) {
+        if (transform.position.y < RESPAWN_Y) {
             Respawn();
         }
 

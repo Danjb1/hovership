@@ -5,7 +5,7 @@ using UnityEngine;
 /**
  * Class responsible for global physics constants.
  */
-public class Physics {
+public class PhysicsHelper {
 
     // Gravity, in metres per second squared
     public const float GRAVITY = -0.5f;
@@ -18,8 +18,5 @@ public class Physics {
 
     // Air friction multiplier
     public const float AIR_FRICTION = 0.95f;
-
-    // Minimum player vertical position before respawning, in metres
-    public const float RESPAWN_Y = -25f;
 
 }

@@ -22,6 +22,7 @@ public class GroundDetectorController : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other) {
+        listener.SetGrounded(true);
     }
 
     private void OnTriggerExit(Collider other) {
