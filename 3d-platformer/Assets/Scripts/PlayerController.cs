@@ -253,7 +253,7 @@ public class PlayerController : MonoBehaviour {
         RaycastHit hit;
         Vector3 raycastStart = new Vector3(
                 playerCollider.transform.position.x,
-                playerCollider.transform.position.y - playerCollider.size.y - 0.01f,
+                playerCollider.transform.position.y,
                 playerCollider.transform.position.z
         );
 

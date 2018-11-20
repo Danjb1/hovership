@@ -1,5 +1,9 @@
 # To Do
 
+ - Player gets stuck when overlapping an object but raycast hits the ground
+
+    - Use a trigger collider for ground detection?
+
  - Player sometimes can't jump properly
 
  - Player vertical position is stuttery
