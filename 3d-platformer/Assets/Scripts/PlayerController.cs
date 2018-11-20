@@ -60,6 +60,11 @@ public class PlayerController : MonoBehaviour {
      * The player's box collider, representing the boundaries of its body.
      */
     private BoxCollider playerCollider;
+  
+    /**
+     * Player's Rigidbody component.
+     */
+    private Rigidbody rigidbody;
 
     /**
      * The position where the player will respawn.
@@ -105,6 +110,7 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 
         playerCollider = GetComponent<BoxCollider>();
+        rigidbody = GetComponent<Rigidbody>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -116,8 +122,10 @@ public class PlayerController : MonoBehaviour {
 
     /**
      * Moves the player according to the user input.
+     * 
+     * Anything physics-related goes here.
      */
-    void Update() {
+    void FixedUpdate() {
 
         // Determine whether player is grounded
         currentHeight = GetDistanceToGround();
@@ -130,9 +138,9 @@ public class PlayerController : MonoBehaviour {
         // Apply rotation
         Vector3 rotation = GetRotation();
         transform.Rotate(
-                rotation.x * Time.deltaTime,
-                rotation.y * Time.deltaTime,
-                rotation.z * Time.deltaTime
+                rotation.x * Time.fixedDeltaTime,
+                rotation.y * Time.fixedDeltaTime,
+                rotation.z * Time.fixedDeltaTime
         );
 
         // Handle jumping / landing
@@ -154,14 +162,17 @@ public class PlayerController : MonoBehaviour {
         // Calculate the final movement vector based on velocity, forward
         // direction and delta time
         Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 moveDir = new Vector3(
-                forward.x * velocity.x * Time.deltaTime,
-                velocity.y * Time.deltaTime,
-                forward.z * velocity.z * Time.deltaTime
+        Vector3 moveForce = new Vector3(
+                forward.x * velocity.x,
+                velocity.y,
+                forward.z * velocity.z
         );
 
-        // Move the desired amount
-        transform.position += moveDir;
+        // Clear all previous forces
+        rigidbody.velocity = Vector3.zero;
+
+        // Set the new velocity
+        rigidbody.AddForce(moveForce, ForceMode.VelocityChange);
     }
 
     /**
@@ -218,8 +229,9 @@ public class PlayerController : MonoBehaviour {
         float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
-        newVelocityY = Mathf.Max(newVelocityY, -PhysicsHelper.MAX_PLAYER_SPEED_Y);
-        newVelocityY = Mathf.Min(newVelocityY, PhysicsHelper.MAX_PLAYER_SPEED_Y);
+        newVelocityY = Mathf.Clamp(newVelocityY,
+            -PhysicsHelper.MAX_PLAYER_SPEED_Y,
+            PhysicsHelper.MAX_PLAYER_SPEED_Y);
 
         // Limit horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
@@ -323,12 +335,12 @@ public class PlayerController : MonoBehaviour {
      * Moves the player back to the spawn point.
      */
     private void Respawn() {
-        transform.position = new Vector3(
+        rigidbody.position = new Vector3(
                 spawn.x,
                 spawn.y,
                 spawn.z
         );
-        velocity = new Vector3(0, 0, 0);
+        velocity = Vector3.zero;
 
         foreach (ICharacterListener listener in characterListeners) {
             listener.CharacterTeleported();
