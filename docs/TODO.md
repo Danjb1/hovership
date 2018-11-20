@@ -1,10 +1,12 @@
 # To Do
 
- - Fix player physics
+ - Player sometimes can't jump properly
 
-    - Player sometimes can't jump properly
-    
-    - Smooth out hover motion (currently twitches)
+ - Player vertical position is stuttery
+
+ - Camera rotation is stuttery (related to player stuttering?)
+
+ - Player should return to optimal height faster
 
  - Add unit tests
 
