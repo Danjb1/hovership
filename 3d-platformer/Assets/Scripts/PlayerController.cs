@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IGroundedListener {
+public class PlayerController : MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -45,7 +45,12 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
-    
+
+    /**
+     * Player's Rigidbody component.
+     */
+    private Rigidbody rigidbody;
+
     /**
      * The position where the player will respawn.
      */
@@ -89,6 +94,8 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
      */
     void Start () {
 
+        rigidbody = GetComponent<Rigidbody>();
+
         // Remember the spawn point
         spawn = new Vector3(
                 transform.position.x,
@@ -117,7 +124,7 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
             jumping = true;
         }
         if (jumping) {
-            spentJumpTime += Time.fixedDeltaTime;
+            spentJumpTime += Time.deltaTime;
             if (HasJumpFinished()) {
                 // End jump
                 jumping = false;
@@ -131,14 +138,17 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
         // Calculate the final movement vector based on velocity, forward
         // direction and delta time
         Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 moveDir = new Vector3(
-                forward.x * velocity.x * Time.fixedDeltaTime,
-                velocity.y * Time.fixedDeltaTime,
-                forward.z * velocity.z * Time.fixedDeltaTime
+        Vector3 moveForce = new Vector3(
+                forward.x * velocity.x,
+                velocity.y,
+                forward.z * velocity.z
         );
 
-        // Move the desired amount
-        transform.position += moveDir;
+        // Clear all previous forces
+        rigidbody.velocity = Vector3.zero;
+
+        // Set the new velocity
+        rigidbody.AddForce(moveForce, ForceMode.VelocityChange);
     }
 
     /**
@@ -276,28 +286,16 @@ public class PlayerController : MonoBehaviour, IGroundedListener {
      * Moves the player back to the spawn point.
      */
     private void Respawn() {
-        transform.position = new Vector3(
+        rigidbody.position = new Vector3(
                 spawn.x,
                 spawn.y,
                 spawn.z
         );
-        velocity = new Vector3(0, 0, 0);
+        velocity = Vector3.zero;
 
         foreach (ICharacterListener listener in characterListeners) {
             listener.CharacterTeleported();
         }
     }
-
-    private void OnTriggerEnter(Collider other) {
-    }
     
-    private void OnTriggerStay(Collider other) {
-    }
-
-    private void OnTriggerExit(Collider other) {
-    }
-
-    public void SetGrounded(bool grounded) {
-        this.grounded = grounded;
-    }
 }
