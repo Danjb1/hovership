@@ -121,6 +121,31 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
+     * Updates the player's visuals.
+     */
+    private void Update() {
+
+        // Apply rotation
+        Vector3 rotation = GetRotation();
+        transform.Rotate(
+                rotation.x * Time.deltaTime,
+                rotation.y * Time.deltaTime,
+                rotation.z * Time.deltaTime
+        );
+    }
+
+    /**
+     * Determines the rotation to apply based on horizontal input.
+     */
+    private Vector3 GetRotation() {
+        return new Vector3(
+                0,
+                Input.GetAxis("Horizontal") * rotSpeed,
+                0
+        );
+    }
+
+    /**
      * Moves the player according to the user input.
      * 
      * Anything physics-related goes here.
@@ -134,14 +159,6 @@ public class PlayerController : MonoBehaviour {
         } else {
             grounded = false;
         }
-
-        // Apply rotation
-        Vector3 rotation = GetRotation();
-        transform.Rotate(
-                rotation.x * Time.fixedDeltaTime,
-                rotation.y * Time.fixedDeltaTime,
-                rotation.z * Time.fixedDeltaTime
-        );
 
         // Handle jumping / landing
         if (grounded && Input.GetKeyDown(KeyCode.Space)) {
@@ -173,17 +190,6 @@ public class PlayerController : MonoBehaviour {
 
         // Set the new velocity
         rigidbody.AddForce(moveForce, ForceMode.VelocityChange);
-    }
-
-    /**
-     * Determines the rotation to apply based on horizontal input.
-     */
-    private Vector3 GetRotation() {
-        return new Vector3(
-                0,
-                Input.GetAxis("Horizontal") * rotSpeed,
-                0
-        );
     }
 
     /**

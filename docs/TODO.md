@@ -4,11 +4,13 @@
 
     - Use a trigger collider for ground detection?
 
+    - Use a second rigidbody positioned underneath the player?
+
  - Player sometimes can't jump properly
 
  - Player vertical position is stuttery
 
- - Camera rotation is stuttery (related to player stuttering?)
+ - Camera doesn't move vertically until player reaches the optimal vertical height
 
  - Player should return to optimal height faster
 
