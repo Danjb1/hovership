@@ -111,21 +111,23 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
     void Update() {
 
-        // Follow the player when falling out of the world
-        if (player.transform.position.y < MIN_Y) {
-            targetY = player.transform.position.y;
-            optimalTargetY = targetY;
-        }
     }
 
     /**
      * Move the Camera towards the optimal position.
      */
-    void LateUpdate () {
+    void FixedUpdate() {
 
         float prevTargetY = targetY;
+
+        // Follow the player when falling out of the world
+        if (player.transform.position.y < MIN_Y) {
+            targetY = player.transform.position.y;
+            optimalTargetY = targetY;
+        }
+
         targetY += speedY * Time.deltaTime;
-        
+
         // If we have gone past our destination, stop at the destination
         if ((prevTargetY < optimalTargetY && targetY > optimalTargetY) ||
                 (prevTargetY > optimalTargetY && targetY < optimalTargetY)) {
