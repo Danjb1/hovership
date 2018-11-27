@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IAirCushionListener {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -317,4 +317,12 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /**
+     * Adjust our vertical velocity in response to a collision between the air
+     * cushion and the surface below.
+     */
+    public void AirCushionCollided(float distanceToSurface) {
+        Vector3 acceleration = Vector3.up * distanceToSurface * 10;
+        velocity += acceleration;
+    }
 }
