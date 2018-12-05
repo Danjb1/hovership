@@ -133,8 +133,6 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     void FixedUpdate() {
 
-        Debug.Log("grounded = " + grounded + ", jumpKeyDown = " + jumpKeyDown);
-
         // Apply rotation
         Vector3 rotation = GetRotation();
         transform.Rotate(
