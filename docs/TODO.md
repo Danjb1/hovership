@@ -1,6 +1,10 @@
 # To Do
 
- - Player should hover
+ - While player is grounded, camera should treat player as if at optimal hover height
+
+ - Air cushion can collide with multiple objects in one frame
+
+ - If air cushion clips a block, upwards velocity is very high
 
  - Add unit tests
 

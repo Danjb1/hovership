@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
 
+    private static float HOVER_TIME = 0.1f;
+
     private float rotationInput;
 
     private bool jumpKeyDown;
@@ -69,6 +71,8 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Current velocity.
      */
     private Vector3 velocity;
+
+    private float hoverSpeed;
 
     /**
      * Flag set during ascent when jumping.
@@ -118,7 +122,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Polls user input.
      */
     private void Update() {
-        jumpKeyDown = Input.GetKeyDown(KeyCode.Space);
+        jumpKeyDown = Input.GetKey(KeyCode.Space);
         rotationInput = Input.GetAxis("Horizontal");
     }
 
@@ -128,6 +132,8 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Anything physics-related goes here.
      */
     void FixedUpdate() {
+
+        Debug.Log("grounded = " + grounded + ", jumpKeyDown = " + jumpKeyDown);
 
         // Apply rotation
         Vector3 rotation = GetRotation();
@@ -158,7 +164,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 moveForce = new Vector3(
                 forward.x * velocity.x,
-                velocity.y,
+                velocity.y + hoverSpeed,
                 forward.z * velocity.z
         );
 
@@ -219,7 +225,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         }
 
         // Determine new vertical velocity considering gravity and jumping
-        float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
+        float newVelocityY = velocity.y + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
         newVelocityY = Mathf.Clamp(newVelocityY,
@@ -244,14 +250,6 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     private float GetAcceleration() {
         return Input.GetAxisRaw("Vertical") * acceleration;
-    }
-
-    /**
-     * Gets the initial vertical velocity to use for this frame.
-     */
-    private float GetPrevVelocityY() {
-        // Reset vertical velocity when player is grounded
-        return grounded ? 0 : velocity.y;
     }
 
     /**
@@ -318,11 +316,23 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     }
 
     /**
-     * Adjust our vertical velocity in response to a collision between the air
-     * cushion and the surface below.
+     * Callback for when the air cushion collides with the ground.
      */
-    public void AirCushionCollided(float distanceToSurface) {
-        Vector3 acceleration = Vector3.up * distanceToSurface * 10;
-        velocity += acceleration;
+    public void AirCushionCollided(float depth) {
+
+        hoverSpeed = Math.Abs(depth) / HOVER_TIME;
+
+        // Set grounded
+        grounded = true;
+
+        // Clear vertical velocity if falling
+        if (!jumping && velocity.y < 0) {
+            velocity.y = 0;
+        }
     }
+
+    public void AirCushionCollisionExit() {
+        grounded = false;
+    }
+
 }

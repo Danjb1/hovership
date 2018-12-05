@@ -1,5 +1,7 @@
 ﻿public interface IAirCushionListener {
 
-    void AirCushionCollided(float distanceToSurface);
+    void AirCushionCollided(float depth);
+
+    void AirCushionCollisionExit();
 
 }

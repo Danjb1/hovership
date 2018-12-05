@@ -11,7 +11,12 @@ public class AirCushionController : MonoBehaviour {
 
     private IAirCushionListener listener;
 
-	void Start() {
+    private Vector3 expectedFallPosition;
+
+    private Vector3 positionBeforeMove;
+
+    void Start() {
+
         listener = (IAirCushionListener) transform.parent.GetComponent<PlayerController>();
         rigidbodyComponent = GetComponent<Rigidbody>();
 
@@ -23,8 +28,12 @@ public class AirCushionController : MonoBehaviour {
     }
 	
 	void FixedUpdate() {
+
         // Position at parent each frame
         transform.position = transform.parent.position;
+
+        // Remember this position!
+        positionBeforeMove = transform.position;
 
         // Reset velocity
         rigidbodyComponent.velocity = Vector3.zero;
@@ -35,18 +44,27 @@ public class AirCushionController : MonoBehaviour {
 	}
 
     void OnCollisionEnter(Collision collision) {
-        Debug.Log("Touching Ground With Capitals!");
+        HandleCollision(collision);
     }
 
     void OnCollisionStay(Collision collision) {
-        Debug.Log("Colliding!");
+        HandleCollision(collision);
+    }
 
-        foreach(ContactPoint contact in collision.contacts) {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-        }
+    private void OnCollisionExit(Collision collision) {
+        HandleCollision(collision);
+    }
+
+    void HandleCollision(Collision collision) {
+
+        //foreach (ContactPoint contact in collision.contacts) {
+        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
+        //}
 
         if (collision.contacts.Length > 0) {
-            listener.AirCushionCollided(transform.parent.position.y - collision.contacts[0].point.y);
+            listener.AirCushionCollided(collision.contacts[0].separation);
+        } else {
+            listener.AirCushionCollisionExit();
         }
     }
 
