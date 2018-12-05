@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      * 
      * TODO: Make this dependent on player size.
      */
-    private const float MIN_Y = 0.4999f;
+    private const float MIN_Y = 0;
 
     ///////////////////////////////////////////////////////////////////////////
     // CameraController
@@ -106,6 +106,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         minDistanceToTarget = minDistanceMultiplier * distanceToTarget;
 
         targetY = player.transform.position.y;
+        CharacterTeleported();
         PositionBehindPlayer();
     }
 
@@ -129,8 +130,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         targetY += speedY * Time.deltaTime;
 
         // If we have gone past our destination, stop at the destination
-        if ((prevTargetY < optimalTargetY && targetY > optimalTargetY) ||
-                (prevTargetY > optimalTargetY && targetY < optimalTargetY)) {
+        if (DestinationReached(optimalTargetY, prevTargetY, targetY)) {
             targetY = optimalTargetY;
             speedY = 0;
         }
@@ -144,6 +144,15 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
         SlerpToOptimalFollowPosition(target, player.transform.forward);
         LookAtTarget(target);
+    }
+
+    /**
+     * Determines if a change in a value causes it to equal or exceed some target.
+     */
+    public bool DestinationReached(float destination, float prev, float current) {
+        return current == destination ||
+            ((prev < destination && current > destination) ||
+                (prev > destination && current < destination));
     }
 
     /**
