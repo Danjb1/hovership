@@ -6,7 +6,11 @@
 
  - Add unit tests
 
- - Player rotation should have some acceleration to it
+ - Fix rotational acceleration
+  -- Acceleration should be much greater
+  -- Move constants to PhysicsHelper
+
+ - Use GetAxisRaw for forward/backward motion
 
  - Camera should snap to player after respawn
 

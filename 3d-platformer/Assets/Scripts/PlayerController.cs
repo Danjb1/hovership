@@ -53,7 +53,19 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * N.B. It takes longer than this because we recalculate the required
      * velocity using this constant every frame.
      */
-    private static const float HOVER_TIME = 0.1f;
+    private const float HOVER_TIME = 0.1f;
+
+    /**
+     * The factor by which the player's rotational speed will be multiplied each
+     * frame when no rotational input is applied.
+     */
+    private const float ROTATIONAL_FRICTION = 0.9f;
+
+    /**
+     * The amount by which the player's rotational speed will increase each
+     * frame while rotational input is applied.
+     */
+    private const float ROTATIONAL_ACCELERATION = 20f;
 
     /**
      * Rotational axis input.
@@ -69,7 +81,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * From left to right, the amount of rotation applied during the previous
      * frame.
      */
-    private float previousRotation;
+    private float rotation;
 
     /**
      * The player's box collider, representing the boundaries of its body.
@@ -146,7 +158,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     private void Update() {
         jumpKeyDown = Input.GetAxis("Jump") > 0;
-        rotationInput = Input.GetAxis("Horizontal");
+        rotationInput = Input.GetAxisRaw("Horizontal");
     }
 
     /**
@@ -200,11 +212,21 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Determines the rotation to apply based on horizontal input.
      */
     private Vector3 GetRotation() {
-        return new Vector3(
-                0,
-                Input.GetAxis("Horizontal") * rotSpeed,
-                0
-        );
+
+        if (rotationInput == 0) {
+            rotation *= ROTATIONAL_FRICTION;
+        } else {
+            rotation += ROTATIONAL_ACCELERATION * rotationInput;
+
+            // Limit maximum rotational speed
+            if (Math.Abs(rotation) > rotSpeed) {
+                rotation = rotation > 0
+                        ? rotSpeed
+                        : -rotSpeed;
+            }
+        }
+
+        return Vector3.up * rotation;
     }
 
     /**
