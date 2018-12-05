@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IAirCushionListener {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -38,11 +38,6 @@ public class PlayerController : MonoBehaviour {
     public float maxJumpTime;
 
     /**
-     * The height at which the ship will hover at rest.
-     */
-    public float restingHeight;
-
-    /**
      * The maximum speed the player can move in the horizontal plane.
      */
     public float maxHorizontalSpeed;
@@ -51,10 +46,11 @@ public class PlayerController : MonoBehaviour {
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * The current height of the ship above the surface below.
-     */
-    private float currentHeight;
+    private static float HOVER_TIME = 0.1f;
+
+    private float rotationInput;
+
+    private bool jumpKeyDown;
 
     /**
      * The player's box collider, representing the boundaries of its body.
@@ -64,7 +60,7 @@ public class PlayerController : MonoBehaviour {
     /**
      * Player's Rigidbody component.
      */
-    private Rigidbody rigidbody;
+    private Rigidbody rigidbodyComponent;
 
     /**
      * The position where the player will respawn.
@@ -75,6 +71,8 @@ public class PlayerController : MonoBehaviour {
      * Current velocity.
      */
     private Vector3 velocity;
+
+    private float hoverSpeed;
 
     /**
      * Flag set during ascent when jumping.
@@ -110,7 +108,7 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 
         playerCollider = GetComponent<BoxCollider>();
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbodyComponent = GetComponent<Rigidbody>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -121,28 +119,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
-     * Updates the player's visuals.
+     * Polls user input.
      */
     private void Update() {
-
-        // Apply rotation
-        Vector3 rotation = GetRotation();
-        transform.Rotate(
-                rotation.x * Time.deltaTime,
-                rotation.y * Time.deltaTime,
-                rotation.z * Time.deltaTime
-        );
-    }
-
-    /**
-     * Determines the rotation to apply based on horizontal input.
-     */
-    private Vector3 GetRotation() {
-        return new Vector3(
-                0,
-                Input.GetAxis("Horizontal") * rotSpeed,
-                0
-        );
+        jumpKeyDown = Input.GetKey(KeyCode.Space);
+        rotationInput = Input.GetAxis("Horizontal");
     }
 
     /**
@@ -152,16 +133,16 @@ public class PlayerController : MonoBehaviour {
      */
     void FixedUpdate() {
 
-        // Determine whether player is grounded
-        currentHeight = GetDistanceToGround();
-        if (currentHeight <= restingHeight && currentHeight != 0f) {
-            grounded = true;
-        } else {
-            grounded = false;
-        }
+        // Apply rotation
+        Vector3 rotation = GetRotation();
+        transform.Rotate(
+                rotation.x * Time.deltaTime,
+                rotation.y * Time.deltaTime,
+                rotation.z * Time.deltaTime
+        );
 
         // Handle jumping / landing
-        if (grounded && Input.GetKeyDown(KeyCode.Space)) {
+        if (grounded && jumpKeyDown) {
             jumping = true;
         }
         if (jumping) {
@@ -181,15 +162,26 @@ public class PlayerController : MonoBehaviour {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 moveForce = new Vector3(
                 forward.x * velocity.x,
-                velocity.y,
+                velocity.y + hoverSpeed,
                 forward.z * velocity.z
         );
 
-        // Clear all previous forces
-        rigidbody.velocity = Vector3.zero;
+        // Clear previous velocity
+        rigidbodyComponent.velocity = Vector3.zero;
 
         // Set the new velocity
-        rigidbody.AddForce(moveForce, ForceMode.VelocityChange);
+        rigidbodyComponent.AddForce(moveForce, ForceMode.VelocityChange);
+    }
+
+    /**
+     * Determines the rotation to apply based on horizontal input.
+     */
+    private Vector3 GetRotation() {
+        return new Vector3(
+                0,
+                Input.GetAxis("Horizontal") * rotSpeed,
+                0
+        );
     }
 
     /**
@@ -230,9 +222,8 @@ public class PlayerController : MonoBehaviour {
             newVelocityZ *= friction;
         }
 
-        // Determine new vertical velocity considering gravity, jumping and
-        // hovering
-        float newVelocityY = GetPrevVelocityY() + GetVerticalVelocityModifier();
+        // Determine new vertical velocity considering gravity and jumping
+        float newVelocityY = velocity.y + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
         newVelocityY = Mathf.Clamp(newVelocityY,
@@ -253,34 +244,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
-     * Determine the distance to the surface beneath using a Raycast.
-     */
-    private float GetDistanceToGround() {
-        RaycastHit hit;
-        Vector3 raycastStart = new Vector3(
-                playerCollider.transform.position.x,
-                playerCollider.transform.position.y,
-                playerCollider.transform.position.z
-        );
-
-        // Ping ground
-        Physics.Raycast(raycastStart, Vector3.down, out hit, Mathf.Infinity);
-        return hit.distance;
-    }
-
-    /**
      * Determines the acceleration to apply based on vertical input.
      */
     private float GetAcceleration() {
         return Input.GetAxisRaw("Vertical") * acceleration;
-    }
-
-    /**
-     * Gets the initial vertical velocity to use for this frame.
-     */
-    private float GetPrevVelocityY() {
-        // Reset vertical velocity when player is grounded
-        return grounded ? 0 : velocity.y;
     }
 
     /**
@@ -295,18 +262,11 @@ public class PlayerController : MonoBehaviour {
 
         // Hovering
         if (grounded) {
-            return CalculateHoverRate();
+            return 0;
         }
 
         // Falling
         return PhysicsHelper.GRAVITY;
-    }
-
-    /**
-     * Provide the speed at which the player should hover upwards this frame.
-     */
-    private float CalculateHoverRate() {
-        return 0.1f;
     }
 
     /**
@@ -341,7 +301,7 @@ public class PlayerController : MonoBehaviour {
      * Moves the player back to the spawn point.
      */
     private void Respawn() {
-        rigidbody.position = new Vector3(
+        rigidbodyComponent.position = new Vector3(
                 spawn.x,
                 spawn.y,
                 spawn.z
@@ -351,6 +311,26 @@ public class PlayerController : MonoBehaviour {
         foreach (ICharacterListener listener in characterListeners) {
             listener.CharacterTeleported();
         }
+    }
+
+    /**
+     * Callback for when the air cushion collides with the ground.
+     */
+    public void AirCushionCollided(float depth) {
+
+        hoverSpeed = Math.Abs(depth) / HOVER_TIME;
+
+        // Set grounded
+        grounded = true;
+
+        // Clear vertical velocity if falling
+        if (!jumping && velocity.y < 0) {
+            velocity.y = 0;
+        }
+    }
+
+    public void AirCushionCollisionExit() {
+        grounded = false;
     }
 
 }

@@ -1,18 +1,10 @@
 # To Do
 
- - Player gets stuck when overlapping an object but raycast hits the ground
+ - While player is grounded, camera should treat player as if at optimal hover height
 
-    - Use a trigger collider for ground detection?
+ - Air cushion can collide with multiple objects in one frame
 
-    - Use a second rigidbody positioned underneath the player?
-
- - Player sometimes can't jump properly
-
- - Player vertical position is stuttery
-
- - Camera doesn't move vertically until player reaches the optimal vertical height
-
- - Player should return to optimal height faster
+ - If air cushion clips a block, upwards velocity is very high
 
  - Add unit tests
 
