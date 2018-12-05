@@ -46,17 +46,36 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
 
-    private static float HOVER_TIME = 0.1f;
+    /**
+     * The amount of time in seconds that the player aims to spend hovering up
+     * to optimal hover height, used every frame while hovering.
+     *
+     * N.B. It takes longer than this because we recalculate the required
+     * velocity using this constant every frame.
+     */
+    private static const float HOVER_TIME = 0.1f;
 
+    /**
+     * Rotational axis input.
+     */
     private float rotationInput;
 
+    /**
+     * Whether the jump key is pressed.
+     */
     private bool jumpKeyDown;
+
+    /**
+     * From left to right, the amount of rotation applied during the previous
+     * frame.
+     */
+    private float previousRotation;
 
     /**
      * The player's box collider, representing the boundaries of its body.
      */
     private BoxCollider playerCollider;
-  
+
     /**
      * Player's Rigidbody component.
      */
@@ -72,6 +91,10 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     private Vector3 velocity;
 
+    /**
+     * The vertical speed with which the player should hover to aim to return
+     * to optimal height after HOVER_TIME.
+     */
     private float hoverSpeed;
 
     /**
@@ -128,7 +151,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
 
     /**
      * Moves the player according to the user input.
-     * 
+     *
      * Anything physics-related goes here.
      */
     void FixedUpdate() {
