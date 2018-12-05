@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
             return false;
         }
 
-        if (!Input.GetKey(KeyCode.Space)) {
+        if (Input.GetAxis("Jump") == 0) {
             // Jump was released
             return true;
         }
