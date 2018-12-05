@@ -631,11 +631,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 0.35
-  rotSpeed: 250
+  maxSpeed: 15
+  rotationalAcceleration: 15
+  maxRotationSpeed: 180
   jumpStrength: 0.65
   minJumpTime: 0.15
   maxJumpTime: 0.225
-  maxHorizontalSpeed: 15
 --- !u!65 &751144145
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1071,7 +1072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fd2be4b1d8bdb448f757aa278fa43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heightOffset: -0.5
 --- !u!1 &2138929754
 GameObject:
   m_ObjectHideFlags: 0

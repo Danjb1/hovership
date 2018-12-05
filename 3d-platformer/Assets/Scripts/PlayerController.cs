@@ -14,9 +14,19 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     public float acceleration;
 
     /**
+     * The maximum speed the player can move in the horizontal plane.
+     */
+    public float maxSpeed;
+
+    /**
+     * Player's rotational acceleration.
+     */
+    public float rotationalAcceleration;
+
+    /**
      * Speed of the player's horizontal rotation.
      */
-    public float rotSpeed;
+    public float maxRotationSpeed;
 
     /**
      * How much jumping affects the player's vertical velocity.
@@ -36,11 +46,6 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * down.
      */
     public float maxJumpTime;
-
-    /**
-     * The maximum speed the player can move in the horizontal plane.
-     */
-    public float maxHorizontalSpeed;
 
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
@@ -62,12 +67,6 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     private const float ROTATIONAL_FRICTION = 0.9f;
 
     /**
-     * The amount by which the player's rotational speed will increase each
-     * frame while rotational input is applied.
-     */
-    private const float ROTATIONAL_ACCELERATION = 20f;
-
-    /**
      * Rotational axis input.
      */
     private float rotationInput;
@@ -82,11 +81,6 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * frame.
      */
     private float rotation;
-
-    /**
-     * The player's box collider, representing the boundaries of its body.
-     */
-    private BoxCollider playerCollider;
 
     /**
      * Player's Rigidbody component.
@@ -147,7 +141,6 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     void Start () {
 
-        playerCollider = GetComponent<BoxCollider>();
         rigidbodyComponent = GetComponent<Rigidbody>();
 
         // Remember the spawn point
@@ -226,13 +219,13 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         if (rotationInput == 0) {
             rotation *= ROTATIONAL_FRICTION;
         } else {
-            rotation += ROTATIONAL_ACCELERATION * rotationInput;
+            rotation += rotationalAcceleration * rotationInput;
 
             // Limit maximum rotational speed
-            if (Math.Abs(rotation) > rotSpeed) {
+            if (Math.Abs(rotation) > maxRotationSpeed) {
                 rotation = rotation > 0
-                        ? rotSpeed
-                        : -rotSpeed;
+                        ? maxRotationSpeed
+                        : -maxRotationSpeed;
             }
         }
 
@@ -288,7 +281,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         // Limit horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
                 new Vector2(newVelocityX, newVelocityZ),
-                maxHorizontalSpeed
+                maxSpeed
         );
 
         return new Vector3(

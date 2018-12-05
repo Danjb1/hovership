@@ -13,8 +13,6 @@ public class AirCushionController : MonoBehaviour {
 
     private Vector3 expectedFallPosition;
 
-    private Vector3 positionBeforeMove;
-
     void Start() {
 
         listener = (IAirCushionListener) transform.parent.GetComponent<PlayerController>();
@@ -31,9 +29,6 @@ public class AirCushionController : MonoBehaviour {
 
         // Position at parent each frame
         transform.position = transform.parent.position;
-
-        // Remember this position!
-        positionBeforeMove = transform.position;
 
         // Reset velocity
         rigidbodyComponent.velocity = Vector3.zero;
@@ -52,19 +47,12 @@ public class AirCushionController : MonoBehaviour {
     }
 
     private void OnCollisionExit(Collision collision) {
-        HandleCollision(collision);
+        listener.AirCushionCollisionExit();
     }
 
     void HandleCollision(Collision collision) {
-
-        //foreach (ContactPoint contact in collision.contacts) {
-        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
-        //}
-
         if (collision.contacts.Length > 0) {
             listener.AirCushionCollided(collision.contacts[0].separation);
-        } else {
-            listener.AirCushionCollisionExit();
         }
     }
 

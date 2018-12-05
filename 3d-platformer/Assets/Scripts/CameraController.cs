@@ -45,7 +45,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      * The fraction (0-1) of the intervening arc angle made up per frame when
      * slerping behind the player.
      */
-    private const float SLERP_INTERVAL = 0.1f;
+    private const float SLERP_INTERVAL = 0.25f;
 
     /**
      * Time taken to reach the vertical destination, in seconds.
@@ -115,8 +115,6 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      * Move the Camera towards the optimal position.
      */
     void FixedUpdate() {
-
-        Debug.Log("transform.position = " + transform.position);
 
         float prevTargetY = targetY;
 

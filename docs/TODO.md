@@ -1,16 +1,16 @@
 # To Do
 
+ - Air cushion collision should find the highest contact point
+
  - Air cushion can collide with multiple objects in one frame
 
  - If air cushion clips a block, upwards velocity is very high
 
+ - Air cushion should not collide with walls (player can climb walls!)
+
  - Add unit tests
 
- - Fix rotational acceleration
-  -- Acceleration should be much greater
-  -- Move constants to PhysicsHelper
-
- - Use GetAxisRaw for forward/backward motion
+ - Use GetAxisRaw for forward/backward motion?
 
  - Use RequireComponent attribute?
 
