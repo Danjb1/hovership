@@ -14,6 +14,4 @@
 
  - Use RequireComponent attribute?
 
- - Use virtual buttons
-
  - Improve documentation (e.g. include units)

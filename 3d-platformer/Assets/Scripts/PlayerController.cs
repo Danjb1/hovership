@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Polls user input.
      */
     private void Update() {
-        jumpKeyDown = Input.GetKey(KeyCode.Space);
+        jumpKeyDown = Input.GetAxis("Jump") > 0;
         rotationInput = Input.GetAxis("Horizontal");
     }
 
