@@ -99,6 +99,11 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     private Vector3 spawn;
 
     /**
+     * The rotation of the player at the spawn.
+     */
+    private Vector3 spawnRotation;
+
+    /**
      * Current velocity.
      */
     private Vector3 velocity;
@@ -150,6 +155,11 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
                 transform.position.x,
                 transform.position.y,
                 transform.position.z
+        );
+        spawnRotation = new Vector3(
+                transform.rotation.x,
+                transform.rotation.y,
+                transform.rotation.z
         );
     }
 
@@ -346,13 +356,21 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Moves the player back to the spawn point.
      */
     private void Respawn() {
-        rigidbodyComponent.position = new Vector3(
+
+        // Reset position
+        transform.position = new Vector3(
                 spawn.x,
                 spawn.y,
                 spawn.z
         );
+
+        // Reset rotation
+        transform.rotation = Quaternion.Euler(spawnRotation);
+
+        // Reset velocity
         velocity = Vector3.zero;
 
+        // Inform listeners of the new position
         foreach (ICharacterListener listener in characterListeners) {
             listener.CharacterTeleported();
         }

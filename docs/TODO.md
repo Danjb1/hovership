@@ -12,8 +12,6 @@
 
  - Use GetAxisRaw for forward/backward motion
 
- - Camera should snap to player after respawn
-
  - Use RequireComponent attribute?
 
  - Improve documentation (e.g. include units)
