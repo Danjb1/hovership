@@ -8,8 +8,6 @@
 
  - Player rotation should have some acceleration to it
 
- - Camera should snap to player after respawn
-
  - Use RequireComponent attribute?
 
  - Improve documentation (e.g. include units)

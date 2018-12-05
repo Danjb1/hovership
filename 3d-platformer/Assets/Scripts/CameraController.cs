@@ -54,8 +54,6 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
     /**
      * Minimum y-position before the camera will stop moving.
-     * 
-     * TODO: Make this dependent on player size.
      */
     private const float MIN_Y = 0;
 
@@ -107,7 +105,6 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
         targetY = player.transform.position.y;
         CharacterTeleported();
-        PositionBehindPlayer();
     }
 
     void Update() {
@@ -118,6 +115,8 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      * Move the Camera towards the optimal position.
      */
     void FixedUpdate() {
+
+        Debug.Log("transform.position = " + transform.position);
 
         float prevTargetY = targetY;
 
@@ -278,8 +277,12 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     public void CharacterTeleported() {
 
         // Just snap to the new position
+        PositionBehindPlayer();
+
+        // Reset the camera's destination and speed
         targetY = player.transform.position.y;
         optimalTargetY = targetY;
+        speedY = 0;
     }
 
 }
