@@ -1,12 +1,10 @@
 # To Do
 
- - Air cushion collision should find the highest contact point
-
  - Air cushion can collide with multiple objects in one frame
 
- - If air cushion clips a block, upwards velocity is very high
+ - Clipping a block on your way upwards while jumping LAUNCHES you
 
- - Air cushion should not collide with walls (player can climb walls!)
+    - Player becomes grounded and performs a SECOND jump immediately?
 
  - Add unit tests
 

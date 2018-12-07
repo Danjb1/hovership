@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AirCushionController : MonoBehaviour {
 
+    private const float MIN_GRADIENT = 0.5f;
+
     /**
      * The air cushion's rigid body.
      */
@@ -51,8 +53,23 @@ public class AirCushionController : MonoBehaviour {
     }
 
     void HandleCollision(Collision collision) {
-        if (collision.contacts.Length > 0) {
-            listener.AirCushionCollided(collision.contacts[0].separation);
+
+        float minSeparation = 0;
+
+        foreach (ContactPoint point in collision.contacts) {
+
+            if (point.normal.y <= MIN_GRADIENT) {
+                // Don't collide with very steep surfaces (or walls!)
+                continue;
+            }
+
+            // Remember the deepest collision
+            minSeparation = Mathf.Min(minSeparation, point.separation);
+        }
+
+        if (minSeparation < 0) {
+            float depth = Mathf.Abs(minSeparation);
+            listener.AirCushionCollided(depth);
         }
     }
 

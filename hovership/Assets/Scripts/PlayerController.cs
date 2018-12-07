@@ -52,14 +52,14 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * The amount of time in seconds that the player aims to spend hovering up
-     * to optimal hover height, used every frame while hovering.
-     *
-     * N.B. It takes longer than this because we recalculate the required
-     * velocity using this constant every frame.
+     * Time (in seconds) to reach the optimal hover height when below it.
+     * 
+     * In reality it takes longer than this because the upwards velocity is
+     * recalculated each frame, so the "journey time" resets. However, this at
+     * least has some bearing on the overall time taken.
      */
     private const float HOVER_TIME = 0.1f;
-
+    
     /**
      * The factor by which the player's rotational speed will be multiplied each
      * frame when no rotational input is applied.
@@ -105,6 +105,9 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
     /**
      * The vertical speed with which the player should hover to aim to return
      * to optimal height after HOVER_TIME.
+     * 
+     * This is transient, and does not affect velocity between frames. This
+     * prevents the player from overshooting the optimal hover height.
      */
     private float hoverSpeed;
 
@@ -204,11 +207,8 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
                 forward.z * velocity.z
         );
 
-        // Clear previous velocity
-        rigidbodyComponent.velocity = Vector3.zero;
-
         // Set the new velocity
-        rigidbodyComponent.AddForce(moveForce, ForceMode.VelocityChange);
+        rigidbodyComponent.velocity = moveForce;
     }
 
     /**
@@ -374,13 +374,20 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     public void AirCushionCollided(float depth) {
 
-        hoverSpeed = Math.Abs(depth) / HOVER_TIME;
+        // Skip hover mechanics when jumping
+        if (jumping) {
+            hoverSpeed = 0;
+            return;
+        }
 
+        // Set hover speed based on collision depth
+        hoverSpeed = depth / HOVER_TIME;
+        
         // Set grounded
         grounded = true;
 
         // Clear vertical velocity if falling
-        if (!jumping && velocity.y < 0) {
+        if (velocity.y < 0) {
             velocity.y = 0;
         }
     }
