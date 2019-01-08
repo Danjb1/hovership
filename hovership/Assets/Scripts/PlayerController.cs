@@ -136,6 +136,11 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
 
+    /**
+     * Depth of the deepest collision in the last physics update.
+     */
+    private float maxCollisionDepth;
+
     // Minimum player vertical position before respawning, in metres
     public const float RESPAWN_Y = -25f;
 
@@ -174,6 +179,14 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     void FixedUpdate() {
 
+        // Handle ground collisions
+        if (maxCollisionDepth > 0) {
+            HandleCollision(maxCollisionDepth);
+
+            // Reset for next frame
+            maxCollisionDepth = 0;
+        }
+
         // Apply rotation
         Vector3 rotation = GetRotation();
         transform.Rotate(
@@ -208,6 +221,26 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
 
         // Set the new velocity
         rigidbodyComponent.velocity = moveForce;
+    }
+
+    private void HandleCollision(float depth) {
+
+        // Skip hover mechanics when jumping
+        if (jumping) {
+            hoverSpeed = 0;
+            return;
+        }
+
+        // Set hover speed based on collision depth
+        hoverSpeed = depth / HOVER_TIME;
+
+        // Set grounded
+        grounded = true;
+
+        // Clear vertical velocity if falling
+        if (velocity.y < 0) {
+            velocity.y = 0;
+        }
     }
 
     /**
@@ -372,25 +405,12 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Callback for when the air cushion collides with the ground.
      */
     public void AirCushionCollided(float depth) {
-
-        // Skip hover mechanics when jumping
-        if (jumping) {
-            hoverSpeed = 0;
-            return;
-        }
-
-        // Set hover speed based on collision depth
-        hoverSpeed = depth / HOVER_TIME;
-        
-        // Set grounded
-        grounded = true;
-
-        // Clear vertical velocity if falling
-        if (velocity.y < 0) {
-            velocity.y = 0;
-        }
+        maxCollisionDepth = Mathf.Max(maxCollisionDepth, depth);
     }
 
+    /**
+     * Callback for when the air cushion stops colliding with the ground.
+     */
     public void AirCushionCollisionExit() {
         grounded = false;
     }
