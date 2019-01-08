@@ -802,7 +802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 0.35
   maxSpeed: 15
-  rotationalAcceleration: 15
+  rotationalAcceleration: 7.5
   maxRotationSpeed: 180
   jumpStrength: 0.65
   minJumpTime: 0.15

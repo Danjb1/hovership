@@ -198,8 +198,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         // Set the new velocity
         velocity = CalculateVelocity();
 
-        // Calculate the final movement vector based on velocity, forward
-        // direction and delta time
+        // Calculate the final movement vector based on velocity and direction
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 moveForce = new Vector3(
                 forward.x * velocity.x,
@@ -275,8 +274,8 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
 
         // Limit vertical velocity
         newVelocityY = Mathf.Clamp(newVelocityY,
-            -PhysicsHelper.MAX_PLAYER_SPEED_Y,
-            PhysicsHelper.MAX_PLAYER_SPEED_Y);
+            PhysicsHelper.MAX_FALL_SPEED_Y,
+            PhysicsHelper.MAX_JUMP_SPEED_Y);
 
         // Limit horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
