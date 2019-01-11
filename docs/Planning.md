@@ -25,6 +25,8 @@
 Levels will contain checkpoints at which the player can swap modules.
 Modules can be found while playing through levels.
 
+---
+
 ### Collectibles :gem:
 
 Hovership needs power shards. These are floating geometrically-regular crystals
@@ -34,6 +36,8 @@ They can be used to buy cosmetic customizations for the ship.
 
 The value of a power shard is denoted by its number of vertices, where each
 shape has a distinct colour.
+
+---
 
 ### Levels :sunrise_over_mountains:
 
@@ -51,6 +55,8 @@ This has the advantage of making it easier to hide secrets.
 There could be a fast-paced, soaring level between each themed level.
 This would add to the notion of a journey, i.e. of Hovership going somewhere.
 These soaring levels would have a high FoV, with a greatly increased ship speed.
+
+---
 
 ### Obstacles :no_entry_sign:
 
