@@ -1,6 +1,6 @@
-## Game Concept Planning
+# Game Concept Planning
 
-### Hovership Modules :wrench:
+## Hovership Modules :wrench:
 
 **Manipulator** - the tool on the bow
 - Grabber/claw
@@ -22,12 +22,11 @@
 - Glide
 - Flight
 
-Levels will contain checkpoints at which the player can swap modules.
-Modules can be found while playing through levels.
+One upgrade will be unlocked in each level, and these will be available permanently.
 
 ---
 
-### Collectibles :gem:
+## Collectibles :gem:
 
 Hovership needs power shards. These are floating geometrically-regular crystals
 which the player will find throughout the levels.
@@ -39,26 +38,17 @@ shape has a distinct colour.
 
 ---
 
-### Levels :sunrise_over_mountains:
+## Levels :sunrise_over_mountains:
 
-The current thinking is having one large level for each theme.
-This has the advantage of making it easier to hide secrets.
+See [levels.md](levels.md).
 
-**Themes**
-- Castle
-- Floating islands
-- Sci-fi city full of neon
-- A large spaceship
-- Rugged mountains
-- A factory or big facility
+Aim is to have one large level for each theme. Finding the key unlocks the next level.
 
-There could be a fast-paced, soaring level between each themed level.
-This would add to the notion of a journey, i.e. of Hovership going somewhere.
-These soaring levels would have a high FoV, with a greatly increased ship speed.
+Later these may be connected by fast-paced, soaring levels. This would add to the notion of a journey, i.e. of Hovership going somewhere. These soaring levels would have a high FoV, with a greatly increased ship speed.
 
 ---
 
-### Obstacles :no_entry_sign:
+## Obstacles :no_entry_sign:
 
 Levels will contain obstacles which can be overcome with the clever use of modules.
 
