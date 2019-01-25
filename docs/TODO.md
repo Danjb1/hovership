@@ -2,15 +2,16 @@
 
 ## Code
 
+ - Player still gets a weird boost jump when clipping a step on the way up
  - Add unit tests
-
  - Improve documentation (e.g. include units)
 
+## Unity
+
  - Player "glow" effect
-
  - Sound effects
-
  - Music
+ - Enable post-processing effects
 
 ## Assets
 
@@ -39,7 +40,6 @@
  - Dungeon staircase
  - Entrance hall staircase
  - Button
- - Crate
  - Chandelier
  - Balcony
  - Grabber
