@@ -4,6 +4,12 @@
 
 While Unity can import *.blend* files, internally it always uses *.fbx* files, so it makes sense for us to export these directly. This gives us more control over the conversion process.
 
+## Blender Tips
+
+ - Remove the default light and camera, they are not needed in Unity.
+
+ - If the object should rest on the floor, move it so that it sits atop the grid.
+
 ## Co-ordinate Systems
 
 Blender uses a Z-up co-ordinate system while Unity uses a Y-up co-ordinate system, resulting in models being rotated by 90 degrees after being imported into Unity.
