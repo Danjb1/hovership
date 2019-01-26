@@ -13,10 +13,10 @@
  - Music
  - Enable post-processing effects
  - Use textures instead of materials
+ - Skybox
 
 ## Assets
 
- - Stone house with thatched roof - needs texturing
  - Chimney (to attach to stone house)
  - Window (to attach to stone house)
  - Door (to attach to stone house)
