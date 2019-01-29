@@ -12,10 +12,14 @@
  - Sound effects
  - Music
  - Enable post-processing effects
- - Use textures instead of materials
  - Skybox
 
-## Assets
+## Asset Enhancements
+
+ - House (front face is not flat, extend below ground, add wooden beams)
+ - Player (needs texturing)
+
+## New Assets
 
  - Chimney (to attach to stone house)
  - Window (to attach to stone house)
