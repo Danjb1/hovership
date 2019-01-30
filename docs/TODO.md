@@ -3,6 +3,8 @@
 ## Code
 
  - Player still gets a weird boost jump when clipping a step on the way up
+ - Player model should tip slightly when turning
+ - Player model should bob up and down slightly when grounded
  - Add unit tests
  - Improve documentation (e.g. include units)
 
@@ -11,12 +13,13 @@
  - Player "glow" effect
  - Sound effects
  - Music
- - Enable post-processing effects
+ - Colour grading (post-processing)
  - Skybox
 
 ## Asset Enhancements
 
  - House (front face is not flat, extend below ground, add wooden beams)
+ - Player (add more colours)
 
 ## New Assets
 
