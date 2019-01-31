@@ -18,7 +18,7 @@
 
 ## Asset Enhancements
 
- - House (front face is not flat, extend below ground, add wooden beams)
+ - House (add wooden beams?)
  - Player (add more colours)
 
 ## New Assets
