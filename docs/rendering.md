@@ -44,7 +44,7 @@ Unity supports Low Dynamic Range (LDR) and High Dynamic Range (HDR).
 
 **Decision:** LDR
 
-**Rationale:** LDR is more appropriate for a flat-shaded game.
+**Rationale:** LDR is more appropriate for a flat-shaded game. HDR is not supported in Forward Rendering when using certain rendering techniques.
 
 LDR is the default setting for cameras in Unity.
 
