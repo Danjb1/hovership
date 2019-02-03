@@ -1,10 +1,12 @@
 # Rendering
 
-## Forward vs. Deferred Rendering Path
+## Rendering Path
+
+Unity offers 2 main rendering paths: Forward and Deferred.
 
 **Decision:** Forward Rendering
 
-**Rationale:** TODO.
+**Rationale:** Highly performant and has more capabilities than Deferred rendering. Performance suffers when a scene contains many lights but this won't be the case for us.
 
 Forward Rendering is the default rendering path in Unity.
 
@@ -30,7 +32,15 @@ Objects that will never move should be marked as "static" as a performance optim
 
 **Rationale:** More performant than Precomputed GI but does not support moving light soruces.
 
-## HDR vs. LDR
+## Colour Space
+
+**Decision:** Linear
+
+**Rationale:** This is generally preferred when platforms support it.
+
+## Dynamic Range
+
+Unity supports Low Dynamic Range (LDR) and High Dynamic Range (HDR).
 
 **Decision:** LDR
 
@@ -45,6 +55,6 @@ LDR is the default setting for cameras in Unity.
 
 ## Post-Processing Effects
 
-**Decision:** Some subtle post-processing effects have been enabled
+**Decision:** Some subtle post-processing effects have been enabled.
 
 **Rationale:** This may incur a slight performance impact but drastically improves the quality of the rendered scene.
