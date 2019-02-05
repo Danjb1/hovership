@@ -294,7 +294,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.88
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
       propertyPath: m_LocalPosition.z
@@ -327,6 +327,10 @@ Prefab:
     - target: {fileID: 100000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
       propertyPath: m_Name
       value: Terrain
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
