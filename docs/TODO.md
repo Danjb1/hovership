@@ -22,6 +22,7 @@
 
  - House (add wooden beams?)
  - Player (add more colours)
+ - Terrain (refine, tailor to level, add hole for well)
 
 ## New Assets
 
@@ -41,7 +42,6 @@
  - Flags
  - Gatehouse
  - Portcullis
- - Floating island terrain (with hole for well)
  - Keep
  - Dungeon
  - Cell bars and door
@@ -52,3 +52,4 @@
  - Chandelier
  - Balcony
  - Grabber
+ - Floating island "underside"
