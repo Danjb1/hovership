@@ -22,6 +22,7 @@
 
  - House (add wooden beams?)
  - Player (add more colours)
+ - Wooden barn (add shutters and texture)
  - Terrain (refine, tailor to level, add hole for well)
 
 ## New Assets
@@ -33,7 +34,6 @@
  - Vertical tunnel
  - Trees
  - Sheep
- - Wooden barn
  - Fences
  - Curvy castle wall
  - Round towers (to separate wall segments)
