@@ -3,6 +3,7 @@
 ## Code
 
  - Player still gets a weird boost jump when clipping a step on the way up
+ - Player "bumps" down slopes
  - Player model should tip slightly when turning
  - Player model should bob up and down slightly when grounded
  - Add unit tests
