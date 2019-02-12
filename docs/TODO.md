@@ -27,10 +27,8 @@
 
 ## New Assets
 
- - Chimney (to attach to stone house)
  - Window (to attach to stone house)
  - Door (to attach to stone house)
- - Well
  - Vertical tunnel
  - Trees
  - Sheep
