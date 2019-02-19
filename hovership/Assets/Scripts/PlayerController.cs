@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour {
     /**
      * Player's Collider component.
      */
-    private Collider collider;
+    private Collider colliderComponent;
 
     /**
      * The position where the player will respawn.
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 
         rigidbodyComponent = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        colliderComponent = GetComponent<Collider>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -247,10 +247,10 @@ public class PlayerController : MonoBehaviour {
         IList<float> results = new List<float>();
 
         // Determine the corner points of the player
-        float x1 = transform.position.x + collider.bounds.extents.x;
-        float x2 = transform.position.x - collider.bounds.extents.x;
-        float z1 = transform.position.z + collider.bounds.extents.z;
-        float z2 = transform.position.z - collider.bounds.extents.z;
+        float x1 = transform.position.x + colliderComponent.bounds.extents.x;
+        float x2 = transform.position.x - colliderComponent.bounds.extents.x;
+        float z1 = transform.position.z + colliderComponent.bounds.extents.z;
+        float z2 = transform.position.z - colliderComponent.bounds.extents.z;
 
         // Determine the distance to the ground at each corner, and the centre.
         // This should be enough to detect what the player is standing on in
