@@ -29,7 +29,6 @@
 
 ## New Assets
 
- - Window (to attach to stone house)
  - Vertical tunnel
  - Trees
  - Sheep
