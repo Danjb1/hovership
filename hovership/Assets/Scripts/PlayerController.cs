@@ -80,6 +80,11 @@ public class PlayerController : MonoBehaviour {
     private const float ROTATIONAL_FRICTION = 0.9f;
 
     /**
+     * Minimum player vertical position before respawning, in metres.
+     */
+    private const float RESPAWN_Y = -25f;
+
+    /**
      * Rotational axis input.
      */
     private float rotationInput;
@@ -99,6 +104,11 @@ public class PlayerController : MonoBehaviour {
      * Player's Rigidbody component.
      */
     private Rigidbody rigidbodyComponent;
+
+    /**
+     * Player's Collider component.
+     */
+    private Collider collider;
 
     /**
      * The position where the player will respawn.
@@ -149,15 +159,13 @@ public class PlayerController : MonoBehaviour {
      */
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
     
-    // Minimum player vertical position before respawning, in metres
-    public const float RESPAWN_Y = -25f;
-
     /**
      * Initialises this controller.
      */
     void Start () {
 
         rigidbodyComponent = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -189,7 +197,6 @@ public class PlayerController : MonoBehaviour {
 
         // Hover
         float currentHeight = GetAverageDistanceToGround();
-        Debug.Log(currentHeight);
         if (currentHeight < hoverHeight) {
             Hover(currentHeight);
         } else {
@@ -236,8 +243,41 @@ public class PlayerController : MonoBehaviour {
      * Gets the current distance between the player and the ground.
      */
     private float GetAverageDistanceToGround() {
-        // TODO: also check corners
-        return GetDistanceToGround(transform.position);
+
+        IList<float> results = new List<float>();
+
+        // Determine the corner points of the player
+        float x1 = transform.position.x + collider.bounds.extents.x;
+        float x2 = transform.position.x - collider.bounds.extents.x;
+        float z1 = transform.position.x + collider.bounds.extents.z;
+        float z2 = transform.position.x - collider.bounds.extents.z;
+
+        // Determine the distance to the ground at each corner, and the centre.
+        // This should be enough to detect what the player is standing on in
+        // 99% of cases.
+        results.Add(GetDistanceToGround(transform.position));
+        results.Add(GetDistanceToGround(new Vector3(x1, transform.position.y, z1)));
+        results.Add(GetDistanceToGround(new Vector3(x1, transform.position.y, z2)));
+        results.Add(GetDistanceToGround(new Vector3(x2, transform.position.y, z2)));
+        results.Add(GetDistanceToGround(new Vector3(x2, transform.position.y, z1)));
+
+        // Find the average distance to the ground based on all collisions
+        float totalDist = 0;
+        int numCollisions = 0;
+        foreach (float result in results) {
+            if (result != Mathf.Infinity) {
+                totalDist += result;
+                numCollisions++;
+            }
+        }
+
+        // Return the average collision distance
+        if (numCollisions > 0) {
+            return totalDist / numCollisions;
+        }
+
+        // No collisions!
+        return Mathf.Infinity;
     }
 
     /**
@@ -245,7 +285,6 @@ public class PlayerController : MonoBehaviour {
      */
     private float GetDistanceToGround(Vector3 position) {
         RaycastHit hit;
-        Debug.DrawRay(position, -Vector3.up * hoverHeight, Color.green);
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, hoverHeight)) {
             if (hit.normal.y >= MAX_SLOPE_GRADIENT) {
                 return hit.distance;
