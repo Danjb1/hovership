@@ -2,8 +2,6 @@
 
 ## Code
 
- - Camera is aiming too far down after lowering player model?
-    - Compare latest screenshot with older screenshots
  - Player still gets a weird boost jump when clipping a step on the way up
  - Player "bumps" down slopes
  - Player model should tip slightly when turning
