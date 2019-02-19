@@ -249,8 +249,8 @@ public class PlayerController : MonoBehaviour {
         // Determine the corner points of the player
         float x1 = transform.position.x + collider.bounds.extents.x;
         float x2 = transform.position.x - collider.bounds.extents.x;
-        float z1 = transform.position.x + collider.bounds.extents.z;
-        float z2 = transform.position.x - collider.bounds.extents.z;
+        float z1 = transform.position.z + collider.bounds.extents.z;
+        float z2 = transform.position.z - collider.bounds.extents.z;
 
         // Determine the distance to the ground at each corner, and the centre.
         // This should be enough to detect what the player is standing on in
@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour {
      */
     private float GetDistanceToGround(Vector3 position) {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit, hoverHeight)) {
+        if (Physics.Raycast(position, -Vector3.up, out hit, hoverHeight)) {
             if (hit.normal.y >= MAX_SLOPE_GRADIENT) {
                 return hit.distance;
             }
