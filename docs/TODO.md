@@ -3,7 +3,6 @@
 ## Code
 
  - Player still gets a weird boost jump when clipping a step on the way up
- - Player "bumps" down slopes
  - Player model should tip slightly when turning
  - Player model should bob up and down slightly when grounded
  - Add unit tests
@@ -17,10 +16,14 @@
  - Music
  - Colour grading (post-processing)
  - Skybox
+ - Reduce depth-of-field slightly?
+ - Configure launcher
 
 ## Asset Enhancements
 
  - House (add wooden beams?)
+ - Chimney (doesn't fit properly with the house)
+ - Barn (dodgy roof geometry?)
  - Player (add more colours)
  - Terrain (refine, tailor to level, add hole for well)
 

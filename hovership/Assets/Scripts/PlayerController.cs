@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IAirCushionListener {
+public class PlayerController : MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -47,9 +47,22 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     public float maxJumpTime;
 
+    /**
+     * The height at which the player should hover above the ground.
+     */
+    public float hoverHeight;
+
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * The maximum gradient of a surface the player can walk on.
+     * 
+     * This prevents the player being able to climb up very steep slopes, or
+     * even walls.
+     */
+    private const float MAX_SLOPE_GRADIENT = 0.5f;
 
     /**
      * Time (in seconds) to reach the optimal hover height when below it.
@@ -135,12 +148,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * List of registered CharacterListeners.
      */
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
-
-    /**
-     * Depth of the deepest collision in the last physics update.
-     */
-    private float maxCollisionDepth;
-
+    
     // Minimum player vertical position before respawning, in metres
     public const float RESPAWN_Y = -25f;
 
@@ -179,14 +187,15 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      */
     void FixedUpdate() {
 
-        // Handle ground collisions
-        if (maxCollisionDepth > 0) {
-            HandleCollision(maxCollisionDepth);
-
-            // Reset for next frame
-            maxCollisionDepth = 0;
+        // Hover
+        float currentHeight = GetAverageDistanceToGround();
+        Debug.Log(currentHeight);
+        if (currentHeight < hoverHeight) {
+            Hover(currentHeight);
+        } else {
+            grounded = false;
         }
-
+        
         // Apply rotation
         Vector3 rotation = GetRotation();
         transform.Rotate(
@@ -223,7 +232,32 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         rigidbodyComponent.velocity = moveForce;
     }
 
-    private void HandleCollision(float depth) {
+    /**
+     * Gets the current distance between the player and the ground.
+     */
+    private float GetAverageDistanceToGround() {
+        // TODO: also check corners
+        return GetDistanceToGround(transform.position);
+    }
+
+    /**
+     * Gets the current distance between some position and the ground.
+     */
+    private float GetDistanceToGround(Vector3 position) {
+        RaycastHit hit;
+        Debug.DrawRay(position, -Vector3.up * hoverHeight, Color.green);
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, hoverHeight)) {
+            if (hit.normal.y >= MAX_SLOPE_GRADIENT) {
+                return hit.distance;
+            }
+        }
+        return Mathf.Infinity;
+    }
+
+    /**
+     * Sets the player's hover speed based on the current height.
+     */
+    private void Hover(float currentHeight) {
 
         // Skip hover mechanics when jumping
         if (jumping) {
@@ -232,6 +266,7 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
         }
 
         // Set hover speed based on collision depth
+        float depth = hoverHeight - currentHeight;
         hoverSpeed = depth / HOVER_TIME;
 
         // Set grounded
@@ -405,14 +440,14 @@ public class PlayerController : MonoBehaviour, IAirCushionListener {
      * Callback for when the air cushion collides with the ground.
      */
     public void AirCushionCollided(float depth) {
-        maxCollisionDepth = Mathf.Max(maxCollisionDepth, depth);
+//        maxCollisionDepth = Mathf.Max(maxCollisionDepth, depth);
     }
 
     /**
      * Callback for when the air cushion stops colliding with the ground.
      */
     public void AirCushionCollisionExit() {
-        grounded = false;
+    //    grounded = false;
     }
 
 }
