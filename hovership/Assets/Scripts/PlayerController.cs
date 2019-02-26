@@ -164,6 +164,9 @@ public class PlayerController : MonoBehaviour {
      */
     void Start () {
 
+        // Set game state to Playing
+        StateManager.Instance.gameState = GameState.PLAYING;
+
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
 
@@ -487,6 +490,15 @@ public class PlayerController : MonoBehaviour {
      */
     public void AirCushionCollisionExit() {
     //    grounded = false;
+    }
+
+    /**
+     * Event handler for collisions. Used with specific GameObject tags.
+     */
+    private void OnTriggerEnter(Collider collider) {
+        if (collider.gameObject.tag == "Finish") {
+            StateManager.Instance.gameState = GameState.CELEBRATING;
+        }
     }
 
 }

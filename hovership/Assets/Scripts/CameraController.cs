@@ -116,6 +116,10 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     void FixedUpdate() {
 
+        if (StateManager.Instance.gameState == GameState.CELEBRATING) {
+            // TODO do the swing-about-the-player thing
+        }
+
         float prevTargetY = targetY;
 
         // Follow the player when falling out of the world
