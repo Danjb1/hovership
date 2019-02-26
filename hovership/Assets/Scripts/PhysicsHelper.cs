@@ -1,4 +1,6 @@
-﻿/**
+﻿using UnityEngine;
+
+/**
  * Class responsible for global physics constants.
  */
 public class PhysicsHelper {
@@ -17,5 +19,26 @@ public class PhysicsHelper {
 
     // Air friction multiplier
     public const float AIR_FRICTION = 0.95f;
+
+    /**
+     * The maximum gradient of a walkable surface.
+     * 
+     * This prevents entities being able to climb up very steep slopes, or
+     * even walls.
+     */
+    private const float MAX_SLOPE_GRADIENT = 0.5f;
+
+    /**
+     * Determines the current distance between some position and the ground.
+     */
+    public static float DistanceToGround(Vector3 position, float max) {
+        RaycastHit hit;
+        if (Physics.Raycast(position, -Vector3.up, out hit, max)) {
+            if (hit.normal.y >= MAX_SLOPE_GRADIENT) {
+                return hit.distance;
+            }
+        }
+        return Mathf.Infinity;
+    }
 
 }

@@ -57,14 +57,6 @@ public class PlayerController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * The maximum gradient of a surface the player can walk on.
-     * 
-     * This prevents the player being able to climb up very steep slopes, or
-     * even walls.
-     */
-    private const float MAX_SLOPE_GRADIENT = 0.5f;
-
-    /**
      * Time (in seconds) to reach the optimal hover height when below it.
      * 
      * In reality it takes longer than this because the upwards velocity is
@@ -98,7 +90,7 @@ public class PlayerController : MonoBehaviour {
      * From left to right, the amount of rotation applied during the previous
      * frame.
      */
-    private float rotation;
+    private float rotationSpeed;
 
     /**
      * Player's Rigidbody component.
@@ -197,24 +189,48 @@ public class PlayerController : MonoBehaviour {
      * Anything physics-related goes here.
      */
     void FixedUpdate() {
+        UpdateRotation();
+        UpdateHoverSpeed();
+        UpdateJump();
+        UpdateVelocity();
+    }
 
-        // Hover
-        float currentHeight = GetAverageDistanceToGround();
-        if (currentHeight < hoverHeight) {
-            Hover(currentHeight);
-        } else {
-            grounded = false;
-        }
-        
-        // Apply rotation
+    /**
+     * Rotates the player based on the current input.
+     */
+    private void UpdateRotation() {
         Vector3 rotation = GetRotation();
         transform.Rotate(
                 rotation.x * Time.deltaTime,
                 rotation.y * Time.deltaTime,
                 rotation.z * Time.deltaTime
         );
+    }
 
-        // Handle jumping / landing
+    /**
+     * Updates the player's hover speed when close to the ground.
+     * 
+     * Also takes care of landing.
+     */
+    private void UpdateHoverSpeed() {
+        float currentHeight = GetAverageDistanceToGround();
+        if (currentHeight < hoverHeight) {
+            hoverSpeed = GetHoverSpeed(currentHeight);
+
+            // Land, if falling
+            if (velocity.y < 0) {
+                velocity.y = 0;
+                grounded = true;
+            }
+        } else {
+            grounded = false;
+        }
+    }
+
+    /**
+     * Updates the player's current jump parameters.
+     */
+    private void UpdateJump() {
         if (grounded && jumpKeyDown) {
             jumping = true;
         }
@@ -226,6 +242,12 @@ public class PlayerController : MonoBehaviour {
                 spentJumpTime = 0;
             }
         }
+    }
+
+    /**
+     * Updates the player's current velocity.
+     */
+    private void UpdateVelocity() {
 
         // Set the new velocity
         velocity = CalculateVelocity();
@@ -246,24 +268,22 @@ public class PlayerController : MonoBehaviour {
      * Gets the current distance between the player and the ground.
      */
     private float GetAverageDistanceToGround() {
-
-        IList<float> results = new List<float>();
-
-        // Determine the corner points of the player
-        float x1 = transform.position.x + colliderComponent.bounds.extents.x;
-        float x2 = transform.position.x - colliderComponent.bounds.extents.x;
-        float z1 = transform.position.z + colliderComponent.bounds.extents.z;
-        float z2 = transform.position.z - colliderComponent.bounds.extents.z;
-
-        // Determine the distance to the ground at each corner, and the centre.
-        // This should be enough to detect what the player is standing on in
-        // 99% of cases.
-        results.Add(GetDistanceToGround(transform.position));
-        results.Add(GetDistanceToGround(new Vector3(x1, transform.position.y, z1)));
-        results.Add(GetDistanceToGround(new Vector3(x1, transform.position.y, z2)));
-        results.Add(GetDistanceToGround(new Vector3(x2, transform.position.y, z2)));
-        results.Add(GetDistanceToGround(new Vector3(x2, transform.position.y, z1)));
-
+        
+        // Determine the distance to the ground from various points within the
+        // player. This should be enough to detect what the player is standing
+        // on in 99% of cases.
+        IList<float> results = new List<float>() {
+            HoverHeight(0, 0),
+            HoverHeight(-1, -1),
+            HoverHeight(-1, -0.5f),
+            HoverHeight(-1, 0.5f),
+            HoverHeight(-1, 1),
+            HoverHeight(1, -1),
+            HoverHeight(1, -0.5f),
+            HoverHeight(1, 0.5f),
+            HoverHeight(1, 1),
+        };
+        
         // Find the average distance to the ground based on all collisions
         float totalDist = 0;
         int numCollisions = 0;
@@ -284,40 +304,34 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
-     * Gets the current distance between some position and the ground.
+     * Determines the current distance between some point of the player and the
+     * ground.
      */
-    private float GetDistanceToGround(Vector3 position) {
-        RaycastHit hit;
-        if (Physics.Raycast(position, -Vector3.up, out hit, hoverHeight)) {
-            if (hit.normal.y >= MAX_SLOPE_GRADIENT) {
-                return hit.distance;
-            }
-        }
-        return Mathf.Infinity;
+    private float HoverHeight(float xFactor, float zFactor) {
+        float width = colliderComponent.bounds.extents.x;
+        float length = colliderComponent.bounds.extents.z;
+        return PhysicsHelper.DistanceToGround(
+            new Vector3(
+                    transform.position.x + width * xFactor,
+                    transform.position.y,
+                    transform.position.z + length * zFactor
+            ),
+            hoverHeight);
     }
 
     /**
-     * Sets the player's hover speed based on the current height.
+     * Determines the player's hover speed based on the current height.
      */
-    private void Hover(float currentHeight) {
+    private float GetHoverSpeed(float currentHeight) {
 
         // Skip hover mechanics when jumping
         if (jumping) {
-            hoverSpeed = 0;
-            return;
+            return 0;
         }
 
         // Set hover speed based on collision depth
         float depth = hoverHeight - currentHeight;
-        hoverSpeed = depth / HOVER_TIME;
-
-        // Set grounded
-        grounded = true;
-
-        // Clear vertical velocity if falling
-        if (velocity.y < 0) {
-            velocity.y = 0;
-        }
+        return depth / HOVER_TIME;
     }
 
     /**
@@ -326,19 +340,26 @@ public class PlayerController : MonoBehaviour {
     private Vector3 GetRotation() {
 
         if (rotationInput == 0) {
-            rotation *= ROTATIONAL_FRICTION;
+            rotationSpeed *= ROTATIONAL_FRICTION;
         } else {
-            rotation += rotationalAcceleration * rotationInput;
+            rotationSpeed += rotationalAcceleration * rotationInput;
 
             // Limit maximum rotational speed
-            if (Math.Abs(rotation) > maxRotationSpeed) {
-                rotation = rotation > 0
+            if (Math.Abs(rotationSpeed) > maxRotationSpeed) {
+                rotationSpeed = rotationSpeed > 0
                         ? maxRotationSpeed
                         : -maxRotationSpeed;
             }
         }
 
-        return Vector3.up * rotation;
+        return Vector3.up * rotationSpeed;
+    }
+
+    /**
+     * Gets the speed at which the player is currently rotating.
+     */
+    public float GetRotationSpeed() {
+        return rotationSpeed;
     }
 
     /**
