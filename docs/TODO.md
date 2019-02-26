@@ -2,7 +2,6 @@
 
 ## Code
 
- - Player model should tip slightly when turning
  - Player model should bob up and down slightly when grounded
  - Add unit tests
  - Improve documentation (e.g. include units)

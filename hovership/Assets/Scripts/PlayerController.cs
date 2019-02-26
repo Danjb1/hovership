@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour {
      * From left to right, the amount of rotation applied during the previous
      * frame.
      */
-    private float rotation;
+    private float rotationSpeed;
 
     /**
      * Player's Rigidbody component.
@@ -337,19 +337,26 @@ public class PlayerController : MonoBehaviour {
     private Vector3 GetRotation() {
 
         if (rotationInput == 0) {
-            rotation *= ROTATIONAL_FRICTION;
+            rotationSpeed *= ROTATIONAL_FRICTION;
         } else {
-            rotation += rotationalAcceleration * rotationInput;
+            rotationSpeed += rotationalAcceleration * rotationInput;
 
             // Limit maximum rotational speed
-            if (Math.Abs(rotation) > maxRotationSpeed) {
-                rotation = rotation > 0
+            if (Math.Abs(rotationSpeed) > maxRotationSpeed) {
+                rotationSpeed = rotationSpeed > 0
                         ? maxRotationSpeed
                         : -maxRotationSpeed;
             }
         }
 
-        return Vector3.up * rotation;
+        return Vector3.up * rotationSpeed;
+    }
+
+    /**
+     * Gets the speed at which the player is currently rotating.
+     */
+    public float GetRotationSpeed() {
+        return rotationSpeed;
     }
 
     /**
