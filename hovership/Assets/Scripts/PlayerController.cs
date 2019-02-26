@@ -500,20 +500,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
-     * Callback for when the air cushion collides with the ground.
-     */
-    public void AirCushionCollided(float depth) {
-//        maxCollisionDepth = Mathf.Max(maxCollisionDepth, depth);
-    }
-
-    /**
-     * Callback for when the air cushion stops colliding with the ground.
-     */
-    public void AirCushionCollisionExit() {
-    //    grounded = false;
-    }
-
-    /**
      * Event handler for collisions. Used with specific GameObject tags.
      */
     private void OnTriggerEnter(Collider collider) {
