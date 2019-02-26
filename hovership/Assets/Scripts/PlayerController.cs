@@ -156,6 +156,9 @@ public class PlayerController : MonoBehaviour {
      */
     void Start () {
 
+        // Set game state to Playing
+        StateManager.Instance.gameState = GameState.PLAYING;
+
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
 
@@ -495,5 +498,14 @@ public class PlayerController : MonoBehaviour {
             listener.CharacterTeleported();
         }
     }
-    
+
+    /**
+     * Event handler for collisions. Uses specific GameObject tags.
+     */
+    private void OnTriggerEnter(Collider collider) {
+        if (collider.gameObject.tag == "Finish") {
+            StateManager.Instance.gameState = GameState.CELEBRATING;
+        }
+    }
+
 }
