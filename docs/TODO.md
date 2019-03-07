@@ -12,9 +12,7 @@
  - Player "glow" effect
  - Sound effects
  - Music
- - Colour grading (post-processing)
  - Skybox
- - Reduce depth-of-field slightly?
  - Configure launcher
 
 ## Asset Enhancements
