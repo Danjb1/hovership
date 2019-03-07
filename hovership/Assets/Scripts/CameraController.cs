@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     /**
      * Vertical offset from the player used to determine where the camera
      * should point.
-     * 
+     *
      * This prevents the camera being angled too far downwards.
      */
     public float targetOffsetY;
@@ -36,6 +36,11 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      * Multiple of the resting camera distance used to find minimum distance.
      */
     public float minDistanceMultiplier;
+
+    /**
+     * Speed of rotation around player when celebrating, in degrees per second.
+     */
+    public float celebrationRotationSpeed;
 
     ///////////////////////////////////////////////////////////////////////////
     // Movement Constants
@@ -60,7 +65,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     ///////////////////////////////////////////////////////////////////////////
     // CameraController
     ///////////////////////////////////////////////////////////////////////////
-    
+
     /**
      * Last grounded Y of the player.
      */
@@ -116,8 +121,15 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     void FixedUpdate() {
 
+        // Rotate around the player, if we are celebrating a level win
         if (StateManager.Instance.gameState == GameState.CELEBRATING) {
-            // TODO do the swing-about-the-player thing
+            transform.RotateAround(
+                player.transform.position,
+                Vector3.up,
+                celebrationRotationSpeed * Time.deltaTime
+            );
+            Debug.Log("ROTATING");
+            return;
         }
 
         float prevTargetY = targetY;
@@ -135,7 +147,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
             targetY = optimalTargetY;
             speedY = 0;
         }
-        
+
         // Determine camera target for this frame
         Vector3 target = new Vector3(
                 player.transform.position.x,
@@ -173,7 +185,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         // Correct for over-the-pole slerp movement
         transform.position = new Vector3(newPos.x, optimalPosition.y, newPos.z);
 
-        /* 
+        /*
          * Check if the camera is too close to or far from the player.
          * N.B. this happens because the slerp is taking place over an ellipsoid
          * surface, not a sphere, when player is moving.
@@ -182,7 +194,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         Vector2 flatTargetPos = VectorUtils.Flatten(target);
         Vector2 flatPath = VectorUtils.GetResultant(flatPos, flatTargetPos);
         float desiredDistance;
-        
+
         if (flatPath.magnitude > maxDistanceToTarget) {
             desiredDistance = maxDistanceToTarget;
         } else if (flatPath.magnitude < minDistanceToTarget) {
@@ -193,9 +205,9 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
         // Set follow distance to desired value
         CorrectFollowDistance(
-                flatPath, 
-                VectorUtils.Flatten(target), 
-                desiredDistance, 
+                flatPath,
+                VectorUtils.Flatten(target),
+                desiredDistance,
                 optimalPosition.y
         );
     }
@@ -219,7 +231,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
     /**
      * Positions the camera behind the given target.
-     * 
+     *
      * The notion of "behind" is determined by the given forward vector.
      */
     private void PositionBehindTarget(Vector3 target, Vector3 forward) {

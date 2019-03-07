@@ -5,7 +5,6 @@
  - Player model should bob up and down slightly when grounded
  - Add unit tests
  - Improve documentation (e.g. include units)
- - Implement camera swing-around action when touching key
 
 ## Unity
 

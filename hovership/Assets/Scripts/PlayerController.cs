@@ -58,13 +58,13 @@ public class PlayerController : MonoBehaviour {
 
     /**
      * Time (in seconds) to reach the optimal hover height when below it.
-     * 
+     *
      * In reality it takes longer than this because the upwards velocity is
      * recalculated each frame, so the "journey time" resets. However, this at
      * least has some bearing on the overall time taken.
      */
     private const float HOVER_TIME = 0.1f;
-    
+
     /**
      * The factor by which the player's rotational speed will be multiplied each
      * frame when no rotational input is applied.
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour {
     /**
      * The vertical speed with which the player should hover to aim to return
      * to optimal height after HOVER_TIME.
-     * 
+     *
      * This is transient, and does not affect velocity between frames. This
      * prevents the player from overshooting the optimal hover height.
      */
@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour {
      * List of registered CharacterListeners.
      */
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
-    
+
     /**
      * Initialises this controller.
      */
@@ -189,6 +189,13 @@ public class PlayerController : MonoBehaviour {
      * Anything physics-related goes here.
      */
     void FixedUpdate() {
+
+        // Skip all updates if player is frozen in celebration
+        if (StateManager.Instance.gameState == GameState.CELEBRATING) {
+            rigidbodyComponent.velocity = Vector3.zero;
+            return;
+        }
+
         UpdateRotation();
         UpdateHoverSpeed();
         UpdateJump();
@@ -209,7 +216,7 @@ public class PlayerController : MonoBehaviour {
 
     /**
      * Updates the player's hover speed when close to the ground.
-     * 
+     *
      * Also takes care of landing.
      */
     private void UpdateHoverSpeed() {
@@ -268,7 +275,7 @@ public class PlayerController : MonoBehaviour {
      * Gets the current distance between the player and the ground.
      */
     private float GetAverageDistanceToGround() {
-        
+
         // Determine the distance to the ground from various points within the
         // player. This should be enough to detect what the player is standing
         // on in 99% of cases.
@@ -283,7 +290,7 @@ public class PlayerController : MonoBehaviour {
             HoverHeight(1, 0.5f),
             HoverHeight(1, 1),
         };
-        
+
         // Find the average distance to the ground based on all collisions
         float totalDist = 0;
         int numCollisions = 0;

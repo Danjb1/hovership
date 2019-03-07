@@ -112,6 +112,7 @@ MonoBehaviour:
   distanceToTarget: 2.6
   maxDistanceMultiplier: 1.3
   minDistanceMultiplier: 1
+  celebrationRotationSpeed: 80
 --- !u!114 &5582191894685314610
 MonoBehaviour:
   m_ObjectHideFlags: 0

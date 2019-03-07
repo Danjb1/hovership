@@ -10,6 +10,12 @@ public class KeyController : MonoBehaviour {
     public float rotationSpeed;
 
     void Update () {
+
+        // Do nothing if we are celebrating a level completion
+        if (StateManager.Instance.gameState == GameState.CELEBRATING) {
+            return;
+        }
+
         Vector3 rotation = Vector3.up * rotationSpeed;
         transform.Rotate(
                 rotation.x * Time.deltaTime,
