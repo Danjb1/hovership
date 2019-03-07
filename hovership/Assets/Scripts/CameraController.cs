@@ -128,7 +128,6 @@ public class CameraController : MonoBehaviour, ICharacterListener {
                 Vector3.up,
                 celebrationRotationSpeed * Time.deltaTime
             );
-            Debug.Log("ROTATING");
             return;
         }
 
