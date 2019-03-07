@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 19b69f7183ae0eb4da9ab76e7373a8a9, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 19b69f7183ae0eb4da9ab76e7373a8a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -168,6 +172,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1499599976399804, guid: 4788494a5855599479fa60d5c4a7ff67, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4868909492532758, guid: 4788494a5855599479fa60d5c4a7ff67, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.9126444
@@ -228,6 +236,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 2923a4c3618dbd54eb9b3cc1c55d812f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2923a4c3618dbd54eb9b3cc1c55d812f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7
@@ -283,6 +295,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a51c05f3fa249e14eac90fe7094ea862, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -332,6 +348,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1793495797434158, guid: 1a23e6ba1b0519e4785a71c24ef4e91b, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4370476654848456, guid: 1a23e6ba1b0519e4785a71c24ef4e91b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.2213907
@@ -381,6 +401,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1075845859}
     m_Modifications:
+    - target: {fileID: 1590050446245464, guid: 793a21d1a29de2c4a9356975338058c8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4003263794550578, guid: 793a21d1a29de2c4a9356975338058c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.85
@@ -442,6 +466,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1534643919169434, guid: 447c500759c41e8488eea349f0d93b06, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4577131856984072, guid: 447c500759c41e8488eea349f0d93b06, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -474,6 +502,14 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1719481345846076, guid: 447c500759c41e8488eea349f0d93b06, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693634848652684, guid: 447c500759c41e8488eea349f0d93b06, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 447c500759c41e8488eea349f0d93b06, type: 3}
 --- !u!1001 &1509413775
@@ -483,6 +519,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1075845859}
     m_Modifications:
+    - target: {fileID: 1680789192200778, guid: 113c3eaef63d1b948b56443e0a2c3921, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4676701626798456, guid: 113c3eaef63d1b948b56443e0a2c3921, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.8500004
@@ -636,6 +676,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 41cd4867b92354a4e9f666bc27e65393, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 41cd4867b92354a4e9f666bc27e65393, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.8185911
@@ -701,6 +745,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1075845859}
     m_Modifications:
+    - target: {fileID: 1103577527517574, guid: 6ad6789fa3a3d874da1c2868a2520b05, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4539301093933616, guid: 6ad6789fa3a3d874da1c2868a2520b05, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
