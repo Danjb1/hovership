@@ -14,17 +14,18 @@ public class PlayerController : MonoBehaviour {
     public float acceleration;
 
     /**
-     * The maximum speed the player can move in the horizontal plane.
+     * The maximum speed the player can move in the horizontal plane, in metres
+     * per second.
      */
     public float maxSpeed;
 
     /**
-     * Player's rotational acceleration.
+     * Player's rotational acceleration, in degrees per second per second.
      */
     public float rotationalAcceleration;
 
     /**
-     * Speed of the player's horizontal rotation.
+     * Speed of the player's horizontal rotation, in degrees per second.
      */
     public float maxRotationSpeed;
 
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpStrength;
 
     /**
-     * The minimum amount of time a jump will last.
+     * The minimum amount of time a jump will last, in seconds.
      *
      * This prevents jerky-looking movements when the jump key is tapped very
      * briefly.
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour {
 
     /**
      * The maximum amount of time a jump can last, if the jump key is held
-     * down.
+     * down, in seconds.
      */
     public float maxJumpTime;
 
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour {
     private bool jumping;
 
     /**
-     * Time elaspsed during the current ascent.
+     * Time elaspsed during the current ascent, seconds.
      */
     private float spentJumpTime;
 
