@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 37184f48a6258204f9746b4253234d3e
+guid: 484fe61590ebc994c9d883f4893fda97
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Sniglet
+  fontName: Jockey One
   fontNames:
-  - Sniglet
+  - Jockey One
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
