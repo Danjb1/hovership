@@ -10,20 +10,20 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     public GameObject player;
 
     /**
-     * Height at which the camera should be positioned.
+     * Height at which the camera should be positioned, in metres.
      */
     public float height;
 
     /**
      * Vertical offset from the player used to determine where the camera
-     * should point.
+     * should point, in metres.
      *
      * This prevents the camera being angled too far downwards.
      */
     public float targetOffsetY;
 
     /*
-     * Resting distance between the camera and the target.
+     * Resting distance between the camera and the target, in metres.
      */
     public float distanceToTarget;
 
@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     public float celebrationRotationSpeed;
 
     ///////////////////////////////////////////////////////////////////////////
-    // Movement Constants
+    // CameraController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
@@ -58,41 +58,38 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private const float VERTICAL_MOVEMENT_TIME = 0.4f;
 
     /**
-     * Minimum y-position before the camera will stop moving.
+     * Minimum y-position in metres before the camera will stop moving.
      */
     private const float MIN_Y = 0;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // CameraController
-    ///////////////////////////////////////////////////////////////////////////
-
     /**
-     * Last grounded Y of the player.
+     * Last grounded y-position of the player, in metres.
      */
     private float lastGroundedY;
 
     /**
-     * Optimal Y-position we want to be looking at.
+     * Optimal Y-position we want to be looking at, in metres.
      */
     private float optimalTargetY;
 
     /**
-     * Current Y-position we are looking at.
+     * Current Y-position we are looking at, in metres.
      */
     private float targetY;
 
     /**
-     * Speed at which camera should move in the y-axis to reach optimalY.
+     * Speed at which camera should move in the y-axis to reach optimalY, in
+     * metres per second.
      */
     private float speedY;
 
     /**
-     * Maximum permissible distance to the target.
+     * Maximum permissible distance to the target, in metres.
      */
     private float maxDistanceToTarget;
 
     /**
-     * Minimum permissible distance to the target.
+     * Minimum permissible distance to the target, in metres.
      */
     private float minDistanceToTarget;
 
