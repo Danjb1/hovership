@@ -7,7 +7,6 @@ public class UiController : MonoBehaviour, IStateListener {
     private GameObject levelComplete;
 
     void Start() {
-        Debug.Log("start");
 
         // Find UI elements
         levelComplete = transform.Find("LevelComplete").gameObject;

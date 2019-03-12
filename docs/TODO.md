@@ -2,6 +2,7 @@
 
 ## Code
 
+ - Camera doesn't lower if player drops onto the key from above
  - Player model should bob up and down slightly when grounded
  - Add unit tests
 
