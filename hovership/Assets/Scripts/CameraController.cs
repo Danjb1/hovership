@@ -119,7 +119,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     void FixedUpdate() {
 
         // Rotate around the player, if we are celebrating a level win
-        if (StateManager.Instance.gameState == GameState.CELEBRATING) {
+        if (StateManager.Instance.GetState() == GameState.CELEBRATING) {
             transform.RotateAround(
                 player.transform.position,
                 Vector3.up,

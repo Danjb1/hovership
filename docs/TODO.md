@@ -2,7 +2,6 @@
 
 ## Code
 
- - UI message visibility needs to change based on the state
  - Player model should bob up and down slightly when grounded
  - Add unit tests
 

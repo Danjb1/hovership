@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 
         // Set game state to Playing
-        StateManager.Instance.gameState = GameState.PLAYING;
+        StateManager.Instance.SetState(GameState.PLAYING);
 
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate() {
 
         // Skip all updates if player is frozen in celebration
-        if (StateManager.Instance.gameState == GameState.CELEBRATING) {
+        if (StateManager.Instance.GetState() == GameState.CELEBRATING) {
             rigidbodyComponent.velocity = Vector3.zero;
             return;
         }
@@ -512,7 +512,7 @@ public class PlayerController : MonoBehaviour {
      */
     private void OnTriggerEnter(Collider collider) {
         if (collider.gameObject.tag == "Finish") {
-            StateManager.Instance.gameState = GameState.CELEBRATING;
+            StateManager.Instance.SetState(GameState.CELEBRATING);
         }
     }
 
