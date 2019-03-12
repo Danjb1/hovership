@@ -20,7 +20,7 @@ public class KeyController : MonoBehaviour {
     void Update () {
 
         // Do nothing if we are celebrating a level completion
-        if (StateManager.Instance.gameState == GameState.CELEBRATING) {
+        if (StateManager.Instance.GetState() == GameState.CELEBRATING) {
             return;
         }
 
