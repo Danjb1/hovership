@@ -53,3 +53,4 @@
  - Forest cabin
  - Crop furrows/crops
  - Scarecrow
+ - Boulders
