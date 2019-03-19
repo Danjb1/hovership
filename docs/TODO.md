@@ -49,7 +49,7 @@
  - Balcony
  - Grabber
  - Floating island "underside"
- - Windmill
+ - Windmill blades (must rotate!)
  - Forest cabin
  - Crop furrows/crops
  - Scarecrow
