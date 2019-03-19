@@ -26,10 +26,9 @@
 ## New Assets
 
  - Vertical tunnel
- - More trees
  - Sheep
  - Fences
- - Curvy castle wall
+ - Castle wall segments
  - Round towers (to separate wall segments)
  - Spires (to sit atop towers)
  - Dormer / gable / addon (to attach to towers)
@@ -40,6 +39,9 @@
  - Dungeon
  - Cell bars and door
  - Cat
+ - Sheep?
+ - Cows?
+ - Chickens?
  - Dungeon staircase
  - Entrance hall staircase
  - Button
@@ -47,3 +49,7 @@
  - Balcony
  - Grabber
  - Floating island "underside"
+ - Windmill
+ - Forest cabin
+ - Crop furrows/crops
+ - Scarecrow
