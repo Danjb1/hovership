@@ -129,6 +129,11 @@ public class PlayerController : MonoBehaviour {
     private ParticleSystem exhaust;
 
     /**
+     * AudioSource for the engine sounds.
+     */
+    private AudioSource engineAudioSource;
+
+    /**
      * Emission rate of the exhaust ParticleSystem.
      */
     private float exhaustEmissionRate;
@@ -193,6 +198,7 @@ public class PlayerController : MonoBehaviour {
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
         exhaust = GetComponent<ParticleSystem>();
+        engineAudioSource = GetComponent<AudioSource>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -233,6 +239,7 @@ public class PlayerController : MonoBehaviour {
         UpdateJump();
         UpdateVelocity();
         UpdateExhaust();
+        UpdateEngineAudio();
     }
 
     /**
@@ -305,7 +312,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
-     * Updates the exhaust particle system.
+     * Updates the exhaust particle system and audio.
      */
     private void UpdateExhaust() {
 
@@ -325,6 +332,13 @@ public class PlayerController : MonoBehaviour {
 
         var emission = exhaust.emission;
         emission.rateOverTime = exhaustEmissionRate;
+    }
+
+    /**
+     * Updates the engine audio.
+     */
+    private void UpdateEngineAudio() {
+        engineAudioSource.pitch = Mathf.Clamp(exhaustEmissionRate / 500, 0.5f, 2);
     }
 
     /**
