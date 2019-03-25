@@ -8,7 +8,6 @@
 
 ## Unity
 
- - Player "glow" effect
  - Sound effects
  - Music
  - Skybox

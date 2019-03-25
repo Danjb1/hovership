@@ -78,6 +78,26 @@ public class PlayerController : MonoBehaviour {
     private const float RESPAWN_Y = -25f;
 
     /**
+     * Multiplier governing how quickly the exhaust emission rate increases.
+     */
+    private const float EXHAUST_SPOOL_UP_MULTIPLIER = 1000;
+
+    /**
+     * Multiplier governing how quickly the exhaust emission rate decreases.
+     */
+    private const float EXHAUST_SPOOL_DOWN_MULTIPLIER = 2000;
+
+    /**
+     * Minimum emission rate of the exhaust ParticleSystem.
+     */
+    private const float EXHAUST_MIN_EMISSION_RATE = 50;
+
+    /**
+     * Maximum emission rate of the exhaust ParticleSystem.
+     */
+    private const float EXHAUST_MAX_EMISSION_RATE = 1000;
+
+    /**
      * Rotational axis input.
      */
     private float rotationInput;
@@ -102,6 +122,16 @@ public class PlayerController : MonoBehaviour {
      * Player's Collider component.
      */
     private Collider colliderComponent;
+
+    /**
+     * Player's ParticleSystem component.
+     */
+    private ParticleSystem exhaust;
+
+    /**
+     * Emission rate of the exhaust ParticleSystem.
+     */
+    private float exhaustEmissionRate;
 
     /**
      * The position where the player will respawn.
@@ -162,6 +192,7 @@ public class PlayerController : MonoBehaviour {
 
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
+        exhaust = GetComponent<ParticleSystem>();
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -201,6 +232,7 @@ public class PlayerController : MonoBehaviour {
         UpdateHoverSpeed();
         UpdateJump();
         UpdateVelocity();
+        UpdateExhaust();
     }
 
     /**
@@ -270,6 +302,29 @@ public class PlayerController : MonoBehaviour {
 
         // Set the new velocity
         rigidbodyComponent.velocity = moveForce;
+    }
+
+    /**
+     * Updates the exhaust particle system.
+     */
+    private void UpdateExhaust() {
+
+        if (Input.GetAxisRaw("Vertical") > 0) {
+            // Player is holding forward
+            exhaustEmissionRate +=
+                    EXHAUST_SPOOL_UP_MULTIPLIER * Time.deltaTime;
+        } else {
+            // Player is not holding forward
+            exhaustEmissionRate -=
+                    EXHAUST_SPOOL_DOWN_MULTIPLIER * Time.deltaTime;
+        }
+
+        exhaustEmissionRate = Mathf.Clamp(exhaustEmissionRate,
+                EXHAUST_MIN_EMISSION_RATE,
+                EXHAUST_MAX_EMISSION_RATE);
+
+        var emission = exhaust.emission;
+        emission.rateOverTime = exhaustEmissionRate;
     }
 
     /**
