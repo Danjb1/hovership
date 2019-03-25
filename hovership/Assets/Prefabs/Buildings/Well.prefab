@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1882889891588693777}
   - component: {fileID: 1882889891587562961}
   - component: {fileID: 1882889891589850547}
-  m_Layer: 0
-  m_Name: Well 1
+  m_Layer: 8
+  m_Name: Well
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

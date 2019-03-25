@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7485095810621938095}
   - component: {fileID: 7478225706296769399}
   - component: {fileID: 7453499474213409359}
-  m_Layer: 0
-  m_Name: House Window 1
+  m_Layer: 8
+  m_Name: House Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

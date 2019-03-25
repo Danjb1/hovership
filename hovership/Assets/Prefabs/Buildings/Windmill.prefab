@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1425986462645627955}
   - component: {fileID: 1425986462646759155}
   - component: {fileID: 1425986462648661653}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Windmill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,17 +131,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blades
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
       propertyPath: m_Name
       value: Shaft
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
       propertyPath: m_Name
       value: Blades
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
       propertyPath: m_Name
       value: Origin
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 4ed78d46a7b53a2478d975cdb01ccb64, type: 3}
       propertyPath: m_LocalPosition.x
