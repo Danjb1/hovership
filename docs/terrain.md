@@ -1,5 +1,7 @@
 # Terrain Creation in Blender
 
+## Create a Plane
+
 1. Create a Grid of the desired size where each subdivision is roughly 2 square metres.
 
 1. Delete some faces around the edge to achieve the rough desired shape.
@@ -16,15 +18,23 @@
 
 1. Apply a Triangulate modifier with the Beauty setting.
 
+## Create the Edges
+
 1. Extrude downwards, and delete the bottom faces.
 
-1. Create an edge loop around the sides and delete the lower half to give the bottom a clean edge.
+1. Create an edge loop around the sides and scale it down, as well as the bottom edge loop.
+
+1. Select the bottom edge loop and scale by 0 in the z-axis to give a clean edge.
+
+1. Create a seam separating the top from the sides.
+
+1. Lower the edges along this seam a little so that the land slopes downwards at the edges.
+
+## Finishing Touches
 
 1. Mark the top edges as sharp (?).
 
 1. Recalculate normals.
-
-1. Create a seam separating the top from the sides.
 
 1. UV unwrap and texture.
 
