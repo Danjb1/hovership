@@ -28,8 +28,6 @@
  - Sheep
  - Fences
  - Castle wall segments
- - Round towers (to separate wall segments)
- - Spires (to sit atop towers)
  - Dormer / gable / addon (to attach to towers)
  - Flags
  - Gatehouse
