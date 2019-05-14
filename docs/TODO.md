@@ -1,13 +1,11 @@
 # To Do
 
 ## Code
-
  - Camera doesn't lower if player drops onto the key from above
  - Player model should bob up and down slightly when grounded
  - Add unit tests
 
 ## Unity
-
  - Sound effects
  - Music
  - Skybox
@@ -15,36 +13,54 @@
  - Use third-party text effects
 
 ## Asset Enhancements
-
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
  - Barn (dodgy roof geometry?)
  - Player (add more colours)
- - Terrain (some janky geometry at edges)
+ - Village terrain piece
+   - some janky geometry at edges
 
 ## New Assets
 
- - Vertical tunnel
- - Sheep
- - Castle wall segments
- - Dormer / gable / addon (to attach to towers)
- - Flags
- - Gatehouse
- - Portcullis
+### Player
+ - Grabber (if this is first manipulator module)
+
+### Large/Complex
  - Keep
+   - Foundation/floor
+   - Entrance hall staircase
+   - Balcony
+   - Chandelier
+   - Walls/exterior
+ - Gatehouse
+   - Portcullis
  - Dungeon
- - Cell bars and door
- - Cat
- - Sheep?
- - Cows?
- - Chickens?
- - Dungeon staircase
- - Entrance hall staircase
- - Button
- - Chandelier
- - Balcony
- - Grabber
- - Floating island "underside"
+   - Cell bars and door
+   - Dungeon staircase
+ - Castle walls
+   - Castle wall segments
+   - Dormer / gable / addon (to attach to towers)
+
+### Terrain
+ - Forest section
+ - Farm plateau
+ - Hill for windmill
+ - Lower section for cabin
+ - Plateau for castle
+   - Including tunnel
+ - Middle valley section containing road
+   - Including tunnel
+ - Underside to island
+
+### Standalone
  - Forest cabin
  - Crop furrows/crops
  - Scarecrow
+ - Button
+ - Flags
+
+### Mobs
+ - Cat
+ - Sheep
+ - Cows
+ - Chickens
