@@ -26,7 +26,6 @@
 
  - Vertical tunnel
  - Sheep
- - Fences
  - Castle wall segments
  - Dormer / gable / addon (to attach to towers)
  - Flags
