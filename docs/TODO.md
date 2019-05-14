@@ -55,7 +55,6 @@
 ### Standalone
  - Forest cabin
  - Crop furrows/crops
- - Scarecrow
  - Button
  - Flags
 
