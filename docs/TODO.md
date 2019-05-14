@@ -54,7 +54,8 @@
 
 ### Standalone
  - Forest cabin
- - Crop furrows/crops
+ - Crop furrows
+ - Crops
  - Button
  - Flags
 
