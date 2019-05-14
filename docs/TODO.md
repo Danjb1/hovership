@@ -20,7 +20,7 @@
  - Chimney (doesn't fit properly with the house)
  - Barn (dodgy roof geometry?)
  - Player (add more colours)
- - Terrain (some janky geometry at edges, add hole for well)
+ - Terrain (some janky geometry at edges)
 
 ## New Assets
 
