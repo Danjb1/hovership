@@ -19,6 +19,7 @@
  - Player (add more colours)
  - Village terrain piece
    - some janky geometry at edges
+ - Cabin wood colours
 
 ## New Assets
 
