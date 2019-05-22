@@ -53,6 +53,11 @@ public class PlayerController : MonoBehaviour {
      */
     public float hoverHeight;
 
+    /**
+     * Sound to use for the ship's engine.
+     */
+    public AudioClip engineSound;
+
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
@@ -96,6 +101,16 @@ public class PlayerController : MonoBehaviour {
      * Maximum emission rate of the exhaust ParticleSystem.
      */
     private const float EXHAUST_MAX_EMISSION_RATE = 1000;
+
+    /**
+     * Lowest permitted engine pitch.
+     */
+    private const float ENGINE_MIN_PITCH = 0.9f;
+
+    /**
+     * Highest permitted engine pitch.
+     */
+    private const float ENGINE_MAX_PITCH = 1.1f;
 
     /**
      * Rotational axis input.
@@ -186,6 +201,11 @@ public class PlayerController : MonoBehaviour {
      * List of registered CharacterListeners.
      */
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
+
+    /**
+     * Time since the engine sound was last played, in milliseconds.
+     */
+    private int msSinceEngineSoundPlayed;
 
     /**
      * Initialises this controller.
@@ -338,7 +358,22 @@ public class PlayerController : MonoBehaviour {
      * Updates the engine audio.
      */
     private void UpdateEngineAudio() {
-        engineAudioSource.pitch = Mathf.Clamp(exhaustEmissionRate / 500, 0.5f, 2);
+
+        // Engine spool-up progress from 0-1
+        float engineProgress = (exhaustEmissionRate - EXHAUST_MIN_EMISSION_RATE)
+                / (EXHAUST_MAX_EMISSION_RATE - EXHAUST_MIN_EMISSION_RATE);
+
+        // Set the pitch from MIN_PITCH to MAX_PITCH
+        engineAudioSource.pitch = ENGINE_MIN_PITCH +
+                (engineProgress * (ENGINE_MAX_PITCH - ENGINE_MIN_PITCH));
+
+        // Play after some interval
+        if (msSinceEngineSoundPlayed > 70) {
+            engineAudioSource.PlayOneShot(engineSound);
+            msSinceEngineSoundPlayed = 0;
+        } else {
+            msSinceEngineSoundPlayed += (int)(Time.deltaTime * 1000);
+        }
     }
 
     /**

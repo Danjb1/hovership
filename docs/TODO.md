@@ -17,9 +17,9 @@
  - Chimney (doesn't fit properly with the house)
  - Barn (dodgy roof geometry?)
  - Player (add more colours)
- - Village terrain piece
-   - some janky geometry at edges
  - Cabin wood colours
+ - Village terrain piece (some janky geometry at edges)
+ - Pine tree (longer stump to embed into ground)
 
 ## New Assets
 
@@ -59,6 +59,7 @@
  - Crops
  - Button
  - Flags
+ - Treestump
 
 ### Mobs
  - Cat
