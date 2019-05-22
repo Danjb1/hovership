@@ -38,4 +38,14 @@
 
 1. UV unwrap and texture.
 
-1. When importing into Unity, it may be necessary to lower the "Scale in Lightmap" setting.
+## Import into Unity
+
+1. Add the mesh into the scene.
+
+1. Mark it as static.
+
+1. Select the appropriate texture for the material.
+
+1. It may be necessary to lower the "Scale in Lightmap" setting, if Unity shows a warning.
+
+1. Add a Mesh Collider component.
