@@ -58,6 +58,7 @@
  - Crops
  - Button
  - Flags
+ - Treestump
 
 ### Mobs
  - Cat
