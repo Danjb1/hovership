@@ -1,0 +1,16 @@
+0 - stone (cottage wall, well)
+1 - straw (cottage roof, scarecrow hat)
+2 - light stone (cottage pillar)
+3 - wood (crate, tree trunks, well roof)
+4 - player
+5 - key
+6 - terrain grass
+7 - barn
+8 - barn highlights
+9 - barn roof
+10 - rocks
+11 - window pane
+12 - oak tree leaves
+13 - pine tree leaves
+14 - scarecrow pole
+15 - terrain cliffside
