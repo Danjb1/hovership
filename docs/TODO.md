@@ -41,7 +41,6 @@
    - Dormer / gable / addon (to attach to towers)
 
 ### Terrain
- - Forest section
  - Farm plateau
  - Hill for windmill
  - Lower section for cabin
