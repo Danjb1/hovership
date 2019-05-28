@@ -15,7 +15,6 @@
 ## Asset Enhancements
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
- - Barn (dodgy roof geometry?)
  - Player (add more colours)
  - Village terrain piece (some janky geometry at edges)
 
@@ -51,7 +50,6 @@
  - Underside to island
 
 ### Standalone
- - Forest cabin
  - Crop furrows
  - Crops
  - Button
