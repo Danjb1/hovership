@@ -36,7 +36,6 @@
    - Cell bars and door
    - Dungeon staircase
  - Castle walls
-   - Castle wall segments
    - Dormer / gable / addon (to attach to towers)
 
 ### Terrain
