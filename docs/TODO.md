@@ -15,10 +15,8 @@
 ## Asset Enhancements
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
- - Barn (dodgy roof geometry?)
  - Player (add more colours)
  - Village terrain piece (some janky geometry at edges)
- - Pine tree (longer stump to embed into ground)
 
 ## New Assets
 
@@ -42,7 +40,6 @@
    - Dormer / gable / addon (to attach to towers)
 
 ### Terrain
- - Forest section
  - Farm plateau
  - Hill for windmill
  - Lower section for cabin
@@ -53,7 +50,6 @@
  - Underside to island
 
 ### Standalone
- - Forest cabin
  - Crop furrows
  - Crops
  - Button
