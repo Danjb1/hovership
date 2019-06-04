@@ -397,8 +397,6 @@ public class PlayerController : MonoBehaviour {
         // player. This should be enough to detect what the player is standing
         // on in 99% of cases.
         IList<float> results = new List<float>() {
-            HoverHeight(-1, -0.5f),         // left wing tip
-            HoverHeight(1, -0.5f),          // right wing tip
             HoverHeight(0, 0),              // centre
             HoverHeight(-0.3f, -1),         // fuselage left rear
             HoverHeight(-0.3f, -0.5f),      // fuselage left rear quarter
@@ -412,32 +410,12 @@ public class PlayerController : MonoBehaviour {
 
         // Find the average distance to the ground based on all collisions
         float totalDist = 0;
-        float minimumDist = Mathf.Infinity;
-        int minDistIndex = -1;
         int numCollisions = 0;
-
-        for (int i = 0; i < results.Count; i++) {
-            if (results[i] != Mathf.Infinity) {
-                totalDist += results[i];
+        foreach (float result in results) {
+            if (result != Mathf.Infinity) {
+                totalDist += result;
                 numCollisions++;
-
-                // Find the minimum value and record its index
-                if (results[i] < minimumDist) {
-                    minimumDist = results[i];
-                    minDistIndex = i;
-                }
             }
-        }
-
-        // Determine whether player should slide this frame
-        if (minimumDist < hoverHeight * slideToleranceRatio) {
-            if (minDistIndex == 0) {
-                slideDirection = 1;
-            } else if (minDistIndex == 1) {
-                slideDirection = -1;
-            }
-        } else {
-            slideDirection = 0;
         }
 
         // Return the average collision distance
@@ -456,6 +434,13 @@ public class PlayerController : MonoBehaviour {
     private float HoverHeight(float xFactor, float zFactor) {
         float width = colliderComponent.bounds.extents.x;
         float length = colliderComponent.bounds.extents.z;
+
+        Debug.DrawRay(new Vector3(
+                    transform.position.x + width * xFactor,
+                    transform.position.y,
+                    transform.position.z + length * zFactor
+            ), Vector3.up, Color.white);
+
         return PhysicsHelper.DistanceToGround(
             new Vector3(
                     transform.position.x + width * xFactor,
@@ -537,9 +522,15 @@ public class PlayerController : MonoBehaviour {
         float newVelocityX = velocity.x + acceleration;
         float newVelocityZ = velocity.z + acceleration;
 
+        // Apply corrective slide, if required
+        slideDirection = DetermineSlide();
+
         // Apply corrective slide
-        newVelocityX += slideDirection * 2;
-        newVelocityZ += slideDirection * 2;
+        if (slideDirection == -1) {
+            Debug.Log("Should be sliding left");
+        } else if (slideDirection == 1) {
+            Debug.Log("Should be sliding right");
+        }
 
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
@@ -576,6 +567,21 @@ public class PlayerController : MonoBehaviour {
      */
     private float GetAcceleration() {
         return Input.GetAxisRaw("Vertical") * acceleration;
+    }
+
+    private int DetermineSlide() {
+        float leftWingtipAltitude = HoverHeight(-1, -0.5f);
+        float rightWingtipAltitude = HoverHeight(1, -0.5f);
+
+        if (Math.Max(leftWingtipAltitude, rightWingtipAltitude)
+                < hoverHeight * slideToleranceRatio) {
+            return leftWingtipAltitude < rightWingtipAltitude
+                    ? -1
+                    : 1;
+        } else {
+            return 0;
+        }
+
     }
 
     /**

@@ -5,6 +5,9 @@
  - Player model should bob up and down slightly when grounded
  - Add unit tests
 
+- Raycasts for height detection don't rotate with player!
+  - They are anchored to the world's axes
+
 ## Unity
  - Sound effects
  - Music

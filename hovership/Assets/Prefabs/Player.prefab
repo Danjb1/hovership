@@ -57,7 +57,7 @@ MonoBehaviour:
   minJumpTime: 0.15
   maxJumpTime: 0.225
   hoverHeight: 0.5
-  slideToleranceRatio: 0.5
+  slideToleranceRatio: 0.8
   engineSound: {fileID: 8300000, guid: 445ed784f61051f48be709f22e33d9bd, type: 3}
 --- !u!54 &7412706514724993338
 Rigidbody:
