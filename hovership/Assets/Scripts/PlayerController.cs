@@ -54,6 +54,12 @@ public class PlayerController : MonoBehaviour {
     public float hoverHeight;
 
     /**
+     * The minimum proportion of the hover height that one of the wingtip ray
+     * cast distances can reach before the player slides away from that wing.
+     */
+    public float slideToleranceRatio;
+
+    /**
      * Sound to use for the ship's engine.
      */
     public AudioClip engineSound;
@@ -206,6 +212,12 @@ public class PlayerController : MonoBehaviour {
      * Time since the engine sound was last played, in milliseconds.
      */
     private int msSinceEngineSoundPlayed;
+
+    /**
+     * The direction that the player should be sliding this frame.
+     *   -1 => left, 0 => nowhere, 1 => right.
+     */
+    private int slideDirection;
 
     /**
      * Initialises this controller.
@@ -385,25 +397,47 @@ public class PlayerController : MonoBehaviour {
         // player. This should be enough to detect what the player is standing
         // on in 99% of cases.
         IList<float> results = new List<float>() {
-            HoverHeight(0, 0),
-            HoverHeight(-1, -1),
-            HoverHeight(-1, -0.5f),
-            HoverHeight(-1, 0.5f),
-            HoverHeight(-1, 1),
-            HoverHeight(1, -1),
-            HoverHeight(1, -0.5f),
-            HoverHeight(1, 0.5f),
-            HoverHeight(1, 1),
+            HoverHeight(-1, -0.5f),         // left wing tip
+            HoverHeight(1, -0.5f),          // right wing tip
+            HoverHeight(0, 0),              // centre
+            HoverHeight(-0.3f, -1),         // fuselage left rear
+            HoverHeight(-0.3f, -0.5f),      // fuselage left rear quarter
+            HoverHeight(-0.3f, 0.5f),       // fuselage left front quarter
+            HoverHeight(-0.3f, 1),          // fuselage left front
+            HoverHeight(0.3f, -1),          // fuselage right rear
+            HoverHeight(0.3f, -0.5f),       // fuselage right rear quarter
+            HoverHeight(0.3f, 0.5f),        // fuselage right front quarter
+            HoverHeight(0.3f, 1),           // fuselage right front
         };
 
         // Find the average distance to the ground based on all collisions
         float totalDist = 0;
+        float minimumDist = Mathf.Infinity;
+        int minDistIndex = -1;
         int numCollisions = 0;
-        foreach (float result in results) {
-            if (result != Mathf.Infinity) {
-                totalDist += result;
+
+        for (int i = 0; i < results.Count; i++) {
+            if (results[i] != Mathf.Infinity) {
+                totalDist += results[i];
                 numCollisions++;
+
+                // Find the minimum value and record its index
+                if (results[i] < minimumDist) {
+                    minimumDist = results[i];
+                    minDistIndex = i;
+                }
             }
+        }
+
+        // Determine whether player should slide this frame
+        if (minimumDist < hoverHeight * slideToleranceRatio) {
+            if (minDistIndex == 0) {
+                slideDirection = 1;
+            } else if (minDistIndex == 1) {
+                slideDirection = -1;
+            }
+        } else {
+            slideDirection = 0;
         }
 
         // Return the average collision distance
@@ -502,6 +536,10 @@ public class PlayerController : MonoBehaviour {
         float acceleration = GetAcceleration();
         float newVelocityX = velocity.x + acceleration;
         float newVelocityZ = velocity.z + acceleration;
+
+        // Apply corrective slide
+        newVelocityX += slideDirection * 2;
+        newVelocityZ += slideDirection * 2;
 
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
