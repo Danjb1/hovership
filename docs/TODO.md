@@ -62,7 +62,6 @@
  - Crops
  - Button
  - Flags
- - Treestump
  - Power shards
 
 ### Mobs
