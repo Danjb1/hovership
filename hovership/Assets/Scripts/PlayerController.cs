@@ -611,13 +611,4 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    /**
-     * Event handler for collisions. Uses specific GameObject tags.
-     */
-    private void OnTriggerEnter(Collider collider) {
-        if (collider.gameObject.tag == "Finish") {
-            StateManager.Instance.SetState(GameState.CELEBRATING);
-        }
-    }
-
 }

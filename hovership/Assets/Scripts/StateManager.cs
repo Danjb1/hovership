@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 /**
 * Singleton for managing overall game state.
@@ -12,6 +11,8 @@ public class StateManager {
      * Current game state.
      */
     private GameState gameState;
+
+    private int powerShardsCollected;
 
     private List<IStateListener> listeners = new List<IStateListener>();
 
@@ -45,6 +46,10 @@ public class StateManager {
 
     public void RemoveListener(IStateListener listener) {
         listeners.Remove(listener);
+    }
+
+    public void AddPowerShardsCollected(int n) {
+        powerShardsCollected += n;
     }
 
 }

@@ -6,6 +6,7 @@
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
+ - Play a sound when collecting a Power Shard
  - Add unit tests
 
 ## Unity

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8864705218722723773}
   - component: {fileID: 8864705218722723772}
   - component: {fileID: 8864705218722723745}
+  - component: {fileID: 8007549071148130604}
   m_Layer: 0
   m_Name: Power Shard 1
   m_TagString: Untagged
@@ -4827,3 +4828,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 120
+--- !u!114 &8007549071148130604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586646060544723330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2de0682b1b7693499ed25c4f8602ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 1
