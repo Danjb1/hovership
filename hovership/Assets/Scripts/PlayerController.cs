@@ -95,12 +95,12 @@ public class PlayerController : MonoBehaviour {
     /**
      * Minimum emission rate of the exhaust ParticleSystem.
      */
-    private const float EXHAUST_MIN_EMISSION_RATE = 50;
+    private const float EXHAUST_MIN_EMISSION_RATE = 100;
 
     /**
      * Maximum emission rate of the exhaust ParticleSystem.
      */
-    private const float EXHAUST_MAX_EMISSION_RATE = 1000;
+    private const float EXHAUST_MAX_EMISSION_RATE = 300;
 
     /**
      * Lowest permitted engine pitch.

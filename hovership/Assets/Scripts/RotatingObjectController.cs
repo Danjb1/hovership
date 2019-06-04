@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyController : MonoBehaviour {
+public class RotatingObjectController : MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * The rotation speed of the key, in degrees per second.
+     * The rotation speed of the object, in degrees per second.
      */
     public float rotationSpeed;
 
     ///////////////////////////////////////////////////////////////////////////
-    // KeyController
+    // RotatingObjectController
     ///////////////////////////////////////////////////////////////////////////
 
     void Update () {

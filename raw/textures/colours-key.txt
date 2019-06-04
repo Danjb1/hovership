@@ -18,3 +18,8 @@
 16 - ship stripe
 17 - ship exhaust exterior
 18 - ship exhaust interior
+19 - power shard 1
+20 - power shard 2
+21 - power shard 3
+22 - power shard 4
+24 - power shard 5
