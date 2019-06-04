@@ -16,6 +16,7 @@
  - Skybox
  - Configure launcher
  - Use third-party text effects
+ - Display Power Shards in the HUD
 
 ## Asset Enhancements
 
