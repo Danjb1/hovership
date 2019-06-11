@@ -62,6 +62,12 @@ public class PlayerController : MonoBehaviour {
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
 
+    // Ground friction multiplier
+    public const float FRICTION = 0.95f;
+
+    // Air friction multiplier
+    public const float AIR_FRICTION = 0.975f;
+
     /**
      * Time (in seconds) to reach the optimal hover height when below it.
      *
@@ -506,8 +512,8 @@ public class PlayerController : MonoBehaviour {
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
             float friction = grounded
-                    ? PhysicsHelper.FRICTION
-                    : PhysicsHelper.AIR_FRICTION;
+                    ? FRICTION
+                    : AIR_FRICTION;
             newVelocityX *= friction;
             newVelocityZ *= friction;
         }
