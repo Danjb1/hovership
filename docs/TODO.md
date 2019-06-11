@@ -5,8 +5,9 @@
  - Player model should bob up and down slightly when grounded
  - Add unit tests
 
-- Raycasts for height detection don't rotate with player!
-  - They are anchored to the world's axes
+- Get the player's collider bounds in a rotation-agnostic manner on init
+- Add sliding mechanics when a wingtip is the nearest to the ground
+  - Otherwise player gets stuck on wings
 
 ## Unity
  - Sound effects

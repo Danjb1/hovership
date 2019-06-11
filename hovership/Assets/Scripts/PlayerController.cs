@@ -54,12 +54,6 @@ public class PlayerController : MonoBehaviour {
     public float hoverHeight;
 
     /**
-     * The minimum proportion of the hover height that one of the wingtip ray
-     * cast distances can reach before the player slides away from that wing.
-     */
-    public float slideToleranceRatio;
-
-    /**
      * Sound to use for the ship's engine.
      */
     public AudioClip engineSound;
@@ -214,10 +208,14 @@ public class PlayerController : MonoBehaviour {
     private int msSinceEngineSoundPlayed;
 
     /**
-     * The direction that the player should be sliding this frame.
-     *   -1 => left, 0 => nowhere, 1 => right.
+     * The box collider's width.
      */
-    private int slideDirection;
+    private float width;
+
+    /**
+     * The box collider's length.
+     */
+    private float length;
 
     /**
      * Initialises this controller.
@@ -231,6 +229,11 @@ public class PlayerController : MonoBehaviour {
         colliderComponent = GetComponent<Collider>();
         exhaust = GetComponent<ParticleSystem>();
         engineAudioSource = GetComponent<AudioSource>();
+
+        // Capture the box collider's dimensions
+        // TODO: Rotate the collider to align with player.forward
+        width = colliderComponent.bounds.extents.x;
+        length = colliderComponent.bounds.extents.z;
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -432,22 +435,9 @@ public class PlayerController : MonoBehaviour {
      * ground.
      */
     private float HoverHeight(float xFactor, float zFactor) {
-        float width = colliderComponent.bounds.extents.x;
-        float length = colliderComponent.bounds.extents.z;
-
-        Debug.DrawRay(new Vector3(
-                    transform.position.x + width * xFactor,
-                    transform.position.y,
-                    transform.position.z + length * zFactor
-            ), Vector3.up, Color.white);
-
-        return PhysicsHelper.DistanceToGround(
-            new Vector3(
-                    transform.position.x + width * xFactor,
-                    transform.position.y,
-                    transform.position.z + length * zFactor
-            ),
-            hoverHeight);
+        Vector3 localRay = new Vector3(width * xFactor, 0, length * zFactor);
+        Vector3 rayOrigin = transform.TransformPoint(localRay);
+        return PhysicsHelper.DistanceToGround(rayOrigin, hoverHeight);
     }
 
     /**
@@ -522,16 +512,6 @@ public class PlayerController : MonoBehaviour {
         float newVelocityX = velocity.x + acceleration;
         float newVelocityZ = velocity.z + acceleration;
 
-        // Apply corrective slide, if required
-        slideDirection = DetermineSlide();
-
-        // Apply corrective slide
-        if (slideDirection == -1) {
-            Debug.Log("Should be sliding left");
-        } else if (slideDirection == 1) {
-            Debug.Log("Should be sliding right");
-        }
-
         // Apply friction (when not accelerating)
         if (Mathf.Abs(acceleration) == 0) {
             float friction = grounded
@@ -567,21 +547,6 @@ public class PlayerController : MonoBehaviour {
      */
     private float GetAcceleration() {
         return Input.GetAxisRaw("Vertical") * acceleration;
-    }
-
-    private int DetermineSlide() {
-        float leftWingtipAltitude = HoverHeight(-1, -0.5f);
-        float rightWingtipAltitude = HoverHeight(1, -0.5f);
-
-        if (Math.Max(leftWingtipAltitude, rightWingtipAltitude)
-                < hoverHeight * slideToleranceRatio) {
-            return leftWingtipAltitude < rightWingtipAltitude
-                    ? -1
-                    : 1;
-        } else {
-            return 0;
-        }
-
     }
 
     /**
