@@ -214,6 +214,16 @@ public class PlayerController : MonoBehaviour {
     private int msSinceEngineSoundPlayed;
 
     /**
+     * The box collider's width.
+     */
+    private float width;
+
+    /**
+     * The box collider's length.
+     */
+    private float length;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -225,6 +235,11 @@ public class PlayerController : MonoBehaviour {
         colliderComponent = GetComponent<Collider>();
         exhaust = GetComponent<ParticleSystem>();
         engineAudioSource = GetComponent<AudioSource>();
+
+        // Capture the box collider's dimensions
+        // TODO: Rotate the collider to align with player.forward
+        width = colliderComponent.bounds.extents.x;
+        length = colliderComponent.bounds.extents.z;
 
         // Remember the spawn point
         spawn = new Vector3(
@@ -391,15 +406,15 @@ public class PlayerController : MonoBehaviour {
         // player. This should be enough to detect what the player is standing
         // on in 99% of cases.
         IList<float> results = new List<float>() {
-            HoverHeight(0, 0),
-            HoverHeight(-1, -1),
-            HoverHeight(-1, -0.5f),
-            HoverHeight(-1, 0.5f),
-            HoverHeight(-1, 1),
-            HoverHeight(1, -1),
-            HoverHeight(1, -0.5f),
-            HoverHeight(1, 0.5f),
-            HoverHeight(1, 1),
+            HoverHeight(0, 0),              // centre
+            HoverHeight(-0.3f, -1),         // fuselage left rear
+            HoverHeight(-0.3f, -0.5f),      // fuselage left rear quarter
+            HoverHeight(-0.3f, 0.5f),       // fuselage left front quarter
+            HoverHeight(-0.3f, 1),          // fuselage left front
+            HoverHeight(0.3f, -1),          // fuselage right rear
+            HoverHeight(0.3f, -0.5f),       // fuselage right rear quarter
+            HoverHeight(0.3f, 0.5f),        // fuselage right front quarter
+            HoverHeight(0.3f, 1),           // fuselage right front
         };
 
         // Find the average distance to the ground based on all collisions
@@ -426,15 +441,9 @@ public class PlayerController : MonoBehaviour {
      * ground.
      */
     private float HoverHeight(float xFactor, float zFactor) {
-        float width = colliderComponent.bounds.extents.x;
-        float length = colliderComponent.bounds.extents.z;
-        return PhysicsHelper.DistanceToGround(
-            new Vector3(
-                    transform.position.x + width * xFactor,
-                    transform.position.y,
-                    transform.position.z + length * zFactor
-            ),
-            hoverHeight);
+        Vector3 localRay = new Vector3(width * xFactor, 0, length * zFactor);
+        Vector3 rayOrigin = transform.TransformPoint(localRay);
+        return PhysicsHelper.DistanceToGround(rayOrigin, hoverHeight);
     }
 
     /**

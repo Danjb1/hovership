@@ -9,6 +9,10 @@
  - Play a sound when collecting a Power Shard
  - Add unit tests
 
+- Get the player's collider bounds in a rotation-agnostic manner on init
+- Add sliding mechanics when a wingtip is the nearest to the ground
+  - Otherwise player gets stuck on wings
+
 ## Unity
 
  - Sound effects
