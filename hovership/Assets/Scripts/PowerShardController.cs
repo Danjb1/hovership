@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PowerShardController : MonoBehaviour {
 
+    public AudioClip pickUpSound;
+
     public int value;
 
     void Start() { }
@@ -15,6 +17,7 @@ public class PowerShardController : MonoBehaviour {
      */
     private void OnTriggerEnter(Collider collider) {
         if (collider.gameObject.tag == "Player") {
+            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
             gameObject.SetActive(false);
             StateManager.Instance.AddPowerShardsCollected(value);
         }

@@ -4827,6 +4827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2de0682b1b7693499ed25c4f8602ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: 2f65333d82f48f04aa5be90034514ee7, type: 3}
   value: 1
 --- !u!135 &247784849
 SphereCollider:
