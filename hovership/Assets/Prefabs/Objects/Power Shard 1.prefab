@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1159951195326168414}
   - component: {fileID: 8864705218722723774}
   - component: {fileID: 8864705218722723773}
-  - component: {fileID: 8864705218722723772}
   - component: {fileID: 8864705218722723745}
   - component: {fileID: 8007549071148130604}
+  - component: {fileID: 247784849}
   m_Layer: 0
   m_Name: Power Shard 1
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586646060544723330}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.73, y: 0.61, z: 3.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4802,19 +4802,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!65 &8864705218722723772
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 586646060544723330}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.33556926, z: 0.42840698}
-  m_Center: {x: -0.00016392022, y: 0.07718442, z: -0.048780546}
 --- !u!114 &8864705218722723745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4841,3 +4828,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
+--- !u!135 &247784849
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586646060544723330}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Center: {x: -0, y: 0, z: -0}
