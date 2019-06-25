@@ -21,6 +21,18 @@ public class PhysicsHelper {
     public const float AIR_FRICTION = 0.95f;
 
     /**
+     * Slide velocity multiplier, for sliding away from something which only the
+     * wing is "on".
+     */
+    public const float SLIDE_MAGNITUDE = 2;
+
+    /**
+     * The proportion of the player's hover height beneath which a wingtip ray
+     * contact should cause the player to slide.
+     */
+    public const float SLIDE_THRESHOLD_RATIO = 0.6f;
+
+    /**
      * The maximum gradient of a walkable surface.
      * 
      * This prevents entities being able to climb up very steep slopes, or

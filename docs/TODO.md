@@ -8,10 +8,9 @@
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
  - Play a sound when collecting a Power Shard
  - Add unit tests
-
-- Get the player's collider bounds in a rotation-agnostic manner on init
-- Add sliding mechanics when a wingtip is the nearest to the ground
-  - Otherwise player gets stuck on wings
+ - Get the player's collider bounds in a rotation-agnostic manner on init
+ - Handle player's velocity vector using local coords, not world
+   - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
 
 ## Unity
 
