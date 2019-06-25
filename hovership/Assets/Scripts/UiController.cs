@@ -9,7 +9,7 @@ public class UiController : MonoBehaviour, IStateListener {
     void Start() {
 
         // Find UI elements
-        levelComplete = transform.Find("LevelComplete").gameObject;
+        levelComplete = transform.Find("Level Complete").gameObject;
 
         // Subscribe to state changes
         StateManager.Instance.AddListener(this);
@@ -19,7 +19,7 @@ public class UiController : MonoBehaviour, IStateListener {
     }
 
     void Update() {
-        
+
     }
 
     public void StateChanged(GameState newState) {

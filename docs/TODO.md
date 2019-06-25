@@ -8,10 +8,9 @@
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
  - Play a sound when collecting a Power Shard
  - Add unit tests
-
-- Get the player's collider bounds in a rotation-agnostic manner on init
-- Add sliding mechanics when a wingtip is the nearest to the ground
-  - Otherwise player gets stuck on wings
+ - Get the player's collider bounds in a rotation-agnostic manner on init
+ - Add sliding mechanics when a wingtip is the nearest to the ground
+    - Otherwise player gets stuck on wings
 
 ## Unity
 
@@ -21,6 +20,12 @@
  - Configure launcher
  - Use third-party text effects
  - Display Power Shards in the HUD
+    - Update counter as Power Shards are collected
+    - Fix position (currently dependent on camera size)
+        - Use a script to set the camera viewport dynamically?
+    - Ensure UiController has access to this icon
+    - Re-use (don't duplicate!) Power Shard components for Power Shard Icon
+ - Fix crazy object positions within Scene
 
 ## Asset Enhancements
 
