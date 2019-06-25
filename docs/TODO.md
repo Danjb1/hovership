@@ -11,6 +11,7 @@
  - Get the player's collider bounds in a rotation-agnostic manner on init
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
+ - Strange inward slide behaviour if contacting inside of wing
 
 ## Unity
 
@@ -20,6 +21,12 @@
  - Configure launcher
  - Use third-party text effects
  - Display Power Shards in the HUD
+    - Update counter as Power Shards are collected
+    - Fix position (currently dependent on camera size)
+        - Use a script to set the camera viewport dynamically?
+    - Ensure UiController has access to this icon
+    - Re-use (don't duplicate!) Power Shard components for Power Shard Icon
+ - Fix crazy object positions within Scene
 
 ## Asset Enhancements
 

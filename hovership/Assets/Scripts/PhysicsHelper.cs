@@ -24,7 +24,7 @@ public class PhysicsHelper {
      * Slide velocity multiplier, for sliding away from something which only the
      * wing is "on".
      */
-    public const float SLIDE_MAGNITUDE = 2;
+    public const float SLIDE_MAGNITUDE = 1;
 
     /**
      * The proportion of the player's hover height beneath which a wingtip ray
