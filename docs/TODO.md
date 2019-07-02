@@ -18,7 +18,6 @@
  - Music
  - Skybox
  - Configure launcher
- - Fix crazy object positions within Scene
 
 ## Asset Enhancements
 
