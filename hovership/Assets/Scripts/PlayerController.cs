@@ -234,6 +234,11 @@ public class PlayerController : MonoBehaviour {
     private float slideThreshold;
 
     /**
+     * Whether the altitude of the fuselage is within the designated hover height.
+     */
+    private bool isFuselageNearGround;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -289,6 +294,7 @@ public class PlayerController : MonoBehaviour {
 
         UpdateRotation();
         UpdateHoverSpeed();
+        UpdateCorrectiveSlide();
         UpdateJump();
         UpdateVelocity();
         UpdateExhaust();
@@ -325,6 +331,48 @@ public class PlayerController : MonoBehaviour {
         } else {
             grounded = false;
         }
+    }
+
+    /**
+     * Determine whether the player must slide to one side to avoid its wing
+     * getting stuck on something.
+     */
+    private void UpdateCorrectiveSlide() {
+        if (!isFuselageNearGround) {
+            if (ShouldSlide(true)) {
+                slideDirection = 1;
+            } else if (ShouldSlide(false)) {
+                slideDirection = -1;
+            }
+        } else {
+            slideDirection = 0;
+        }
+    }
+
+    /**
+     * Determine whether the player should slide away from the wing specified.
+     */
+    private bool ShouldSlide(bool isRightWing) {
+
+        int multiplier = isRightWing ? 1 : -1;
+
+        // Give wingtip checks a smaller threshold, to prevent over-sliding
+        float wingtipThreshold = slideThreshold / 4;
+
+        IList<KeyValuePair<float, float>> checks = new List<KeyValuePair<float, float>>() {
+            new KeyValuePair<float, float>(GetHoverHeight(0.7f * multiplier, -0.25f), wingtipThreshold),
+            new KeyValuePair<float, float>(GetHoverHeight(0.7f * multiplier, -0.4f), wingtipThreshold),
+            new KeyValuePair<float, float>(GetHoverHeight(0.5f * multiplier, -0.15f), slideThreshold),
+            new KeyValuePair<float, float>(GetHoverHeight(0.35f * multiplier, -0.05f), slideThreshold),
+            new KeyValuePair<float, float>(GetHoverHeight(0.4f * multiplier, -0.45f), slideThreshold)
+        };
+
+        foreach(KeyValuePair<float, float> entry in checks) {
+            if (entry.Key < entry.Value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -442,33 +490,14 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        // If the fuselage is not close to the ground, and a wing is near
-        // something, slide away from that wing
+        // If there were no collisions, register that the fuselage is high up
         if (numCollisions == 0) {
-
-            if (GetHoverHeight(-0.7f, -0.25f) < slideThreshold            // wingtip fore
-                    || GetHoverHeight(-0.7f, -0.4f) < slideThreshold      // wingtip aft
-                    || GetHoverHeight(-0.5f, -0.15f) < slideThreshold     // wing leading edge
-                    || GetHoverHeight(-0.35f, -0.05f) < slideThreshold    // wing root fore
-                    || GetHoverHeight(-0.4f, -0.45f) < slideThreshold) {  // wing root aft
-                // Left wing, so slide right
-                slideDirection = 1;
-
-            } else if (GetHoverHeight(0.7f, -0.25f) < slideThreshold      // wingtip fore
-                    || GetHoverHeight(0.7f, -0.4f) < slideThreshold       // wingtip aft
-                    || GetHoverHeight(0.5f, -0.15f) < slideThreshold      // wing leading edge
-                    || GetHoverHeight(0.35f, -0.05f) < slideThreshold     // wing root fore
-                    || GetHoverHeight(0.4f, -0.45f) < slideThreshold) {   // wing root aft
-                // Right wing, so slide left
-                slideDirection = -1;
-            }
-
-        } else {
-            slideDirection = 0;
+            isFuselageNearGround = false;
         }
 
         // Return the average collision distance
         if (numCollisions > 0) {
+            isFuselageNearGround = true;
             return totalDist / numCollisions;
         }
 
