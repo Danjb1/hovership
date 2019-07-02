@@ -14,7 +14,10 @@ public class StateManager {
 
     private int powerShardsCollected;
 
-    private List<IStateListener> listeners = new List<IStateListener>();
+    private List<IStateListener> stateListeners = new List<IStateListener>();
+
+    private List<IPowerShardListener> powerShardListeners =
+            new List<IPowerShardListener>();
 
     // Accessor for singleton instance
     public static StateManager Instance {
@@ -31,7 +34,7 @@ public class StateManager {
     public void SetState(GameState gameState) {
         this.gameState = gameState;
 
-        foreach (IStateListener listener in listeners) {
+        foreach (IStateListener listener in stateListeners) {
             listener.StateChanged(gameState);
         }
     }
@@ -40,16 +43,28 @@ public class StateManager {
         return gameState;
     }
 
-    public void AddListener(IStateListener listener) {
-        listeners.Add(listener);
+    public void AddStateListener(IStateListener listener) {
+        stateListeners.Add(listener);
     }
 
-    public void RemoveListener(IStateListener listener) {
-        listeners.Remove(listener);
+    public void RemoveStateListener(IStateListener listener) {
+        stateListeners.Remove(listener);
+    }
+
+    public void AddPowerShardListener(IPowerShardListener listener) {
+        powerShardListeners.Add(listener);
+    }
+
+    public void RemovePowerShardListener(IPowerShardListener listener) {
+        powerShardListeners.Remove(listener);
     }
 
     public void AddPowerShardsCollected(int n) {
         powerShardsCollected += n;
+
+        foreach (IPowerShardListener listener in powerShardListeners) {
+            listener.PowerShardCollected(powerShardsCollected);
+        }
     }
 
 }

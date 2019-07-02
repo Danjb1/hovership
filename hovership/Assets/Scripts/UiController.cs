@@ -12,10 +12,14 @@ public class UiController : MonoBehaviour, IStateListener {
         levelComplete = transform.Find("Level Complete").gameObject;
 
         // Subscribe to state changes
-        StateManager.Instance.AddListener(this);
+        StateManager.Instance.AddStateListener(this);
 
         // Initialise the UI
         UpdateUi(StateManager.Instance.GetState());
+    }
+
+    void OnDisable() {
+        StateManager.Instance.RemoveStateListener(this);
     }
 
     void Update() {
