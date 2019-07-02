@@ -11,7 +11,7 @@
  - Get the player's collider bounds in a rotation-agnostic manner on init
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
- - Strange inward slide behaviour if contacting inside of wing
+ - Refactor wing raycast/slide mechanics
 
 ## Unity
 
