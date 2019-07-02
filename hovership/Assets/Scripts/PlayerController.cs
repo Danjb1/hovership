@@ -360,11 +360,21 @@ public class PlayerController : MonoBehaviour {
         float wingtipThreshold = slideThreshold / 4;
 
         IList<KeyValuePair<float, float>> checks = new List<KeyValuePair<float, float>>() {
-            new KeyValuePair<float, float>(GetHoverHeight(0.7f * multiplier, -0.25f), wingtipThreshold),
-            new KeyValuePair<float, float>(GetHoverHeight(0.7f * multiplier, -0.4f), wingtipThreshold),
-            new KeyValuePair<float, float>(GetHoverHeight(0.5f * multiplier, -0.15f), slideThreshold),
-            new KeyValuePair<float, float>(GetHoverHeight(0.35f * multiplier, -0.05f), slideThreshold),
-            new KeyValuePair<float, float>(GetHoverHeight(0.4f * multiplier, -0.45f), slideThreshold)
+            new KeyValuePair<float, float>(
+                    GetHoverHeight(0.7f * multiplier, -0.25f), wingtipThreshold
+            ),
+            new KeyValuePair<float, float>(
+                    GetHoverHeight(0.7f * multiplier, -0.4f), wingtipThreshold
+            ),
+            new KeyValuePair<float, float>(
+                    GetHoverHeight(0.5f * multiplier, -0.15f), slideThreshold
+            ),
+            new KeyValuePair<float, float>(
+                    GetHoverHeight(0.35f * multiplier, -0.05f), slideThreshold
+            ),
+            new KeyValuePair<float, float>(
+                    GetHoverHeight(0.4f * multiplier, -0.45f), slideThreshold
+            )
         };
 
         foreach(KeyValuePair<float, float> entry in checks) {
