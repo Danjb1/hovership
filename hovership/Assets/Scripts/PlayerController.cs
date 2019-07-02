@@ -442,18 +442,24 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        // If the fuselage is not close to the ground, and a wingtip is near
-        // something, slide away from that wingtip
+        // If the fuselage is not close to the ground, and a wing is near
+        // something, slide away from that wing
         if (numCollisions == 0) {
 
-            if (GetHoverHeight(-0.7f, -0.3f) < slideThreshold
-                    || GetHoverHeight(-0.4f, -0.15f) < slideThreshold) {
-                // Left wingtip, so slide right
+            if (GetHoverHeight(-0.7f, -0.25f) < slideThreshold            // wingtip fore
+                    || GetHoverHeight(-0.7f, -0.4f) < slideThreshold      // wingtip aft
+                    || GetHoverHeight(-0.5f, -0.15f) < slideThreshold     // wing leading edge
+                    || GetHoverHeight(-0.35f, -0.05f) < slideThreshold    // wing root fore
+                    || GetHoverHeight(-0.4f, -0.45f) < slideThreshold) {  // wing root aft
+                // Left wing, so slide right
                 slideDirection = 1;
 
-            } else if (GetHoverHeight(0.7f, -0.3f) < slideThreshold
-                    || GetHoverHeight(0.4f, -0.15f) < slideThreshold) {
-                // Right wingtip, so slide left
+            } else if (GetHoverHeight(0.7f, -0.25f) < slideThreshold      // wingtip fore
+                    || GetHoverHeight(0.7f, -0.4f) < slideThreshold       // wingtip aft
+                    || GetHoverHeight(0.5f, -0.15f) < slideThreshold      // wing leading edge
+                    || GetHoverHeight(0.35f, -0.05f) < slideThreshold     // wing root fore
+                    || GetHoverHeight(0.4f, -0.45f) < slideThreshold) {   // wing root aft
+                // Right wing, so slide left
                 slideDirection = -1;
             }
 
