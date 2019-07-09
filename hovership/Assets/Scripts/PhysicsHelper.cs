@@ -24,13 +24,22 @@ public class PhysicsHelper {
      * Slide velocity multiplier, for sliding away from something which only the
      * wing is "on".
      */
-    public const float SLIDE_MAGNITUDE = 1;
+    public const float SLIDE_MAGNITUDE = 1.6f;
 
     /**
-     * The proportion of the player's hover height beneath which a wingtip ray
+     * The proportion of the player's hover height beneath which a wing ray
      * contact should cause the player to slide.
      */
     public const float SLIDE_THRESHOLD_RATIO = 0.6f;
+
+    /**
+     * The proportion of the wing ray threshold within which a contact should
+     * prompt a slide condition.
+     *
+     * This exists so that the wingtips need to be closer to the ground
+     * underneath - otherwise the player would slide when on a mild incline.
+     */
+    public const float WINGTIP_THRESHOLD_RATIO = 0.4f;
 
     /**
      * The maximum gradient of a walkable surface.

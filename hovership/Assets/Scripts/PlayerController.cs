@@ -229,9 +229,14 @@ public class PlayerController : MonoBehaviour {
     private int slideDirection;
 
     /**
-     * The clearance allowed beneath a wingtip before corrective sliding occurs.
+     * The clearance allowed beneath a wing before corrective sliding occurs.
      */
     private float slideThreshold;
+
+    /**
+     * The clearance allowed beneath a wingtip before corrective sliding occurs.
+     */
+    private float wingtipSlideThreshold;
 
     /**
      * Whether the altitude of the fuselage is within the designated hover height.
@@ -246,12 +251,15 @@ public class PlayerController : MonoBehaviour {
         // Set game state to Playing
         StateManager.Instance.SetState(GameState.PLAYING);
 
+        // Acquire player's components
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
         exhaust = GetComponent<ParticleSystem>();
         engineAudioSource = GetComponent<AudioSource>();
 
+        // Determine height thresholds for sliding
         slideThreshold = hoverHeight * PhysicsHelper.SLIDE_THRESHOLD_RATIO;
+        wingtipSlideThreshold = slideThreshold * PhysicsHelper.WINGTIP_THRESHOLD_RATIO;
 
         // Capture the box collider's dimensions
         // TODO: Rotate the collider to align with player.forward
@@ -340,9 +348,9 @@ public class PlayerController : MonoBehaviour {
     private void UpdateCorrectiveSlide() {
         if (!isFuselageNearGround) {
             if (ShouldSlide(true)) {
-                slideDirection = 1;
-            } else if (ShouldSlide(false)) {
                 slideDirection = -1;
+            } else if (ShouldSlide(false)) {
+                slideDirection = 1;
             }
         } else {
             slideDirection = 0;
@@ -356,24 +364,26 @@ public class PlayerController : MonoBehaviour {
 
         int multiplier = isRightWing ? 1 : -1;
 
-        // Give wingtip checks a smaller threshold, to prevent over-sliding
-        float wingtipThreshold = slideThreshold / 4;
-
         IList<KeyValuePair<float, float>> checks = new List<KeyValuePair<float, float>>() {
             new KeyValuePair<float, float>(
-                    GetHoverHeight(0.7f * multiplier, -0.25f), wingtipThreshold
+                    GetHoverHeight(0.7f * multiplier, -0.25f),      // wingtip fore
+                    wingtipSlideThreshold
             ),
             new KeyValuePair<float, float>(
-                    GetHoverHeight(0.7f * multiplier, -0.4f), wingtipThreshold
+                    GetHoverHeight(0.7f * multiplier, -0.4f),       // wingtip aft
+                    wingtipSlideThreshold
             ),
             new KeyValuePair<float, float>(
-                    GetHoverHeight(0.5f * multiplier, -0.15f), slideThreshold
+                    GetHoverHeight(0.5f * multiplier, -0.15f),      // wing leading edge
+                    slideThreshold
             ),
             new KeyValuePair<float, float>(
-                    GetHoverHeight(0.35f * multiplier, -0.05f), slideThreshold
+                    GetHoverHeight(0.4f * multiplier, -0.1f),       // wing root fore
+                    slideThreshold
             ),
             new KeyValuePair<float, float>(
-                    GetHoverHeight(0.4f * multiplier, -0.45f), slideThreshold
+                    GetHoverHeight(0.4f * multiplier, -0.45f),      // wing trailing edge
+                    slideThreshold
             )
         };
 
@@ -481,13 +491,13 @@ public class PlayerController : MonoBehaviour {
         IList<float> results = new List<float>() {
             GetHoverHeight(0, 0),                 // centre
             GetHoverHeight(-0.3f, -0.5f),         // fuselage left rear
-            GetHoverHeight(-0.3f, -0.3f),         // fuselage left rear quarter
-            GetHoverHeight(-0.25f, 0.5f),         // fuselage left front quarter
-            GetHoverHeight(-0.2f, 0.7f),          // fuselage left front
+            GetHoverHeight(-0.3f, 0),             // fuselage left side
+            GetHoverHeight(-0.2f, 0.5f),          // fuselage left front quarter
+            GetHoverHeight(-0.15f, 0.7f),         // fuselage left front
             GetHoverHeight(0.3f, -0.5f),          // fuselage right rear
-            GetHoverHeight(0.3f, -0.3f),          // fuselage right rear quarter
-            GetHoverHeight(0.25f, 0.5f),          // fuselage right front quarter
-            GetHoverHeight(0.2f, 0.7f)            // fuselage right front
+            GetHoverHeight(0.3f, 0),              // fuselage right side
+            GetHoverHeight(0.2f, 0.5f),           // fuselage right front quarter
+            GetHoverHeight(0.15f, 0.7f)           // fuselage right front
         };
 
         // Find the average distance to the ground based on all collisions
