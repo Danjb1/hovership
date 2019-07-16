@@ -57,8 +57,6 @@
  - Lower section for cabin
  - Plateau for castle
    - Including tunnel
- - Middle valley section containing road
-   - Including tunnel
  - Underside to island
 
 ### Standalone
