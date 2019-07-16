@@ -58,6 +58,11 @@ public class PlayerController : MonoBehaviour {
      */
     public AudioClip engineSound;
 
+    /**
+     * The global Y-position at which the player will respawn, in metres.
+     */
+    public float respawnHeight;
+
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
@@ -82,11 +87,6 @@ public class PlayerController : MonoBehaviour {
      * frame when no rotational input is applied.
      */
     private const float ROTATIONAL_FRICTION = 0.9f;
-
-    /**
-     * Minimum player vertical position before respawning, in metres.
-     */
-    private const float RESPAWN_Y = -25f;
 
     /**
      * Multiplier governing how quickly the exhaust emission rate increases.
@@ -680,7 +680,7 @@ public class PlayerController : MonoBehaviour {
     void LateUpdate() {
 
         // Respawn if we have fallen out of the world
-        if (transform.position.y < RESPAWN_Y) {
+        if (transform.position.y < respawnHeight) {
             Respawn();
         }
 
