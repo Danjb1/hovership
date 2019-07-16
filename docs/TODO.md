@@ -3,6 +3,8 @@
 ## Code
 
  - Camera doesn't lower if player drops onto the key from above
+ - Camera lowers very slowly when dropping onto a lower platform
+ - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
@@ -24,6 +26,7 @@
  - Chimney (doesn't fit properly with the house)
  - Player (add more colours)
  - Village terrain piece (some janky geometry at edges)
+ - Well (can't fall down easily!)
 
 ## New Assets
 
