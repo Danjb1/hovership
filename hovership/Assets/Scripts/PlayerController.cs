@@ -119,6 +119,11 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private const float ENGINE_MAX_PITCH = 1.1f;
 
     /**
+     * The distance the player falls below the ground plane before respawning.
+     */
+    private const float RESPAWN_DEPTH = 40f;
+
+    /**
      * Rotational axis input.
      */
     private float rotationInput;
@@ -259,6 +264,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
 
         // Set game state to Playing
         StateManager.Instance.SetState(GameState.PLAYING);
+
+        // Determine respawn height threshold
+        respawnHeight = StateManager.Instance.GetLevelGroundHeight() - RESPAWN_DEPTH;
 
         // Determine height thresholds for sliding
         slideThreshold = hoverHeight * PhysicsHelper.SLIDE_THRESHOLD_RATIO;
