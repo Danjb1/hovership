@@ -12,6 +12,9 @@
  - Get the player's collider bounds in a rotation-agnostic manner on init
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
+ - Stop player being able to turn or accelerate once they've fallen a certain distance
+ - Add ground plane collision behaviour (when player hits it, do respawn/fall behaviour)
+ - Remove existing fixed Y position logic for camera follow and player respawn
 
 ## Unity
 
@@ -19,6 +22,7 @@
  - Music
  - Skybox
  - Configure launcher
+ - Add "ground" plane to level
 
 ## Asset Enhancements
 
@@ -26,6 +30,7 @@
  - Chimney (doesn't fit properly with the house)
  - Village terrain piece (some janky geometry at edges)
  - Well (can't fall down easily!)
+ - Well tunnel chamber - player falls through floor
 
 ## New Assets
 
@@ -55,11 +60,12 @@
  - Hill for windmill
  - Lower section for cabin
  - Plateau for castle
-   - Including tunnel
  - Underside to island
 
 ### Standalone
 
+ - Tunnel segments
+ - Tunnel arches
  - Crop furrows
  - Crops
  - Button
