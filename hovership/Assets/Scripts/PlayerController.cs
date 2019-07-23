@@ -58,11 +58,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
      */
     public AudioClip engineSound;
 
-    /**
-     * The global Y-position at which the player will respawn, in metres.
-     */
-    public float respawnHeight;
-
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
@@ -249,6 +244,22 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private bool isFuselageNearGround;
 
     /**
+     * The global Y-position at which the player will respawn, in metres.
+     */
+    private float respawnHeight;
+
+    /**
+     * The global Y-position of the level's ground plane.
+     */
+    private float groundPlaneHeight;
+
+    /**
+     * Whether the player has fallen below the ground plane, and is about to
+     * respawn.
+     */
+    private bool isRespawning;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -265,8 +276,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // Set game state to Playing
         StateManager.Instance.SetState(GameState.PLAYING);
 
-        // Determine respawn height threshold
-        respawnHeight = StateManager.Instance.GetLevelGroundHeight() - RESPAWN_DEPTH;
+        // Determine ground plane and respawn heights
+        groundPlaneHeight = StateManager.Instance.GetLevelGroundHeight();
+        respawnHeight = groundPlaneHeight - RESPAWN_DEPTH;
 
         // Determine height thresholds for sliding
         slideThreshold = hoverHeight * PhysicsHelper.SLIDE_THRESHOLD_RATIO;
@@ -316,6 +328,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
             return;
         }
 
+        DetectRespawn();
         UpdateRotation();
         UpdateHoverSpeed();
         UpdateCorrectiveSlide();
@@ -323,6 +336,14 @@ public class PlayerController : MonoBehaviour, IStateListener {
         UpdateVelocity();
         UpdateExhaust();
         UpdateEngineAudio();
+    }
+
+    /**
+     * Determine whether the player is about to respawn, i.e. has fallen below
+     * the ground plane.
+     */
+    private void DetectRespawn() {
+        isRespawning = transform.position.y < groundPlaneHeight;
     }
 
     /**
@@ -415,6 +436,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
      * Updates the player's current jump parameters.
      */
     private void UpdateJump() {
+        if (isRespawning) {
+            return;
+        }
         if (grounded && jumpKeyDown) {
             jumping = true;
         }
@@ -668,7 +692,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
      * Determines the acceleration to apply based on vertical input.
      */
     private float GetAcceleration() {
-        return Input.GetAxisRaw("Vertical") * acceleration;
+        return isRespawning ? 0 : Input.GetAxisRaw("Vertical") * acceleration;
     }
 
     /**

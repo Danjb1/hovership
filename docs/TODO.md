@@ -4,6 +4,7 @@
 
  - Camera doesn't lower if player drops onto the key from above
  - Camera clips through walls (camera_collision branch)
+ - When player is about to fall out of the world, camera snaps to him suddenly
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
@@ -11,7 +12,6 @@
  - Get the player's collider bounds in a rotation-agnostic manner on init
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
- - Stop player being able to turn or accelerate once they've fallen a certain distance
 
 ## Unity
 
