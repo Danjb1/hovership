@@ -14,6 +14,8 @@ public class StateManager {
 
     private int powerShardsCollected;
 
+    private float levelGroundHeight;
+
     private List<IStateListener> stateListeners = new List<IStateListener>();
 
     private List<IPowerShardListener> powerShardListeners =
@@ -65,6 +67,14 @@ public class StateManager {
         foreach (IPowerShardListener listener in powerShardListeners) {
             listener.PowerShardCollected(powerShardsCollected);
         }
+    }
+
+    public float GetLevelGroundHeight() {
+        return levelGroundHeight;
+    }
+
+    public void SetLevelGroundHeight(float height) {
+        levelGroundHeight = height;
     }
 
 }

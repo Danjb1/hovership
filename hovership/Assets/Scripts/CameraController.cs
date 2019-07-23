@@ -58,11 +58,6 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private const float VERTICAL_MOVEMENT_TIME = 0.4f;
 
     /**
-     * Minimum y-position in metres before the camera will stop moving.
-     */
-    private const float MIN_Y = 0;
-
-    /**
      * Last grounded y-position of the player, in metres.
      */
     private float lastGroundedY;
@@ -94,6 +89,11 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private float minDistanceToTarget;
 
     /**
+     * Minimum Y-position before the camera will stop descending.
+     */
+    private float minY;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -101,6 +101,9 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         // Register this class as a CharacterListener for the Player
         PlayerController playerCtrl = player.GetComponent<PlayerController>();
         playerCtrl.RegisterCharacterListener(this);
+
+        // Determine the minimum height for this level
+        minY = StateManager.Instance.GetLevelGroundHeight();
 
         maxDistanceToTarget = maxDistanceMultiplier * distanceToTarget;
         minDistanceToTarget = minDistanceMultiplier * distanceToTarget;
@@ -131,7 +134,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         float prevTargetY = targetY;
 
         // Follow the player when falling out of the world
-        if (player.transform.position.y < MIN_Y) {
+        if (player.transform.position.y < minY) {
             targetY = player.transform.position.y;
             optimalTargetY = targetY;
         }
@@ -251,7 +254,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         );
 
         // Raise to the desired height, keeping within the limits
-        float newY = Mathf.Max(optimalPos.y + height, MIN_Y);
+        float newY = Mathf.Max(optimalPos.y + height, minY);
         optimalPos = VectorUtils.SetY(optimalPos, newY);
 
         return optimalPos;

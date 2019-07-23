@@ -13,8 +13,6 @@
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
  - Stop player being able to turn or accelerate once they've fallen a certain distance
- - Add ground plane collision behaviour (when player hits it, do respawn/fall behaviour)
- - Remove existing fixed Y position logic for camera follow and player respawn
 
 ## Unity
 
@@ -22,7 +20,6 @@
  - Music
  - Skybox
  - Configure launcher
- - Add "ground" plane to level
 
 ## Asset Enhancements
 

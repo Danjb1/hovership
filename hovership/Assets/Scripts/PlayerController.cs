@@ -119,6 +119,11 @@ public class PlayerController : MonoBehaviour {
     private const float ENGINE_MAX_PITCH = 1.1f;
 
     /**
+     * The distance the player falls below the ground plane before respawning.
+     */
+    private const float RESPAWN_DEPTH = 40f;
+
+    /**
      * Rotational axis input.
      */
     private float rotationInput;
@@ -265,6 +270,9 @@ public class PlayerController : MonoBehaviour {
         // TODO: Rotate the collider to align with player.forward
         width = colliderComponent.bounds.extents.x;
         length = colliderComponent.bounds.extents.z;
+
+        // Determine respawn height threshold
+        respawnHeight = StateManager.Instance.GetLevelGroundHeight() - RESPAWN_DEPTH;
 
         // Remember the spawn point
         spawn = new Vector3(
