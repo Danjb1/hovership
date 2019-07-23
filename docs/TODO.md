@@ -28,7 +28,6 @@
 
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
- - Player (add more colours)
  - Village terrain piece (some janky geometry at edges)
  - Well (can't fall down easily!)
  - Well tunnel chamber - player falls through floor
