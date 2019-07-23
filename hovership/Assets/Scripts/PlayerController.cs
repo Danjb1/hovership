@@ -265,6 +265,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // Set game state to Playing
         StateManager.Instance.SetState(GameState.PLAYING);
 
+        // Determine respawn height threshold
+        respawnHeight = StateManager.Instance.GetLevelGroundHeight() - RESPAWN_DEPTH;
+
         // Determine height thresholds for sliding
         slideThreshold = hoverHeight * PhysicsHelper.SLIDE_THRESHOLD_RATIO;
         wingtipSlideThreshold = slideThreshold * PhysicsHelper.WINGTIP_THRESHOLD_RATIO;
@@ -273,9 +276,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // TODO: Rotate the collider to align with player.forward
         width = colliderComponent.bounds.extents.x;
         length = colliderComponent.bounds.extents.z;
-
-        // Determine respawn height threshold
-        respawnHeight = StateManager.Instance.GetLevelGroundHeight() - RESPAWN_DEPTH;
 
         // Remember the spawn point
         spawn = new Vector3(
