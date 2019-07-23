@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UiController : MonoBehaviour, IStateListener {
+public class PauseMenuController : MonoBehaviour, IStateListener {
 
     private GameObject paused;
-    private GameObject levelComplete;
+    private GameObject buttonResume;
+    private GameObject buttonExit;
 
     void Start() {
 
         // Find UI elements
         paused = transform.Find("Paused").gameObject;
-        levelComplete = transform.Find("Level Complete").gameObject;
+        buttonResume = transform.Find("ButtonResume").gameObject;
+        buttonExit = transform.Find("ButtonExit").gameObject;
 
         // Subscribe to state changes
         StateManager.Instance.AddStateListener(this);
@@ -44,20 +46,13 @@ public class UiController : MonoBehaviour, IStateListener {
     }
 
     private void UpdateUi(GameState state) {
+        SetActive(state == GameState.PAUSED);
+    }
 
-        // Hide all
-        paused.SetActive(false);
-        levelComplete.SetActive(false);
-
-        // Show the relevant elements
-        switch (state) {
-            case GameState.CELEBRATING:
-                levelComplete.SetActive(true);
-                break;
-            case GameState.PAUSED:
-                paused.SetActive(true);
-                break;
-        }
+    private void SetActive(bool active) {
+        paused.SetActive(active);
+        buttonResume.SetActive(active);
+        buttonExit.SetActive(active);
     }
 
 }

@@ -23,6 +23,7 @@
  - Skybox
  - Configure launcher
  - Add "ground" plane to level
+ - Custom cursor
 
 ## Asset Enhancements
 
