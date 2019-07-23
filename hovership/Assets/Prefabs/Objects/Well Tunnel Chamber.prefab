@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7036379889667034203
+--- !u!1 &94560233353178999
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6340338072308727368}
-  - component: {fileID: 3073250849080181886}
-  - component: {fileID: 8762571343659825287}
-  - component: {fileID: 1335268004263305136}
+  - component: {fileID: 3968986146178997604}
+  - component: {fileID: 5354689109925111634}
+  - component: {fileID: 1833849104199244715}
+  - component: {fileID: 6684776711634734717}
   m_Layer: 0
-  m_Name: Well Tunnel (Chamber)
+  m_Name: Well Tunnel Chamber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6340338072308727368
+--- !u!4 &3968986146178997604
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7036379889667034203}
+  m_GameObject: {fileID: 94560233353178999}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0699997, y: -15.839996, z: -0.30999994}
+  m_LocalPosition: {x: 0, y: -18.837996, z: -0.05499971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3073250849080181886
+--- !u!33 &5354689109925111634
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7036379889667034203}
+  m_GameObject: {fileID: 94560233353178999}
   m_Mesh: {fileID: 7061899767535425809, guid: b5b0a5dba03d742449e1d4d5c19d57db, type: 3}
---- !u!23 &8762571343659825287
+--- !u!23 &1833849104199244715
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7036379889667034203}
+  m_GameObject: {fileID: 94560233353178999}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -78,13 +78,13 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1335268004263305136
+--- !u!64 &6684776711634734717
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7036379889667034203}
+  m_GameObject: {fileID: 94560233353178999}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
