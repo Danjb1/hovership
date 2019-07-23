@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     /**
      * Time taken to reach the vertical destination, in seconds.
      */
-    private const float VERTICAL_MOVEMENT_TIME = 0.4f;
+    private const float VERTICAL_MOVEMENT_TIME = 0.3f;
 
     /**
      * Last grounded y-position of the player, in metres.

@@ -19,8 +19,9 @@ public class RotatingObjectController : MonoBehaviour {
 
     void Update () {
 
-        // Do nothing if we are celebrating a level completion
-        if (StateManager.Instance.GetState() == GameState.CELEBRATING) {
+        // Do nothing if we are celebrating, or the game is paused
+        GameState state = StateManager.Instance.GetState();
+        if (state == GameState.CELEBRATING || state == GameState.PAUSED) {
             return;
         }
 

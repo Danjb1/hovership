@@ -3,7 +3,6 @@
 ## Code
 
  - Camera doesn't lower if player drops onto the key from above
- - Camera lowers very slowly when dropping onto a lower platform
  - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
@@ -27,7 +26,6 @@
  - Chimney (doesn't fit properly with the house)
  - Village terrain piece (some janky geometry at edges)
  - Well (can't fall down easily!)
- - Well tunnel chamber - player falls through floor
 
 ## New Assets
 

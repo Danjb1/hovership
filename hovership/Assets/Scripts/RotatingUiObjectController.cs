@@ -2,28 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindmillBladesController : MonoBehaviour {
+public class RotatingUiObjectController : MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * The rotation speed of the blades, in degrees per second.
+     * The rotation speed of the object, in degrees per second.
      */
     public float rotationSpeed;
 
     ///////////////////////////////////////////////////////////////////////////
-    // WindmillBladesController
+    // RotatingUiObjectController
     ///////////////////////////////////////////////////////////////////////////
 
     void Update () {
-
-        // Do nothing if we are celebrating a level completion
-        if (StateManager.Instance.GetState() == GameState.CELEBRATING) {
-            return;
-        }
-
         Vector3 rotation = Vector3.up * rotationSpeed;
         transform.Rotate(
                 rotation.x * Time.deltaTime,
