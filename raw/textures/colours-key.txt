@@ -23,3 +23,4 @@
 21 - power shard 3
 22 - power shard 4
 24 - power shard 5
+25 - cloud
