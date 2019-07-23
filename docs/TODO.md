@@ -19,6 +19,7 @@
  - Music
  - Skybox
  - Configure launcher
+ - Custom cursor
 
 ## Asset Enhancements
 
