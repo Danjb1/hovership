@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IStateListener {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -253,14 +253,17 @@ public class PlayerController : MonoBehaviour {
      */
     void Start () {
 
-        // Set game state to Playing
-        StateManager.Instance.SetState(GameState.PLAYING);
-
         // Acquire player's components
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
         exhaust = GetComponent<ParticleSystem>();
         engineAudioSource = GetComponent<AudioSource>();
+
+        // Subscribe to state changes
+        StateManager.Instance.AddStateListener(this);
+
+        // Set game state to Playing
+        StateManager.Instance.SetState(GameState.PLAYING);
 
         // Determine height thresholds for sliding
         slideThreshold = hoverHeight * PhysicsHelper.SLIDE_THRESHOLD_RATIO;
@@ -287,6 +290,11 @@ public class PlayerController : MonoBehaviour {
         );
     }
 
+    void OnDisable() {
+        // Unsubscribe
+        StateManager.Instance.RemoveStateListener(this);
+    }
+
     /**
      * Polls user input.
      */
@@ -302,8 +310,8 @@ public class PlayerController : MonoBehaviour {
      */
     void FixedUpdate() {
 
-        // Skip all updates if player is frozen in celebration
-        if (StateManager.Instance.GetState() == GameState.CELEBRATING) {
+        // Skip all updates if game is paused
+        if (StateManager.Instance.GetState() != GameState.PLAYING) {
             rigidbodyComponent.velocity = Vector3.zero;
             return;
         }
@@ -731,6 +739,14 @@ public class PlayerController : MonoBehaviour {
         // Inform listeners of the new position
         foreach (ICharacterListener listener in characterListeners) {
             listener.CharacterTeleported();
+        }
+    }
+
+    public void StateChanged(GameState newState) {
+        if (newState == GameState.PLAYING) {
+            exhaust.Play();
+        } else {
+            exhaust.Pause();
         }
     }
 
