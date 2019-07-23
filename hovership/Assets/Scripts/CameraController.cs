@@ -65,12 +65,12 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     /**
      * Optimal Y-position we want to be looking at, in metres.
      */
-    private float optimalTargetY;
+    private float desiredTargetY;
 
     /**
      * Current Y-position we are looking at, in metres.
      */
-    private float targetY;
+    private float currentTargetY;
 
     /**
      * Speed at which camera should move in the y-axis to reach optimalY, in
@@ -108,7 +108,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         maxDistanceToTarget = maxDistanceMultiplier * distanceToTarget;
         minDistanceToTarget = minDistanceMultiplier * distanceToTarget;
 
-        targetY = player.transform.position.y;
+        currentTargetY = player.transform.position.y;
         CharacterTeleported();
     }
 
@@ -131,26 +131,26 @@ public class CameraController : MonoBehaviour, ICharacterListener {
             return;
         }
 
-        float prevTargetY = targetY;
+        float prevTargetY = currentTargetY;
 
         // Follow the player when falling out of the world
         if (player.transform.position.y < minY) {
-            targetY = player.transform.position.y;
-            optimalTargetY = targetY;
+            SlerpToTarget(player.transform.position);
+            return;
         }
 
-        targetY += speedY * Time.deltaTime;
+        currentTargetY += speedY * Time.deltaTime;
 
         // If we have gone past our destination, stop at the destination
-        if (DestinationReached(optimalTargetY, prevTargetY, targetY)) {
-            targetY = optimalTargetY;
+        if (DestinationReached(desiredTargetY, prevTargetY, currentTargetY)) {
+            currentTargetY = desiredTargetY;
             speedY = 0;
         }
 
         // Determine camera target for this frame
         Vector3 target = new Vector3(
                 player.transform.position.x,
-                targetY,
+                currentTargetY,
                 player.transform.position.z
         );
 
@@ -165,6 +165,16 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         return current == destination ||
             ((prev < destination && current > destination) ||
                 (prev > destination && current < destination));
+    }
+
+    /**
+     * Gradually rotate towards a given target.
+     */
+    public void SlerpToTarget(Vector3 target) {
+        transform.rotation = Quaternion.Slerp(
+                transform.rotation, 
+                Quaternion.LookRotation(target - transform.position), 
+                SLERP_INTERVAL / 2);
     }
 
     /**
@@ -278,10 +288,10 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     public void CharacterLanded() {
 
         lastGroundedY = player.transform.position.y;
-        optimalTargetY = lastGroundedY;
+        desiredTargetY = lastGroundedY;
 
         // Calculate distance to optimal position
-        float dy = optimalTargetY - targetY;
+        float dy = desiredTargetY - currentTargetY;
 
         // Calculate vertical speed required to reach optimal position in time
         speedY = dy / VERTICAL_MOVEMENT_TIME;
@@ -293,8 +303,8 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         PositionBehindPlayer();
 
         // Reset the camera's destination and speed
-        targetY = player.transform.position.y;
-        optimalTargetY = targetY;
+        currentTargetY = player.transform.position.y;
+        desiredTargetY = currentTargetY;
         speedY = 0;
     }
 
