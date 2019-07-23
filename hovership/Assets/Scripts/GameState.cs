@@ -1,4 +1,5 @@
 public enum GameState {
     CELEBRATING,
-    PLAYING
+    PLAYING,
+    PAUSED
 }
