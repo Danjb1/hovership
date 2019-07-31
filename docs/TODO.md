@@ -51,7 +51,6 @@
 
 ### Terrain
 
- - Farm plateau
  - Hill for windmill
  - Plateau for castle
  - Underside to island
