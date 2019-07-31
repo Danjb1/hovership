@@ -50,7 +50,6 @@
 
 ### Terrain
 
- - Hill for windmill
  - Plateau for castle
  - Underside to island
 
