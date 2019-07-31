@@ -25,7 +25,6 @@
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
  - Village terrain piece (some janky geometry at edges)
- - Well (can't fall down easily!)
 
 ## New Assets
 
@@ -60,6 +59,7 @@
  - Tunnel segments
  - Tunnel arches
  - Torches (with light source)
+ - Lanterns/standing torches
  - Crop furrows
  - Crops
  - Button
