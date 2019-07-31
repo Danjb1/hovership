@@ -53,7 +53,6 @@
 
  - Farm plateau
  - Hill for windmill
- - Lower section for cabin
  - Plateau for castle
  - Underside to island
 
