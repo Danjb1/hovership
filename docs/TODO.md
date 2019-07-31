@@ -61,6 +61,7 @@
 
  - Tunnel segments
  - Tunnel arches
+ - Torches (with light source)
  - Crop furrows
  - Crops
  - Button
