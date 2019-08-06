@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5041237, g: 0.54684037, b: 0.68681955, a: 1}
+  m_IndirectSpecularColor: {r: 0.5077122, g: 0.5399404, b: 0.6825674, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14381,6 +14381,90 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e17c78515e72346a5753fd54541d32, type: 3}
+--- !u!1001 &1240313150621000584
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1023604366}
+    m_Modifications:
+    - target: {fileID: 7068284351432528654, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_Name
+      value: Gatehouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.9642391
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2148
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2148
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074457544732991773, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2148
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e8ef9af38f53f4c4c91063f31a6a8ff9, type: 3}
 --- !u!1001 &1656620744816006451
 PrefabInstance:
   m_ObjectHideFlags: 0
