@@ -16,7 +16,6 @@
 
  - Sound effects
  - Music
- - Skybox
  - Configure launcher
  - Custom cursor
 

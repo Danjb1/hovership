@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9433962, g: 0.93682235, b: 0.88554645, a: 1}
+  m_AmbientSkyColor: {r: 0.7830189, g: 0.7638128, b: 0.63897294, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5077122, g: 0.5399404, b: 0.6825674, a: 1}
+  m_IndirectSpecularColor: {r: 0.5926753, g: 0.64381033, b: 0.91023374, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14932,6 +14932,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1534645375359830}
+    - target: {fileID: 5582191894685314610, guid: 664ac0577c66d5345996e15fdcfa281c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582191894685314573, guid: 664ac0577c66d5345996e15fdcfa281c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 664ac0577c66d5345996e15fdcfa281c, type: 3}
 --- !u!1001 &5631385462486959648
