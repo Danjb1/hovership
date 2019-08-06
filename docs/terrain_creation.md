@@ -6,6 +6,8 @@
 
 1. Delete some faces around the edge to achieve the rough desired shape.
 
+1. Use the knife tool to "triangulate" the edges.
+
 1. Enable proportional editing with smooth / sharp falloff.
 
 1. Drag the outer vertices around to make it look more natural.
