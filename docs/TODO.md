@@ -18,6 +18,7 @@
  - Music
  - Configure launcher
  - Custom cursor
+ - Add mountains to Skybox
 
 ## Asset Enhancements
 
