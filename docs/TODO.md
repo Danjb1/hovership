@@ -19,6 +19,7 @@
  - Configure launcher
  - Custom cursor
  - Add mountains to Skybox
+ - Add distant islands / clouds within scene
 
 ## Asset Enhancements
 
