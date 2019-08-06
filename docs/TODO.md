@@ -50,7 +50,6 @@
 
 ### Terrain
 
- - Plateau for castle
  - Underside to island
  - Staircase of platforms from valley to village
 
