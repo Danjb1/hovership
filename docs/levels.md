@@ -25,3 +25,8 @@ An industrial factory full of machines that become activated as the level progre
 ## 5. Mining Site K-12
 
 A low-gravity level on a moon.
+
+## Level Types
+
+ - Time trial through an obstacle course with higher driving speed and looser drift
+ - Flying level(s)
