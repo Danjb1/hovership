@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5077122, g: 0.5399404, b: 0.6825674, a: 1}
+  m_IndirectSpecularColor: {r: 0.5926753, g: 0.64381033, b: 0.91023374, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1199,7 +1199,7 @@ PrefabInstance:
     - target: {fileID: 123762106103118301, guid: d481958dad7f9ce428b29a3b910d1049,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.1
+      value: -24.12
       objectReference: {fileID: 0}
     - target: {fileID: 123762106103118301, guid: d481958dad7f9ce428b29a3b910d1049,
         type: 3}
@@ -1517,6 +1517,7 @@ GameObject:
   - component: {fileID: 292586756}
   - component: {fileID: 292586758}
   - component: {fileID: 292586757}
+  - component: {fileID: 292586759}
   m_Layer: 5
   m_Name: ButtonResume
   m_TagString: Untagged
@@ -1666,6 +1667,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292586755}
   m_CullTransparentMesh: 0
+--- !u!114 &292586759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292586755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc3f69468794aa49b583d7746f53db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &308604655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5199,6 +5212,7 @@ GameObject:
   - component: {fileID: 1294658196}
   - component: {fileID: 1294658198}
   - component: {fileID: 1294658197}
+  - component: {fileID: 1294658199}
   m_Layer: 5
   m_Name: ButtonExit
   m_TagString: Untagged
@@ -5350,6 +5364,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294658195}
   m_CullTransparentMesh: 0
+--- !u!114 &1294658199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294658195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2fd365cad82deb49bccf211b9a520dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1304076380
 GameObject:
   m_ObjectHideFlags: 0
@@ -14727,7 +14753,7 @@ PrefabInstance:
     - target: {fileID: 3382316361092355982, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.64
+      value: -1.9642391
       objectReference: {fileID: 0}
     - target: {fileID: 3382316361092355982, guid: e8ef9af38f53f4c4c91063f31a6a8ff9,
         type: 3}
