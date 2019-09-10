@@ -62,11 +62,25 @@ public class PlayerController : MonoBehaviour, IStateListener {
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
 
-    // Ground friction multiplier
-    public const float FRICTION = 0.95f;
+    /**
+     * Friction applied in the player's forward direction, when not
+     * accelerating.
+     */
+    public const float FRICTION_FORWARD = 0.05f;
 
-    // Air friction multiplier
-    public const float AIR_FRICTION = 0.975f;
+    /**
+     * Friction applied perpendicular to the player's forward direction, every
+     * frame.
+     *
+     * The lower this value, the more the player will drift.
+     */
+    public const float FRICTION_LATERAL = 0.045f;
+
+    // As above, but applies when the player is airborne.
+    public const float AIR_FRICTION_FORWARD = 0.025f;
+
+    // As above, but applies when the player is airborne.
+    public const float AIR_FRICTION_LATERAL = 0.025f;
 
     /**
      * Time (in seconds) to reach the optimal hover height when below it.
@@ -75,7 +89,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
      * recalculated each frame, so the "journey time" resets. However, this at
      * least has some bearing on the overall time taken.
      */
-    private const float HOVER_TIME = 0.1f;
+    private const float HOVER_TIME = 0.2f;
 
     /**
      * The factor by which the player's rotational speed will be multiplied each
@@ -127,6 +141,14 @@ public class PlayerController : MonoBehaviour, IStateListener {
      * Whether the jump key is pressed.
      */
     private bool jumpKeyDown;
+
+    /**
+     * Velocity in the y-axis.
+     *
+     * We track this ourselves instead of relying on the rigidbody velocity
+     * because we don't want it to be affected by ramps.
+     */
+    private float yVelocity;
 
     /**
      * From left to right, the amount of rotation applied during the previous
@@ -364,12 +386,12 @@ public class PlayerController : MonoBehaviour, IStateListener {
             hoverSpeed = GetHoverSpeed(currentHeight);
 
             // Land, if falling
-            if (rigidbodyComponent.velocity.y < 0) {
-                rigidbodyComponent.velocity =
-                        VectorUtils.SetY(rigidbodyComponent.velocity, 0);
+            if (yVelocity < 0) {
+                yVelocity = 0;
                 grounded = true;
             }
         } else {
+            hoverSpeed = 0;
             grounded = false;
         }
     }
@@ -456,20 +478,18 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // Set the new velocity
         Vector3 newVelocity = CalculateVelocity();
 
-        // Calculate the final movement vector based on velocity and direction
-        /*
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        // Add hover speed
         newVelocity = new Vector3(
-                forward.x * newVelocity.x,
+                newVelocity.x,
                 newVelocity.y + hoverSpeed,
-                forward.z * newVelocity.z
+                newVelocity.z
         );
 
         // Apply corrective slide, to avoid being stuck
         newVelocity = ApplyCorrectiveSlide(newVelocity);
-        */
 
         // Set the new velocity
+        yVelocity = newVelocity.y;
         rigidbodyComponent.velocity = newVelocity;
     }
 
@@ -640,40 +660,55 @@ public class PlayerController : MonoBehaviour, IStateListener {
      */
     private Vector3 CalculateVelocity() {
 
-        // Apply acceleration
+        // Apply acceleration and jumping / gravity
         Vector3 acceleration = GetAcceleration() * transform.forward;
-        float newVelocityX = rigidbodyComponent.velocity.x + acceleration.x;
-        float newVelocityZ = rigidbodyComponent.velocity.z + acceleration.z;
+        Vector3 acceleratedVelocity = new Vector3(
+                rigidbodyComponent.velocity.x + acceleration.x,
+                yVelocity + GetVerticalVelocityModifier(),
+                rigidbodyComponent.velocity.z + acceleration.z);
 
-        // Apply friction (when not accelerating)
+        // Determine lateral friction
+        float lateralFriction = grounded
+                ? FRICTION_LATERAL
+                : AIR_FRICTION_LATERAL;
+
+        // Determine forward friction
+        float forwardFriction = 0;
         if (acceleration.magnitude == 0) {
-            float friction = grounded
-                    ? FRICTION
-                    : AIR_FRICTION;
-            newVelocityX *= friction;
-            newVelocityZ *= friction;
+            if (grounded) {
+                forwardFriction = FRICTION_FORWARD;
+            } else {
+                forwardFriction = AIR_FRICTION_FORWARD;
+            }
         }
 
-        // Determine new vertical velocity considering gravity and jumping
-        float newVelocityY = rigidbodyComponent.velocity.y
-                + GetVerticalVelocityModifier();
+        // Apply friction
+        Vector3 velocityInLocalSpace =
+                transform.InverseTransformDirection(acceleratedVelocity);
+        velocityInLocalSpace = new Vector3(
+                velocityInLocalSpace.x * (1 - lateralFriction),
+                velocityInLocalSpace.y,
+                velocityInLocalSpace.z * (1 - forwardFriction));
+        acceleratedVelocity =
+                transform.TransformDirection(velocityInLocalSpace);
 
-        // Limit vertical velocity
-        newVelocityY = Mathf.Clamp(
-                newVelocityY,
+        // Clamp vertical velocity
+        float clampedVelocityY = Mathf.Clamp(
+                acceleratedVelocity.y,
                 PhysicsHelper.MAX_FALL_SPEED_Y,
                 PhysicsHelper.MAX_JUMP_SPEED_Y
         );
 
-        // Limit horizontal velocity
+        // Clamp horizontal velocity
         Vector2 horizontalVelocity = Vector2.ClampMagnitude(
-                new Vector2(newVelocityX, newVelocityZ),
+                new Vector2(acceleratedVelocity.x, acceleratedVelocity.z),
                 maxSpeed
         );
 
+        // Put it all together
         return new Vector3(
                 horizontalVelocity.x,
-                newVelocityY,
+                clampedVelocityY,
                 horizontalVelocity.y
         );
     }
@@ -757,7 +792,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
         transform.rotation = Quaternion.Euler(spawnRotation);
 
         // Reset velocity
-        rigidbodyComponent.velocity = new Vector3(0, 0, 0);
+        rigidbodyComponent.velocity = Vector3.zero;
 
         // Inform listeners of the new position
         foreach (ICharacterListener listener in characterListeners) {
