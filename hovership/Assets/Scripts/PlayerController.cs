@@ -170,11 +170,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private Vector3 spawnRotation;
 
     /**
-     * Current velocity.
-     */
-    private Vector3 velocity;
-
-    /**
      * The vertical speed with which the player should hover to aim to return
      * to optimal height after HOVER_TIME.
      *
@@ -369,8 +364,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
             hoverSpeed = GetHoverSpeed(currentHeight);
 
             // Land, if falling
-            if (velocity.y < 0) {
-                velocity.y = 0;
+            if (rigidbodyComponent.velocity.y < 0) {
+                rigidbodyComponent.velocity =
+                        VectorUtils.SetY(rigidbodyComponent.velocity, 0);
                 grounded = true;
             }
         } else {
@@ -458,21 +454,23 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private void UpdateVelocity() {
 
         // Set the new velocity
-        velocity = CalculateVelocity();
+        Vector3 newVelocity = CalculateVelocity();
 
         // Calculate the final movement vector based on velocity and direction
+        /*
         Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 moveForce = new Vector3(
-                forward.x * velocity.x,
-                velocity.y + hoverSpeed,
-                forward.z * velocity.z
+        newVelocity = new Vector3(
+                forward.x * newVelocity.x,
+                newVelocity.y + hoverSpeed,
+                forward.z * newVelocity.z
         );
 
         // Apply corrective slide, to avoid being stuck
-        moveForce = ApplyCorrectiveSlide(moveForce);
+        newVelocity = ApplyCorrectiveSlide(newVelocity);
+        */
 
         // Set the new velocity
-        rigidbodyComponent.velocity = moveForce;
+        rigidbodyComponent.velocity = newVelocity;
     }
 
     /**
@@ -643,12 +641,12 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private Vector3 CalculateVelocity() {
 
         // Apply acceleration
-        float acceleration = GetAcceleration();
-        float newVelocityX = velocity.x + acceleration;
-        float newVelocityZ = velocity.z + acceleration;
+        Vector3 acceleration = GetAcceleration() * transform.forward;
+        float newVelocityX = rigidbodyComponent.velocity.x + acceleration.x;
+        float newVelocityZ = rigidbodyComponent.velocity.z + acceleration.z;
 
         // Apply friction (when not accelerating)
-        if (Mathf.Abs(acceleration) == 0) {
+        if (acceleration.magnitude == 0) {
             float friction = grounded
                     ? FRICTION
                     : AIR_FRICTION;
@@ -657,7 +655,8 @@ public class PlayerController : MonoBehaviour, IStateListener {
         }
 
         // Determine new vertical velocity considering gravity and jumping
-        float newVelocityY = velocity.y + GetVerticalVelocityModifier();
+        float newVelocityY = rigidbodyComponent.velocity.y
+                + GetVerticalVelocityModifier();
 
         // Limit vertical velocity
         newVelocityY = Mathf.Clamp(
@@ -758,7 +757,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
         transform.rotation = Quaternion.Euler(spawnRotation);
 
         // Reset velocity
-        velocity = Vector3.zero;
+        rigidbodyComponent.velocity = new Vector3(0, 0, 0);
 
         // Inform listeners of the new position
         foreach (ICharacterListener listener in characterListeners) {
