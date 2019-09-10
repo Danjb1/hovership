@@ -2,7 +2,6 @@
 
 ## Code
 
- - Menu isn't responding to clicks
  - Camera doesn't lower if player drops onto the key from above
  - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
