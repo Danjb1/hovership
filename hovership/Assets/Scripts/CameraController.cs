@@ -282,7 +282,6 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         int layerMask = ~(1 << 9); // All layers except player
         RaycastHit hit;
         if (Physics.Linecast(target, optimalPos, out hit, layerMask)) {
-            Debug.Log(hit.point);
             optimalPos = new Vector3(
                     hit.point.x + hit.normal.x * 0.5f,
                     optimalPos.y,
