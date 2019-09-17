@@ -2,7 +2,6 @@
 
 ## Code
 
- - Camera doesn't lower if player drops onto the key from above
  - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)

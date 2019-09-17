@@ -108,6 +108,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         maxDistanceToTarget = maxDistanceMultiplier * distanceToTarget;
         minDistanceToTarget = minDistanceMultiplier * distanceToTarget;
 
+        lastGroundedY = player.transform.position.y;
         currentTargetY = player.transform.position.y;
         CharacterTeleported();
     }
@@ -130,6 +131,16 @@ public class CameraController : MonoBehaviour, ICharacterListener {
             );
             return;
         }
+
+        // If the Player has fallen below their last grounded Y,
+        // start tracking them again
+        desiredTargetY = Math.Min(lastGroundedY, player.transform.position.y);
+
+        // Calculate distance to optimal position
+        float dy = desiredTargetY - currentTargetY;
+
+        // Calculate vertical speed required to reach optimal position in time
+        speedY = dy / VERTICAL_MOVEMENT_TIME;
 
         float prevTargetY = currentTargetY;
 
@@ -172,8 +183,8 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     public void SlerpToTarget(Vector3 target) {
         transform.rotation = Quaternion.Slerp(
-                transform.rotation, 
-                Quaternion.LookRotation(target - transform.position), 
+                transform.rotation,
+                Quaternion.LookRotation(target - transform.position),
                 SLERP_INTERVAL / 2);
     }
 
@@ -286,15 +297,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      * Called whenever the Player lands.
      */
     public void CharacterLanded() {
-
         lastGroundedY = player.transform.position.y;
-        desiredTargetY = lastGroundedY;
-
-        // Calculate distance to optimal position
-        float dy = desiredTargetY - currentTargetY;
-
-        // Calculate vertical speed required to reach optimal position in time
-        speedY = dy / VERTICAL_MOVEMENT_TIME;
     }
 
     public void CharacterTeleported() {
