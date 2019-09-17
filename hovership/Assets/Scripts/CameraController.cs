@@ -278,6 +278,18 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         float newY = Mathf.Max(optimalPos.y + height, minY);
         optimalPos = VectorUtils.SetY(optimalPos, newY);
 
+        // Check for obstructions between target and camera
+        int layerMask = ~(1 << 9); // All layers except player
+        RaycastHit hit;
+        if (Physics.Linecast(target, optimalPos, out hit, layerMask)) {
+            Debug.Log(hit.point);
+            optimalPos = new Vector3(
+                    hit.point.x + hit.normal.x * 0.5f,
+                    optimalPos.y,
+                    hit.point.z + hit.normal.z * 0.5f
+            );
+        }
+
         return optimalPos;
     }
 
