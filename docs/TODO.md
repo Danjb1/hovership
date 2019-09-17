@@ -12,8 +12,6 @@
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
  - Particle effects when picking up a Power Shard
- - Player can't jump when going up a ramp (hover pushes him too far up)
-    - "Allowed jump" height higher than hover height
 
 ## Unity
 

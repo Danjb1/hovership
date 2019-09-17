@@ -192,6 +192,20 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private Vector3 spawnRotation;
 
     /**
+     * Maximum height above ground at which jumping is still permitted.
+     *
+     * Jumping should be allowed even if we are slightly above what we consider
+     * "grounded"; this is because when the player hits a ramp, the sudden
+     * hover speed can sometimes propel the player upwards.
+     */
+    private float maxHeightPermittingJump;
+
+    /**
+     * Player's height about the ground (averaged from multiple points).
+     */
+    private float currentHeight;
+
+    /**
      * The vertical speed with which the player should hover to aim to return
      * to optimal height after HOVER_TIME.
      *
@@ -301,6 +315,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
         slideThreshold = hoverHeight * PhysicsHelper.SLIDE_THRESHOLD_RATIO;
         wingtipSlideThreshold = slideThreshold * PhysicsHelper.WINGTIP_THRESHOLD_RATIO;
 
+        // Determine the maximum height at which jumping is permitted
+        maxHeightPermittingJump = hoverHeight * 2f;
+
         // Capture the box collider's dimensions
         // TODO: Rotate the collider to align with player.forward
         width = colliderComponent.bounds.extents.x;
@@ -381,7 +398,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
      * Also takes care of landing.
      */
     private void UpdateHoverSpeed() {
-        float currentHeight = GetAverageDistanceToGround();
+        currentHeight = GetAverageDistanceToGround();
         if (currentHeight < hoverHeight) {
             hoverSpeed = GetHoverSpeed(currentHeight);
 
@@ -457,7 +474,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
         if (isRespawning) {
             return;
         }
-        if (grounded && jumpKeyDown) {
+        if (jumpKeyDown && IsJumpAllowed()) {
             jumping = true;
         }
         if (jumping) {
@@ -468,6 +485,10 @@ public class PlayerController : MonoBehaviour, IStateListener {
                 spentJumpTime = 0;
             }
         }
+    }
+
+    private bool IsJumpAllowed() {
+        return grounded || currentHeight < maxHeightPermittingJump;
     }
 
     /**
@@ -590,7 +611,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private float GetHoverHeight(float xFactor, float zFactor) {
         Vector3 localRay = new Vector3(width * xFactor, 0, length * zFactor);
         Vector3 rayOrigin = transform.TransformPoint(localRay);
-        return PhysicsHelper.DistanceToGround(rayOrigin, hoverHeight);
+        return PhysicsHelper.DistanceToGround(rayOrigin, maxHeightPermittingJump);
     }
 
     /**
