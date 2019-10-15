@@ -3120,6 +3120,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e00a9c174b8b17642bdb891fa72edab7, type: 3}
+--- !u!1 &820288197 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5582191894685314611, guid: 664ac0577c66d5345996e15fdcfa281c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5582191895107806445}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &820288204
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820288197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &820288205
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820288197}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 2
 --- !u!1001 &822105317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7641,7 +7676,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 84eb4ee9032996043ba22784fbbfed0e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 84eb4ee9032996043ba22784fbbfed0e,
         type: 3}
@@ -14404,26 +14439,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1534645375359830}
-    - target: {fileID: 5582191894685314610, guid: 664ac0577c66d5345996e15fdcfa281c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5582191894685314573, guid: 664ac0577c66d5345996e15fdcfa281c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5582191894685314575, guid: 664ac0577c66d5345996e15fdcfa281c,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 791
-      objectReference: {fileID: 0}
-    - target: {fileID: 5582191894685314575, guid: 664ac0577c66d5345996e15fdcfa281c,
-        type: 3}
-      propertyPath: near clip plane
-      value: 0.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 664ac0577c66d5345996e15fdcfa281c, type: 3}
 --- !u!1001 &5631385462486959648
@@ -14668,7 +14683,7 @@ PrefabInstance:
     - target: {fileID: 6826989703511691296, guid: 900fef5ab8eeef941b44700a75c1cfac,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6826989703511691296, guid: 900fef5ab8eeef941b44700a75c1cfac,
         type: 3}

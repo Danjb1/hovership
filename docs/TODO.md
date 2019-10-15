@@ -2,8 +2,10 @@
 
 ## Code
 
+ - Camera collision
+    - In CameraController, do not modify the transform directly
+    - Apply forces based on camera position relative to player
  - For jumping, check if ANY point under the player is grounded, instead of using the average?
- - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
