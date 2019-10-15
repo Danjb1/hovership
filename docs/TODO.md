@@ -12,6 +12,8 @@
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
  - Particle effects when picking up a Power Shard
+ - NPE in LevelCompleteMenuController.Start()
+ - NPE when collecting a Power Shard
 
 ## Unity
 
