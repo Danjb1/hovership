@@ -2,6 +2,7 @@
 
 ## Code
 
+ - For jumping, check if ANY point under the player is grounded, instead of using the average?
  - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
