@@ -13,6 +13,8 @@
  - Particle effects when picking up a Power Shard
  - NPE in LevelCompleteMenuController.Start()
  - NPE when collecting a Power Shard
+ - Strange camera behaviour when touching the key to end the level
+   - Probably just needs to centre on the player at the moment of completion
 
 ## Unity
 
