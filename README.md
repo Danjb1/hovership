@@ -6,7 +6,7 @@ A simple 3D platformer created in Unity.
 
 ## Features
 
- - Car-style steer / move mechanics
+ - Drifty car-style steer / move mechanics
 
  - Third-person follow camera
 
