@@ -3,7 +3,6 @@
 ## Code
 
  - For jumping, check if ANY point under the player is grounded, instead of using the average?
- - Camera clips through walls (camera_collision branch)
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
@@ -12,6 +11,8 @@
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
  - Particle effects when picking up a Power Shard
+ - NPE in LevelCompleteMenuController.Start()
+ - NPE when collecting a Power Shard
 
 ## Unity
 

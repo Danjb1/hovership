@@ -53,6 +53,16 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private const float SLERP_INTERVAL = 0.25f;
 
     /**
+     * Multiplier applied to the camera's velocity.
+     */
+    private const float SPEED_MULTIPLIER = 100;
+
+    /**
+     * Upper limit to the size of the velocity vector.
+     */
+    private const float SPEED_LIMIT = 8;
+
+    /**
      * Time taken to reach the vertical destination, in seconds.
      */
     private const float VERTICAL_MOVEMENT_TIME = 0.3f;
@@ -93,10 +103,15 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     private float minY;
 
+    private Rigidbody rigidbodyComponent;
+
     /**
      * Initialises this controller.
      */
     void Start () {
+
+        // Acquire camera body        
+        rigidbodyComponent = GetComponent<Rigidbody>();
 
         // Register this class as a CharacterListener for the Player
         PlayerController playerCtrl = player.GetComponent<PlayerController>();
@@ -203,7 +218,18 @@ public class CameraController : MonoBehaviour, ICharacterListener {
                 targetToCamera, targetToOptimalCamera, SLERP_INTERVAL);
 
         // Correct for over-the-pole slerp movement
-        transform.position = new Vector3(newPos.x, optimalPosition.y, newPos.z);
+        newPos = VectorUtils.SetY(newPos, optimalPosition.y);
+
+        // Determine acceleration towards new position
+        Vector3 toNewPos = newPos - transform.position;
+        float dist = toNewPos.magnitude;
+        Vector3 newVelocity = toNewPos * dist * SPEED_MULTIPLIER;
+
+        // Limit velocity, to avoid camera jerkiness
+        newVelocity = Vector3.ClampMagnitude(newVelocity, SPEED_LIMIT);
+
+        // Apply acceleration towards new position
+        rigidbodyComponent.velocity = newVelocity;
 
         /*
          * Check if the camera is too close to or far from the player.
