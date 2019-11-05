@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IStateListener {
+public class PlayerController : MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -53,11 +53,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
      */
     public float hoverHeight;
 
-    /**
-     * Sound to use for the ship's engine.
-     */
-    public AudioClip engineSound;
-
     ///////////////////////////////////////////////////////////////////////////
     // PlayerController
     ///////////////////////////////////////////////////////////////////////////
@@ -98,36 +93,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private const float ROTATIONAL_FRICTION = 0.9f;
 
     /**
-     * Multiplier governing how quickly the exhaust emission rate increases.
-     */
-    private const float EXHAUST_SPOOL_UP_MULTIPLIER = 1000;
-
-    /**
-     * Multiplier governing how quickly the exhaust emission rate decreases.
-     */
-    private const float EXHAUST_SPOOL_DOWN_MULTIPLIER = 2000;
-
-    /**
-     * Minimum emission rate of the exhaust ParticleSystem.
-     */
-    private const float EXHAUST_MIN_EMISSION_RATE = 100;
-
-    /**
-     * Maximum emission rate of the exhaust ParticleSystem.
-     */
-    private const float EXHAUST_MAX_EMISSION_RATE = 300;
-
-    /**
-     * Lowest permitted engine pitch.
-     */
-    private const float ENGINE_MIN_PITCH = 0.9f;
-
-    /**
-     * Highest permitted engine pitch.
-     */
-    private const float ENGINE_MAX_PITCH = 1.1f;
-
-    /**
      * The distance the player falls below the ground plane before respawning.
      */
     private const float RESPAWN_DEPTH = 40f;
@@ -165,21 +130,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
      * Player's Collider component.
      */
     private Collider colliderComponent;
-
-    /**
-     * Player's ParticleSystem component.
-     */
-    private ParticleSystem exhaust;
-
-    /**
-     * AudioSource for the engine sounds.
-     */
-    private AudioSource engineAudioSource;
-
-    /**
-     * Emission rate of the exhaust ParticleSystem.
-     */
-    private float exhaustEmissionRate;
 
     /**
      * The position where the player will respawn.
@@ -245,11 +195,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private List<ICharacterListener> characterListeners = new List<ICharacterListener>();
 
     /**
-     * Time since the engine sound was last played, in milliseconds.
-     */
-    private int msSinceEngineSoundPlayed;
-
-    /**
      * The box collider's width.
      */
     private float width;
@@ -303,11 +248,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // Acquire player's components
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
-        exhaust = GetComponent<ParticleSystem>();
-        engineAudioSource = GetComponent<AudioSource>();
-
-        // Subscribe to state changes
-        StateManager.Instance.AddStateListener(this);
 
         // Set game state to Playing
         StateManager.Instance.SetState(GameState.PLAYING);
@@ -341,11 +281,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
         );
     }
 
-    void OnDisable() {
-        // Unsubscribe
-        StateManager.Instance.RemoveStateListener(this);
-    }
-
     /**
      * Polls user input.
      */
@@ -373,8 +308,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
         UpdateCorrectiveSlide();
         UpdateJump();
         UpdateVelocity();
-        UpdateExhaust();
-        UpdateEngineAudio();
     }
 
     /**
@@ -517,51 +450,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // Set the new velocity
         yVelocity = newVelocity.y;
         rigidbodyComponent.velocity = newVelocity;
-    }
-
-    /**
-     * Updates the exhaust particle system and audio.
-     */
-    private void UpdateExhaust() {
-
-        if (Input.GetAxisRaw("Vertical") > 0) {
-            // Player is holding forward
-            exhaustEmissionRate +=
-                    EXHAUST_SPOOL_UP_MULTIPLIER * Time.deltaTime;
-        } else {
-            // Player is not holding forward
-            exhaustEmissionRate -=
-                    EXHAUST_SPOOL_DOWN_MULTIPLIER * Time.deltaTime;
-        }
-
-        exhaustEmissionRate = Mathf.Clamp(exhaustEmissionRate,
-                EXHAUST_MIN_EMISSION_RATE,
-                EXHAUST_MAX_EMISSION_RATE);
-
-        var emission = exhaust.emission;
-        emission.rateOverTime = exhaustEmissionRate;
-    }
-
-    /**
-     * Updates the engine audio.
-     */
-    private void UpdateEngineAudio() {
-
-        // Engine spool-up progress from 0-1
-        float engineProgress = (exhaustEmissionRate - EXHAUST_MIN_EMISSION_RATE)
-                / (EXHAUST_MAX_EMISSION_RATE - EXHAUST_MIN_EMISSION_RATE);
-
-        // Set the pitch from MIN_PITCH to MAX_PITCH
-        engineAudioSource.pitch = ENGINE_MIN_PITCH +
-                (engineProgress * (ENGINE_MAX_PITCH - ENGINE_MIN_PITCH));
-
-        // Play after some interval
-        if (msSinceEngineSoundPlayed > 70) {
-            engineAudioSource.PlayOneShot(engineSound);
-            msSinceEngineSoundPlayed = 0;
-        } else {
-            msSinceEngineSoundPlayed += (int)(Time.deltaTime * 1000);
-        }
     }
 
     /**
@@ -826,14 +714,6 @@ public class PlayerController : MonoBehaviour, IStateListener {
         // Inform listeners of the new position
         foreach (ICharacterListener listener in characterListeners) {
             listener.CharacterTeleported();
-        }
-    }
-
-    public void StateChanged(GameState newState) {
-        if (newState == GameState.PLAYING) {
-            exhaust.Play();
-        } else {
-            exhaust.Pause();
         }
     }
 

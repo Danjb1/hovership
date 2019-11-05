@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7353752823523914864}
   - component: {fileID: 7460837264765038630}
-  - component: {fileID: 7412706514724993338}
+  - component: {fileID: -7719738235210349464}
   - component: {fileID: 1534645375359832}
+  - component: {fileID: 7412706514724993338}
   - component: {fileID: 1534645375359831}
   - component: {fileID: 2757400083053952465}
   - component: {fileID: 7077653933492029340}
@@ -57,23 +58,19 @@ MonoBehaviour:
   minJumpTime: 0.15
   maxJumpTime: 0.225
   hoverHeight: 0.5
-  engineSound: {fileID: 8300000, guid: 445ed784f61051f48be709f22e33d9bd, type: 3}
---- !u!54 &7412706514724993338
-Rigidbody:
+--- !u!114 &-7719738235210349464
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356900589347761122}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 3
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc174bc89bf8a04b92351ca03d255c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  engineSound: {fileID: 8300000, guid: 445ed784f61051f48be709f22e33d9bd, type: 3}
 --- !u!199 &1534645375359832
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -101,6 +98,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -136,6 +134,22 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!54 &7412706514724993338
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7356900589347761122}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 3
 --- !u!198 &1534645375359831
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4970,6 +4984,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
