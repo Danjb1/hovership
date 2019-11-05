@@ -2,6 +2,8 @@
 
 ## Code
 
+ - Camera clips through terrain when moving forward quickly and jumping onto a ledge
+   - Adjust behaviour to start moving up sooner, to avoid the ledge?
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
