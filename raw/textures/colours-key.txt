@@ -24,3 +24,5 @@
 22 - power shard 4
 24 - power shard 5
 25 - cloud
+26 - mountain
+27 - mountain top

@@ -32,7 +32,6 @@
  - Music
  - Configure launcher
  - Custom cursor
- - Add mountains to Skybox
  - Add distant islands / clouds within scene
 
 ## Asset Enhancements
@@ -41,6 +40,11 @@
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
  - Village terrain piece (some janky geometry at edges)
+ - Terrain pieces need bottoms!
+ - Mountains (more jaggedy snow-line)
+ - Mountain bottoms should not be visible
+    - Fade to transparent
+    - OR have a textured floor plane that cuts through them
 
 ## New Assets
 
