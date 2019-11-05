@@ -109,6 +109,11 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private Rigidbody rigidbodyComponent;
 
     /**
+     * Whether the player is in flight mode.
+     */
+    private bool isInFlightMode;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -116,6 +121,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         // Register this class as a CharacterListener for the Player
         PlayerController playerCtrl = player.GetComponent<PlayerController>();
         playerCtrl.RegisterCharacterListener(this);
+        isInFlightMode = playerCtrl.IsInFlightMode();
 
         // Acquire camera body        
         rigidbodyComponent = GetComponent<Rigidbody>();
@@ -164,7 +170,12 @@ public class CameraController : MonoBehaviour, ICharacterListener {
             return;
         }
 
-        currentTargetY += speedY * Time.deltaTime;
+        // If we are flying, track player's Y directly
+        if (isInFlightMode) {
+            currentTargetY = player.transform.position.y;
+        } else {
+            currentTargetY += speedY * Time.deltaTime;
+        }
 
         // If we have gone past our destination, stop at the destination
         if (DestinationReached(desiredTargetY, prevTargetY, currentTargetY)) {
