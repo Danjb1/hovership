@@ -666,6 +666,13 @@ public class PlayerController : MonoBehaviour, IStateListener {
     }
 
     /**
+     * Gets the player's rigidbody component.
+     */
+    public Rigidbody GetRigidbody() {
+        return rigidbodyComponent;
+    }
+
+    /**
      * Determines if the player's jump should end.
      */
     private bool HasJumpFinished() {
