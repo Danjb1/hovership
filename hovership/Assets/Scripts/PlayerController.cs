@@ -201,9 +201,14 @@ public class PlayerController : MonoBehaviour, IStateListener {
     private float maxHeightPermittingJump;
 
     /**
-     * Player's height about the ground (averaged from multiple points).
+     * Player's height above the ground (averaged from multiple points).
      */
     private float currentHeight;
+
+    /**
+     * Player's height above the ground, measured from the centre of the fuselage.
+     */
+    private float currentCentreHeight;
 
     /**
      * The vertical speed with which the player should hover to aim to return
@@ -488,7 +493,7 @@ public class PlayerController : MonoBehaviour, IStateListener {
     }
 
     private bool IsJumpAllowed() {
-        return grounded || currentHeight < maxHeightPermittingJump;
+        return grounded || currentCentreHeight < maxHeightPermittingJump;
     }
 
     /**
@@ -578,6 +583,9 @@ public class PlayerController : MonoBehaviour, IStateListener {
             GetHoverHeight(0.2f, 0.5f),           // fuselage right front quarter
             GetHoverHeight(0.15f, 0.7f)           // fuselage right front
         };
+
+        // Record central height, for determining whether we can jump
+        currentCentreHeight = results[0];
 
         // Find the average distance to the ground based on all collisions
         float totalDist = 0;

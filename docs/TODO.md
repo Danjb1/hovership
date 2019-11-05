@@ -2,7 +2,6 @@
 
 ## Code
 
- - For jumping, check if ANY point under the player is grounded, instead of using the average?
  - Player model should bob up and down slightly when grounded
  - Separate PlayerController into multiple controllers (single responsibility!)
  - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
