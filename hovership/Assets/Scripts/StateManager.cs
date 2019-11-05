@@ -16,6 +16,9 @@ public class StateManager {
 
     private float levelGroundHeight;
 
+    // TODO - true value is temporary
+    private bool flightMode = true;
+
     private List<IStateListener> stateListeners = new List<IStateListener>();
 
     private List<IPowerShardListener> powerShardListeners =
@@ -43,6 +46,14 @@ public class StateManager {
 
     public GameState GetState() {
         return gameState;
+    }
+
+    public void SetFlightMode(bool flightMode) {
+        flightMode = flightMode;
+    }
+
+    public bool IsFlightMode() {
+        return flightMode;
     }
 
     public void AddStateListener(IStateListener listener) {

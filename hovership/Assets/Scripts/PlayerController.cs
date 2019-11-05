@@ -250,13 +250,7 @@ public class PlayerController : MonoBehaviour {
      * Whether the player is in flight mode, where jumping is not restricted to
      * when grounded and gravity is reduced.
      */
-    private bool isInFlightMode;
-
-    /**
-     * The factor by which the maximum jump speed is multiplied. We use this in
-     * flight mode to prevent accidental flyaway.
-     */
-    private float maxVerticalSpeedMultiplier;
+    private bool flightMode;
 
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
@@ -264,10 +258,6 @@ public class PlayerController : MonoBehaviour {
 
     public float GetRotationSpeed() {
         return rotationSpeed;
-    }
-
-    public bool IsInFlightMode() {
-        return isInFlightMode;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -278,10 +268,6 @@ public class PlayerController : MonoBehaviour {
      * Initialises this controller.
      */
     void Start () {
-
-        // TODO temporary
-        isInFlightMode = true;
-        maxVerticalSpeedMultiplier = isInFlightMode ? 0.7f : 1f;
 
         // Acquire player's components
         rigidbodyComponent = GetComponent<Rigidbody>();
@@ -340,12 +326,20 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
+        DetectFlightMode();
         DetectRespawn();
         UpdateRotation();
         UpdateHoverSpeed();
         UpdateCorrectiveSlide();
         UpdateJump();
         UpdateVelocity();
+    }
+
+    /**
+     * Determine from state manager whether player is in flight mode.
+     */
+    private void DetectFlightMode() {
+        flightMode = StateManager.Instance.IsFlightMode();
     }
 
     /**
@@ -464,7 +458,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private bool IsJumpAllowed() {
-        return isInFlightMode
+        return flightMode
                 || grounded
                 || currentCentreHeight < maxHeightPermittingJump;
     }
@@ -602,7 +596,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Jump is finished if max jump time exceeded and we are not flying
-        return !isInFlightMode && spentJumpTime >= maxJumpTime;
+        return !flightMode && spentJumpTime >= maxJumpTime;
     }
 
     /**
@@ -643,6 +637,7 @@ public class PlayerController : MonoBehaviour {
                 transform.TransformDirection(velocityInLocalSpace);
 
         // Clamp vertical velocity
+        float maxVerticalSpeedMultiplier = flightMode ? 0.7f : 1f;
         float clampedVelocityY = Mathf.Clamp(
                 acceleratedVelocity.y,
                 PhysicsHelper.MAX_FALL_SPEED_Y * maxVerticalSpeedMultiplier,
@@ -695,7 +690,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Falling
-        return isInFlightMode
+        return flightMode
                 ? PhysicsHelper.GRAVITY * FLIGHT_MODE_GRAVITY_FRACTION
                 : PhysicsHelper.GRAVITY;
     }

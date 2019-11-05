@@ -19,10 +19,14 @@
 
 ### Camera
 
+#### Flight Mode
+
+ - Camera twitches strangely if player turns while airborne
+
+#### Normal Mode
+
  - Camera clips through terrain when moving forward quickly and jumping onto a ledge
-   - Adjust behaviour to start moving up sooner, to avoid the ledge?
  - Camera freaks out when player jumps off the edge of the level
-   - Happens at the moment when the camera stops moving and pivots down to follow the player
  - Camera can collide jankily with terrain if player drops off it and doesn't move far forwards
  - Strange camera behaviour when touching the key to end the level
    - Probably just needs to centre on the player at the moment of completion

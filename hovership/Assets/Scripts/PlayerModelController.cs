@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class PlayerModelController : MonoBehaviour {
 
-    /**
-     * Multiplier applied to the player's rotation speed to determine our tilt
-     * angle.
-     */
-    private float tiltFactor;
-
     private PlayerController playerCtrl;
 
     void Start () {
@@ -19,7 +13,7 @@ public class PlayerModelController : MonoBehaviour {
 	void LateUpdate () {
 
         // Determine our desired z-rotation
-        tiltFactor = playerCtrl.IsInFlightMode() ? 0.25f : 0.1f;
+        float tiltFactor = StateManager.Instance.IsFlightMode() ? 0.25f : 0.1f;
         float rotZ = -playerCtrl.GetRotationSpeed() * tiltFactor;
 
         // Apply the rotation
