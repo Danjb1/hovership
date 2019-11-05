@@ -103,6 +103,9 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     private float minY;
 
+    /**
+     * The camera collider's rigidbody component.
+     */
     private Rigidbody rigidbodyComponent;
 
     /**
@@ -110,26 +113,22 @@ public class CameraController : MonoBehaviour, ICharacterListener {
      */
     void Start () {
 
-        // Acquire camera body        
-        rigidbodyComponent = GetComponent<Rigidbody>();
-
         // Register this class as a CharacterListener for the Player
         PlayerController playerCtrl = player.GetComponent<PlayerController>();
         playerCtrl.RegisterCharacterListener(this);
 
-        // Determine the minimum height for this level
-        minY = StateManager.Instance.GetLevelGroundHeight();
+        // Acquire camera body        
+        rigidbodyComponent = GetComponent<Rigidbody>();
 
+        // Determine position boundaries
+        minY = StateManager.Instance.GetLevelGroundHeight();
         maxDistanceToTarget = maxDistanceMultiplier * distanceToTarget;
         minDistanceToTarget = minDistanceMultiplier * distanceToTarget;
 
+        // Adopt spawn-in position
         lastGroundedY = player.transform.position.y;
         currentTargetY = player.transform.position.y;
         CharacterTeleported();
-    }
-
-    void Update() {
-
     }
 
     /**
