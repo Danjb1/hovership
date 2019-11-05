@@ -2,18 +2,27 @@
 
 ## Code
 
- - Camera clips through terrain when moving forward quickly and jumping onto a ledge
-   - Adjust behaviour to start moving up sooner, to avoid the ledge?
- - Player model should bob up and down slightly when grounded
- - Separate PlayerController into multiple controllers (single responsibility!)
- - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
  - Add unit tests
- - Get the player's collider bounds in a rotation-agnostic manner on init
- - Handle player's velocity vector using local coords, not world
-   - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
  - Particle effects when picking up a Power Shard
  - NPE in LevelCompleteMenuController.Start()
  - NPE when collecting a Power Shard
+
+### Player
+
+ - Player model should bob up and down slightly when grounded
+ - Separate PlayerController into multiple controllers (single responsibility!)
+ - Change the "start lifetime" property of the Player exhaust based on acceleration; keep emission rate constant
+ - Get the player's collider bounds in a rotation-agnostic manner on init
+ - Handle player's velocity vector using local coords, not world
+   - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
+
+### Camera
+
+ - Camera clips through terrain when moving forward quickly and jumping onto a ledge
+   - Adjust behaviour to start moving up sooner, to avoid the ledge?
+ - Camera freaks out when player jumps off the edge of the level
+   - Happens at the moment when the camera stops moving and pivots down to follow the player
+ - Camera can collide jankily with terrain if player drops off it and doesn't move far forwards
  - Strange camera behaviour when touching the key to end the level
    - Probably just needs to centre on the player at the moment of completion
 
