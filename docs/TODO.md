@@ -9,9 +9,9 @@
 
 ### Turrets
 
- - Create turret controller
-   - Aim towards player continuously
-   - Spawn in projectile objects at some rate and propel them at player
+ - Spawn in projectile objects at some rate and propel them at player
+ - Refactor turrets to have master controller in parent object
+   - Will remove need to search out other gameobjects by reference
 
 ### Player
 
