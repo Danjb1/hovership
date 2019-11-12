@@ -7,6 +7,12 @@
  - NPE in LevelCompleteMenuController.Start()
  - NPE when collecting a Power Shard
 
+### Turrets
+
+ - Create turret controller
+   - Aim towards player continuously
+   - Spawn in projectile objects at some rate and propel them at player
+
 ### Player
 
  - Player model should bob up and down slightly when grounded
@@ -95,3 +101,4 @@
  - Sheep
  - Cows
  - Chickens
+ - Turrets
