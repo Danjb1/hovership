@@ -26,3 +26,5 @@
 25 - cloud
 26 - mountain
 27 - mountain top
+28 - turret top
+29 - turret base
