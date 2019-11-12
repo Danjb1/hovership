@@ -16,8 +16,7 @@ public class StateManager {
 
     private float levelGroundHeight;
 
-    // TODO - true value is temporary
-    private bool flightMode = true;
+    private bool flightMode = false;
 
     private List<IStateListener> stateListeners = new List<IStateListener>();
 
