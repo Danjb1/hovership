@@ -114,8 +114,8 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     void Start () {
 
         // Register this class as a CharacterListener for the Player
-        PlayerController playerCtrl = player.GetComponent<PlayerController>();
-        playerCtrl.RegisterCharacterListener(this);
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.RegisterCharacterListener(this);
 
         // Acquire camera body        
         rigidbodyComponent = GetComponent<Rigidbody>();
@@ -164,7 +164,12 @@ public class CameraController : MonoBehaviour, ICharacterListener {
             return;
         }
 
-        currentTargetY += speedY * Time.deltaTime;
+        // If we are flying, track player's Y directly
+        if (StateManager.Instance.IsFlightMode()) {
+            currentTargetY = player.transform.position.y;
+        } else {
+            currentTargetY += speedY * Time.deltaTime;
+        }
 
         // If we have gone past our destination, stop at the destination
         if (DestinationReached(desiredTargetY, prevTargetY, currentTargetY)) {

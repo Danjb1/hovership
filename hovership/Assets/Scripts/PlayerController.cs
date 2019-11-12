@@ -98,6 +98,12 @@ public class PlayerController : MonoBehaviour {
     private const float RESPAWN_DEPTH = 40f;
 
     /**
+     * The fraction of normal gravity the player will experience during flight
+     * mode.
+     */
+    private const float FLIGHT_MODE_GRAVITY_FRACTION = 0.4f;
+
+    /**
      * Rotational axis input.
      */
     private float rotationInput;
@@ -241,6 +247,24 @@ public class PlayerController : MonoBehaviour {
     private bool isRespawning;
 
     /**
+     * Whether the player is in flight mode, where jumping is not restricted to
+     * when grounded and gravity is reduced.
+     */
+    private bool flightMode;
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Accessors
+    ///////////////////////////////////////////////////////////////////////////
+
+    public float GetRotationSpeed() {
+        return rotationSpeed;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Logic
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -302,12 +326,20 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
+        DetectFlightMode();
         DetectRespawn();
         UpdateRotation();
         UpdateHoverSpeed();
         UpdateCorrectiveSlide();
         UpdateJump();
         UpdateVelocity();
+    }
+
+    /**
+     * Determine from state manager whether player is in flight mode.
+     */
+    private void DetectFlightMode() {
+        flightMode = StateManager.Instance.IsFlightMode();
     }
 
     /**
@@ -426,7 +458,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     private bool IsJumpAllowed() {
-        return grounded || currentCentreHeight < maxHeightPermittingJump;
+        return flightMode
+                || grounded
+                || currentCentreHeight < maxHeightPermittingJump;
     }
 
     /**
@@ -547,13 +581,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     /**
-     * Gets the speed at which the player is currently rotating.
-     */
-    public float GetRotationSpeed() {
-        return rotationSpeed;
-    }
-
-    /**
      * Determines if the player's jump should end.
      */
     private bool HasJumpFinished() {
@@ -568,8 +595,8 @@ public class PlayerController : MonoBehaviour {
             return true;
         }
 
-        // Jump has finished if max jump time has been reached
-        return spentJumpTime >= maxJumpTime;
+        // Jump is finished if max jump time exceeded and we are not flying
+        return !flightMode && spentJumpTime >= maxJumpTime;
     }
 
     /**
@@ -610,10 +637,11 @@ public class PlayerController : MonoBehaviour {
                 transform.TransformDirection(velocityInLocalSpace);
 
         // Clamp vertical velocity
+        float maxVerticalSpeedMultiplier = flightMode ? 0.7f : 1f;
         float clampedVelocityY = Mathf.Clamp(
                 acceleratedVelocity.y,
-                PhysicsHelper.MAX_FALL_SPEED_Y,
-                PhysicsHelper.MAX_JUMP_SPEED_Y
+                PhysicsHelper.MAX_FALL_SPEED_Y * maxVerticalSpeedMultiplier,
+                PhysicsHelper.MAX_JUMP_SPEED_Y * maxVerticalSpeedMultiplier
         );
 
         // Clamp horizontal velocity
@@ -662,7 +690,9 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Falling
-        return PhysicsHelper.GRAVITY;
+        return flightMode
+                ? PhysicsHelper.GRAVITY * FLIGHT_MODE_GRAVITY_FRACTION
+                : PhysicsHelper.GRAVITY;
     }
 
     /**
