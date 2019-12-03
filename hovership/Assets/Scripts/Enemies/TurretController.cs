@@ -84,7 +84,20 @@ public class TurretController : MonoBehaviour {
         float range = VectorUtils.GetResultant(
                 gameObject.transform.position, targetedPosition).magnitude;
         float transitTime = range / MUZZLE_VELOCITY;
-        return targetRigidbody.position + targetRigidbody.velocity * transitTime;
+        Vector3 projectedPosition =
+                targetRigidbody.position + targetRigidbody.velocity * transitTime;
+        return PreventExcessDepression(projectedPosition);
+    }
+
+    /**
+     * Adjusts a given target position vector to prevent the turret aiming down
+     * through its own mantle.
+     */
+    private Vector3 PreventExcessDepression(Vector3 vector) {
+        return VectorUtils.SetY(
+            vector,
+            Mathf.Clamp(vector.y, transform.position.y - 0.5f, float.MaxValue)
+        );
     }
 
     /**
