@@ -52,11 +52,6 @@ public class TurretController : MonoBehaviour {
     private Rigidbody targetRigidbody;
 
     /**
-     * The target object's controller.
-     */
-    private PlayerController targetController;
-
-    /**
      * Set up cron job to fire projectiles.
      */
     void Start() {
@@ -67,13 +62,18 @@ public class TurretController : MonoBehaviour {
      * Acquire target and compute point at which to aim.
      */
     void FixedUpdate() {
-        // Acquire reference to target if necessary
         if (targetRigidbody == null) {
-            targetController = target.GetComponent<PlayerController>();
-            targetRigidbody = targetController.GetRigidbody();
+            targetRigidbody = GetTargetRigidbody();
         }
-
         targetedPosition = GetFireSolution();
+    }
+
+    /**
+     * Gets a reference to the target object's rigidbody.
+     */
+    private Rigidbody GetTargetRigidbody() {
+        PlayerController targetController = target.GetComponent<PlayerController>();
+        return targetController.GetRigidbody();
     }
 
     /**
@@ -81,14 +81,9 @@ public class TurretController : MonoBehaviour {
      * reckoning.
      */
     private Vector3 GetFireSolution() {
-        // Find range to target
         float range = VectorUtils.GetResultant(
                 gameObject.transform.position, targetedPosition).magnitude;
-
-        // Calculate approximate transit time of projectile
         float transitTime = range / MUZZLE_VELOCITY;
-
-        // Project target's position after this much time
         return targetRigidbody.position + targetRigidbody.velocity * transitTime;
     }
 
