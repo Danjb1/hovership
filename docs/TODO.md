@@ -9,9 +9,13 @@
 
 ### Turrets
 
- - Spawn in projectile objects at some rate and propel them at player
  - Refactor turrets to have master controller in parent object
    - Will remove need to search out other gameobjects by reference
+ - Add controller for projectile
+   - Destroy if colliding with anything other than the turret which fired it
+     - Get this notion via a reference to the turret's GameObject
+ - Register hits from projectiles in the player
+   - This might need to be broadcast by the projectile
 
 ### Player
 

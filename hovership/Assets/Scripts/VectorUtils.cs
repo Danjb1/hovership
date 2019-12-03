@@ -36,6 +36,13 @@ public class VectorUtils {
     }
 
     /**
+     * Calculates the 3D resultant vector A->B given vectors A and B
+     */
+    public static Vector3 GetResultant(Vector3 a, Vector3 b) {
+        return new Vector3(b.x - a.x, b.y - a.y, b.z - a.z);
+    }
+
+    /**
      * Determine what position a given arrow vector pointing at a given
      * destination would originate from if scaled to a given length, anchored
      * at the destination.
