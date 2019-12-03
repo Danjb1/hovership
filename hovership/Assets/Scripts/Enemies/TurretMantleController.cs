@@ -24,9 +24,9 @@ public class TurretMantleController : MonoBehaviour {
      */
     private TurretController GetParentController() {
         return transform
-                    .parent
-                    .gameObject
-                    .GetComponent<TurretController>();
+                .parent
+                .gameObject
+                .GetComponent<TurretController>();
     }
 
     /**
