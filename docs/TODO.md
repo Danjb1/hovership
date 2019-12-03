@@ -47,7 +47,6 @@
 
 ## Asset Enhancements
 
- - Castle plateau (jagged at edges)
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
  - Village terrain piece (some janky geometry at edges)
