@@ -4251,7 +4251,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 9c54c685b62feb444bc64087c0ce2bbb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.8
+      value: -4.2
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 9c54c685b62feb444bc64087c0ce2bbb,
         type: 3}
@@ -4339,7 +4339,7 @@ MeshCollider:
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
-  m_Mesh: {fileID: 9127120572191758296, guid: 9c54c685b62feb444bc64087c0ce2bbb, type: 3}
+  m_Mesh: {fileID: 5577429918001518612, guid: 9c54c685b62feb444bc64087c0ce2bbb, type: 3}
 --- !u!4 &1023604366 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 9c54c685b62feb444bc64087c0ce2bbb,
