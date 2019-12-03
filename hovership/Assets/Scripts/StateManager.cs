@@ -16,7 +16,7 @@ public class StateManager {
 
     private float levelGroundHeight;
 
-    private bool flightMode = false;
+    private bool flightMode = true;
 
     private List<IStateListener> stateListeners = new List<IStateListener>();
 
