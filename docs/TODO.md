@@ -9,8 +9,6 @@
 
 ### Turrets
 
- - Refactor turrets to have master controller in parent object
-   - Will remove need to search out other gameobjects by reference
  - Add controller for projectile
    - Destroy if colliding with anything other than the turret which fired it
      - Get this notion via a reference to the turret's GameObject

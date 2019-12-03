@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretBarrelController : MonoBehaviour {
+public class TurretController : MonoBehaviour {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * The turret mantle this belongs to.
+     * The turret's target. It must have a PlayerController script.
      */
-    public GameObject parent;
+    public GameObject target;
 
     /**
      * The game object to instantiate copies of when firing.
@@ -23,8 +23,21 @@ public class TurretBarrelController : MonoBehaviour {
      */
     public float fireRate;
 
+    /**
+     * Whether the turret should only aim along the horizon.
+     */
+    public bool horizontalOnly;
+
     ///////////////////////////////////////////////////////////////////////////
-    // TurretBarrelController
+    // Accessors
+    ///////////////////////////////////////////////////////////////////////////
+
+    public Vector3 GetTargetedPosition() {
+        return targetedPosition;
+    }    
+
+    ///////////////////////////////////////////////////////////////////////////
+    // TurretController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
@@ -33,48 +46,35 @@ public class TurretBarrelController : MonoBehaviour {
     private const float MUZZLE_VELOCITY = 50f;
 
     /**
-     * The controller of the turrent mantle which aims this barrel.
-     */
-    private TurretMantleController parentController;
-
-    /**
-     * The rigidbody of the turret's target object.
-     */
-    private Rigidbody targetRigidbody;
-
-    /**
-     * Whether the barrel should remain level.
-     */
-    private bool horizontalOnly;
-
-    /**
-     * The position at which the turret is aiming this frame.
+     * The location at which the turret should aim this frame.
      */
     private Vector3 targetedPosition;
 
     /**
-     * Initialises the controller.
+     * The target object's Rigidbody.
+     */
+    private Rigidbody targetRigidbody;
+
+    /**
+     * The target object's controller.
+     */
+    private PlayerController targetController;
+
+    /**
+     * Set up cron job to fire projectiles.
      */
     void Start() {
-        parentController = parent.GetComponent<TurretMantleController>();
-        horizontalOnly = parentController.IsHorizontalOnly();
         InvokeRepeating("Fire", 0f, (1 / fireRate));
     }
 
     /**
-     * Updates the barrel's aim every frame.
+     * Acquire target and compute point at which to aim.
      */
     void FixedUpdate() {
-        AimAtTarget();
-    }
-
-    /**
-     * Aims the barrel vertically at the parent mantle's target.
-     */
-    private void AimAtTarget() {
-        // Get target rigidbody if necessary
+        // Acquire reference to target if necessary
         if (targetRigidbody == null) {
-            targetRigidbody = parentController.GetTargetRigidbody();
+            targetController = target.GetComponent<PlayerController>();
+            targetRigidbody = targetController.GetRigidbody();
         }
 
         // Determine aim direction
@@ -83,9 +83,6 @@ public class TurretBarrelController : MonoBehaviour {
             GetTargetY(),
             targetRigidbody.position.z
         );
-        
-        // Aim barrel
-        transform.LookAt(targetedPosition);
     }
 
     /**
@@ -104,12 +101,8 @@ public class TurretBarrelController : MonoBehaviour {
      * Fires a copy of the stored projectile at the target position.
      */
     private void Fire() {
-        // Create projectile
         GameObject projectile = CreateProjectile();
-
-        // Apply launch impulse
-        Rigidbody projectileBody = projectile.GetComponent<Rigidbody>();
-        projectileBody.velocity = GetFireSolution();
+        projectile.GetComponent<Rigidbody>().velocity = GetFireSolution();
     }
 
     /**
@@ -118,7 +111,7 @@ public class TurretBarrelController : MonoBehaviour {
     private GameObject CreateProjectile() {
         return Instantiate(
             projectilePrefab,
-            parent.transform.position,
+            gameObject.transform.position,
             new Quaternion(0, 0, 0, 0)
         );
     }
@@ -129,6 +122,6 @@ public class TurretBarrelController : MonoBehaviour {
      */
     private Vector3 GetFireSolution() {
         return MUZZLE_VELOCITY * Vector3.Normalize(
-            VectorUtils.GetResultant(parent.transform.position, targetedPosition));
+            VectorUtils.GetResultant(gameObject.transform.position, targetedPosition));
     }
 }
