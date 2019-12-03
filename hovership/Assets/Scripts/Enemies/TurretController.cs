@@ -23,11 +23,6 @@ public class TurretController : MonoBehaviour {
      */
     public float fireRate;
 
-    /**
-     * Whether the turret should only aim along the horizon.
-     */
-    public bool horizontalOnly;
-
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
     ///////////////////////////////////////////////////////////////////////////
@@ -41,7 +36,8 @@ public class TurretController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * The speed at which a fired projectile will leave the barrel.
+     * The speed at which a fired projectile will leave the barrel, in metres
+     * per second.
      */
     private const float MUZZLE_VELOCITY = 50f;
 
@@ -81,27 +77,19 @@ public class TurretController : MonoBehaviour {
     }
 
     /**
-     * Calculate the position we should aim at to hit the target, if it continues
-     * at present course and speed.
+     * Calculates the position we should aim at to hit the target using dead
+     * reckoning.
      */
     private Vector3 GetFireSolution() {
-        return new Vector3(
-            targetRigidbody.position.x,
-            GetTargetY(),
-            targetRigidbody.position.z
-        );
-    }
+        // Find range to target
+        float range = VectorUtils.GetResultant(
+                gameObject.transform.position, targetedPosition).magnitude;
 
-    /**
-     * Determines the Y-component of the target point we should aim at.
-     */
-    private float GetTargetY() {
-        return horizontalOnly
-                ? transform.position.y
-                : Mathf.Clamp(
-                        targetRigidbody.position.y,
-                        transform.position.y - 0.5f,
-                        float.MaxValue);
+        // Calculate approximate transit time of projectile
+        float transitTime = range / MUZZLE_VELOCITY;
+
+        // Project target's position after this much time
+        return targetRigidbody.position + targetRigidbody.velocity * transitTime;
     }
 
     /**
