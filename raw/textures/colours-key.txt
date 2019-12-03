@@ -29,3 +29,4 @@
 28 - turret body
 29 - turret base
 30 - turret barrel
+31 - slab
