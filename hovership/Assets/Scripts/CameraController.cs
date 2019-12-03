@@ -60,7 +60,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     /**
      * Upper limit to the size of the velocity vector.
      */
-    private const float SPEED_LIMIT = 8;
+    private const float SPEED_LIMIT = 15;
 
     /**
      * Time taken to reach the vertical destination, in seconds.
@@ -117,7 +117,7 @@ public class CameraController : MonoBehaviour, ICharacterListener {
         PlayerController playerController = player.GetComponent<PlayerController>();
         playerController.RegisterCharacterListener(this);
 
-        // Acquire camera body        
+        // Acquire camera body
         rigidbodyComponent = GetComponent<Rigidbody>();
 
         // Determine position boundaries

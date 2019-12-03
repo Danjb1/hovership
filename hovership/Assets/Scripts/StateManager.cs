@@ -48,7 +48,7 @@ public class StateManager {
     }
 
     public void SetFlightMode(bool flightMode) {
-        flightMode = flightMode;
+        this.flightMode = flightMode;
     }
 
     public bool IsFlightMode() {
