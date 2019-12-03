@@ -14,6 +14,10 @@
      - Get this notion via a reference to the turret's GameObject
  - Register hits from projectiles in the player
    - This might need to be broadcast by the projectile
+ - Turret should calculate ballistic lead on target and compensate accordingly
+ - Use custom logic rather than cron job to fire
+   - This will let us cease fire if we are out of the turret's field of fire
+     - E.g. below its minimum depression angle
 
 ### Player
 

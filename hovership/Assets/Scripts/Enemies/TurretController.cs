@@ -77,8 +77,15 @@ public class TurretController : MonoBehaviour {
             targetRigidbody = targetController.GetRigidbody();
         }
 
-        // Determine aim direction
-        targetedPosition = new Vector3(
+        targetedPosition = GetFireSolution();
+    }
+
+    /**
+     * Calculate the position we should aim at to hit the target, if it continues
+     * at present course and speed.
+     */
+    private Vector3 GetFireSolution() {
+        return new Vector3(
             targetRigidbody.position.x,
             GetTargetY(),
             targetRigidbody.position.z
@@ -102,7 +109,7 @@ public class TurretController : MonoBehaviour {
      */
     private void Fire() {
         GameObject projectile = CreateProjectile();
-        projectile.GetComponent<Rigidbody>().velocity = GetFireSolution();
+        projectile.GetComponent<Rigidbody>().velocity = CalculateLaunchImpulse();
     }
 
     /**
@@ -120,7 +127,7 @@ public class TurretController : MonoBehaviour {
      * Calculates the velocity vector to propel the projectile at the target
      * point.
      */
-    private Vector3 GetFireSolution() {
+    private Vector3 CalculateLaunchImpulse() {
         return MUZZLE_VELOCITY * Vector3.Normalize(
             VectorUtils.GetResultant(gameObject.transform.position, targetedPosition));
     }
