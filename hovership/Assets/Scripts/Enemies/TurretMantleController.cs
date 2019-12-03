@@ -23,10 +23,7 @@ public class TurretMantleController : MonoBehaviour {
      * Gets a reference to the parent object's controller.
      */
     private TurretController GetParentController() {
-        return transform
-                .parent
-                .gameObject
-                .GetComponent<TurretController>();
+        return transform.parent.gameObject.GetComponent<TurretController>();
     }
 
     /**
