@@ -42,6 +42,11 @@ public class TurretController : MonoBehaviour {
     private const float MUZZLE_VELOCITY = 50f;
 
     /**
+     * The maximum inaccuracy ratio permitted, where 0.1f represents ±10%.
+     */
+    private const float INACCURACY_SIZE = 0.05f;
+
+    /**
      * The location at which the turret should aim this frame.
      */
     private Vector3 targetedPosition;
@@ -112,11 +117,29 @@ public class TurretController : MonoBehaviour {
      * Creates a projectile at the position of the turret.
      */
     private GameObject CreateProjectile() {
-        return Instantiate(
+
+        // Create projectile at turret position
+        GameObject projectile = Instantiate(
             projectilePrefab,
             gameObject.transform.position,
             new Quaternion(0, 0, 0, 0)
         );
+
+        // Register this turret and its components on the projectile
+        projectile.GetComponent<ProjectileController>().originObjects = GetTurretObjects();
+
+        return projectile;
+    }
+
+    /**
+     * Gets the turret's object, and all of its child objects.
+     */
+    private List<GameObject> GetTurretObjects() {
+        List<GameObject> objects = new List<GameObject>{gameObject};
+        foreach(Transform child in transform) {
+            objects.Add(child.gameObject);
+        }
+        return objects;
     }
 
     /**
@@ -124,7 +147,20 @@ public class TurretController : MonoBehaviour {
      * point.
      */
     private Vector3 CalculateLaunchImpulse() {
-        return MUZZLE_VELOCITY * Vector3.Normalize(
-            VectorUtils.GetResultant(gameObject.transform.position, targetedPosition));
+        return AddRandomness(MUZZLE_VELOCITY * Vector3.Normalize(
+            VectorUtils.GetResultant(gameObject.transform.position, targetedPosition)));
+    }
+
+    /**
+     * Adds uncertainty to a vector, according to the stored ratio.
+     */
+    private Vector3 AddRandomness(Vector3 vector) {
+        float minRatio = 1 - INACCURACY_SIZE;
+        float maxRatio = 1 + INACCURACY_SIZE;
+        return new Vector3(
+            vector.x * Random.Range(minRatio, maxRatio),
+            vector.y * Random.Range(minRatio, maxRatio),
+            vector.z * Random.Range(minRatio, maxRatio)
+        );
     }
 }

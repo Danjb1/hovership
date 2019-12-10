@@ -9,16 +9,10 @@
 
 ### Turrets
 
- - Add controller for projectile
-   - Destroy if colliding with anything other than the turret which fired it
-     - Get this notion via a reference to the turret's GameObject
- - Register hits from projectiles in the player
-   - This might need to be broadcast by the projectile
  - Use custom logic rather than cron job to fire
    - This will let us cease fire if we are out of the turret's field of fire
      - E.g. below its minimum depression angle
- - Add random inaccuracy to turret shots?
-   - Will need to be minor
+ - Projectiles should have a maximum range/time of flight
 
 ### Player
 
@@ -29,6 +23,7 @@
  - Handle player's velocity vector using local coords, not world
    - i.e. convert at start of FixedUpdate, do calculations, and convert back at end
  - Support multiple ground planes by using collisions instead of inferring from altitude
+ - In flight mode, lateral "friction" should still be applied (currently momentum is not diminished)
 
 ### Camera
 

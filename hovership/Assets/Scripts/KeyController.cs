@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class KeyController : MonoBehaviour {
 
-    void Start() {}
-
-    void Update() {}
-
     /**
      * Event handler for collisions.
      */

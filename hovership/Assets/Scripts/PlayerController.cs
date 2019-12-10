@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IHittable {
 
     ///////////////////////////////////////////////////////////////////////////
     // Script Properties
@@ -252,6 +252,11 @@ public class PlayerController : MonoBehaviour {
      */
     private bool flightMode;
 
+    /**
+     * The player's audio source component.
+     */
+    private AudioSource audioSource;
+
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
     ///////////////////////////////////////////////////////////////////////////
@@ -276,6 +281,7 @@ public class PlayerController : MonoBehaviour {
         // Acquire player's components
         rigidbodyComponent = GetComponent<Rigidbody>();
         colliderComponent = GetComponent<Collider>();
+        audioSource = GetComponent<AudioSource>();
 
         // Set game state to Playing
         StateManager.Instance.SetState(GameState.PLAYING);
@@ -726,6 +732,11 @@ public class PlayerController : MonoBehaviour {
     public void RegisterCharacterListener(ICharacterListener listener) {
         characterListeners.Add(listener);
     }
+
+    /**
+     * TODO: deduct health or similar
+     */
+    public void RegisterHit() {}
 
     /**
      * Moves the player back to the spawn point.
