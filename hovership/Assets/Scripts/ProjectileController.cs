@@ -16,9 +16,32 @@ public class ProjectileController : MonoBehaviour {
 
     /**
      * The length of time in seconds that the projectile will fly before being
-     * destroyed. TODO - use this
+     * destroyed.
      */
     private const int MAX_DURATION = 5;
+
+    /**
+     * The number of seconds since the game began at the instant of the projectile's
+     * creation.
+     */
+    private float creationTime;
+
+    /**
+     * Logs the time of the projectile's creation.
+     */
+    void Start() {
+        creationTime = Time.fixedTime;
+    }
+
+    /**
+     * Checks whether the projectile has flown for too long and should therefore
+     * decay.
+     */
+    void FixedUpdate() {
+        if (Time.fixedTime > creationTime + MAX_DURATION) {
+            Destroy(gameObject);
+        }
+    }
 
     /**
      * Trigger collision handler.

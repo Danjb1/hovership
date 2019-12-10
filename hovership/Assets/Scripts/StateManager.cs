@@ -33,7 +33,7 @@ public class StateManager {
         }
     }
 
-    private StateManager(){ }
+    private StateManager() {}
 
     public void SetState(GameState gameState) {
         this.gameState = gameState;
