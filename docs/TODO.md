@@ -12,6 +12,7 @@
  - Use custom logic rather than cron job to fire
    - This will let us cease fire if we are out of the turret's field of fire
      - E.g. below its minimum depression angle
+     - And when out of range
 
 ### Player
 
