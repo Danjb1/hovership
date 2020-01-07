@@ -5,7 +5,7 @@
 <!----------------------------------------------------------------------------->
 
  - Turrets should kill the player
- - Collecting all Power Shards should enable flight
+ - Notify the player once all Power Shards have been collected
  - Particle effects when picking up a Power Shard
  - Sound effects
  - Music

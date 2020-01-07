@@ -8,7 +8,10 @@ public class PowerShardController : MonoBehaviour {
 
     public int value;
 
-    void Start() { }
+    void Start() {
+        // Register this PowerShard
+        StateManager.Instance.numPowerShards++;
+    }
 
     void Update() { }
 
@@ -17,10 +20,20 @@ public class PowerShardController : MonoBehaviour {
      */
     private void OnTriggerEnter(Collider collider) {
         if (collider.gameObject.tag == "Player") {
-            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
-            gameObject.SetActive(false);
-            StateManager.Instance.AddPowerShardsCollected(value);
+            pickedUp();
         }
+    }
+
+    private void pickedUp() {
+
+        // Play sound
+        AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
+
+        // Disappear
+        gameObject.SetActive(false);
+
+        // Update Power Shard counter
+        StateManager.Instance.AddPowerShardsCollected(value);
     }
 
 }
