@@ -765,6 +765,7 @@ public class PlayerController : MonoBehaviour, IHittable {
 
         // Reset velocity
         rigidbodyComponent.velocity = Vector3.zero;
+        previousVelocity = Vector3.zero;
 
         // Inform listeners of the new position
         foreach (ICharacterListener listener in characterListeners) {

@@ -115,11 +115,11 @@ MonoBehaviour:
   target: {fileID: 0}
   projectilePrefab: {fileID: 8938948655591110475, guid: c03f88bd4474f054bb58528001baeafa,
     type: 3}
-  fireRate: 2
-  muzzleVelocity: 25
+  fireRate: 1
+  muzzleVelocity: 18
   inaccuracySize: 0.05
-  maximumRange: 50
-  leadRatio: 0.2
+  maximumRange: 30
+  leadRatio: 0.1
 --- !u!1001 &4830632861983034690
 PrefabInstance:
   m_ObjectHideFlags: 0
