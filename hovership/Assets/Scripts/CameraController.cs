@@ -109,6 +109,11 @@ public class CameraController : MonoBehaviour, ICharacterListener {
     private Rigidbody rigidbodyComponent;
 
     /**
+     * The camera collider's velocity during the last in-play frame.
+     */
+    private Vector3 previousVelocity;
+
+    /**
      * Initialises this controller.
      */
     void Start () {
@@ -144,6 +149,11 @@ public class CameraController : MonoBehaviour, ICharacterListener {
                 celebrationRotationSpeed * Time.deltaTime
             );
             return;
+        } else if (StateManager.Instance.GetState() == GameState.PAUSED) {
+            rigidbodyComponent.velocity = Vector3.zero;
+            return;
+        } else {
+            rigidbodyComponent.velocity = previousVelocity;
         }
 
         // If the Player has fallen below their last grounded Y,
@@ -234,6 +244,9 @@ public class CameraController : MonoBehaviour, ICharacterListener {
 
         // Apply acceleration towards new position
         rigidbodyComponent.velocity = newVelocity;
+
+        // Store new velocity
+        previousVelocity = newVelocity;
 
         /*
          * Check if the camera is too close to or far from the player.

@@ -257,6 +257,11 @@ public class PlayerController : MonoBehaviour, IHittable {
      */
     private AudioSource audioSource;
 
+    /**
+     * The player's velocity during the last in-play frame.
+     */
+    private Vector3 previousVelocity;
+
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
     ///////////////////////////////////////////////////////////////////////////
@@ -334,6 +339,8 @@ public class PlayerController : MonoBehaviour, IHittable {
         if (StateManager.Instance.GetState() != GameState.PLAYING) {
             rigidbodyComponent.velocity = Vector3.zero;
             return;
+        } else {
+            rigidbodyComponent.velocity = previousVelocity;
         }
 
         DetectFlightMode();
@@ -494,6 +501,7 @@ public class PlayerController : MonoBehaviour, IHittable {
         // Set the new velocity
         yVelocity = newVelocity.y;
         rigidbodyComponent.velocity = newVelocity;
+        previousVelocity = newVelocity;
     }
 
     /**

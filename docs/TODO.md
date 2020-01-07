@@ -17,7 +17,6 @@
 
 ### Turrets
 
- - Projectiles should halt when game is paused
  - Turrets should revert to a more aggressive lead when the player is flying
 
 ### Player
