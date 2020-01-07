@@ -40,6 +40,14 @@ public class TurretController : MonoBehaviour {
      */
     public float maximumRange;
 
+    /**
+     * The ratio (0-1) of the full dead-reckoning lead the turret will add to its
+     * fire solution. A value of 0 will shoot at the player's current position,
+     * while 1 will shoot at the player's future position if they continue at a
+     * constant speed.
+     */
+    public float leadRatio;
+
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
     ///////////////////////////////////////////////////////////////////////////
@@ -129,8 +137,8 @@ public class TurretController : MonoBehaviour {
         currentRangeToTarget = VectorUtils.GetResultant(
                 gameObject.transform.position, targetedPosition).magnitude;
         float transitTime = maximumRange / muzzleVelocity;
-        Vector3 projectedPosition =
-                targetRigidbody.position + targetRigidbody.velocity * transitTime;
+        Vector3 projectedPosition = targetRigidbody.position
+                + targetRigidbody.velocity * transitTime * leadRatio;
         return PreventExcessDepression(projectedPosition);
     }
 
