@@ -6,7 +6,6 @@
 
  - Notify the player once all Power Shards have been collected
  - Particle effects when picking up a Power Shard
- - Sound effects
  - Music
  - Configure launcher
  - Custom cursor
@@ -64,19 +63,21 @@
 ### Scene
 
  - Add raised areas of land atop the Castle terrain
- - Add windows / chimneys to town
+ - Add windows / chimneys / fences to town
  - Add trees / rocks around the Castle terrain
  - Add distant islands / clouds within scene
 
 ### Terrain
 
+ - Combine all terrain pieces into one mesh?
  - Village terrain piece (some janky geometry at edges)
  - Terrain pieces need bottoms!
+ - Castle terrain is very messy on the sides
  - Normalise terrain pieces (use same scale / style for all)
 
 ### Objects
 
- - House (add wooden beams?)
+ - House (add wooden beams? recalculate normals?)
  - Chimney (doesn't fit properly with the house)
 
 ### Skybox
@@ -86,6 +87,12 @@
     - OR have a textured floor plane that cuts through them
  - Mountain bottoms should not be visible
  - Apply blur effect
+
+## Sounds
+
+ - Improve engine sound
+ - Turret fire
+ - Bullet hit
 
 <!----------------------------------------------------------------------------->
 ## New Assets
@@ -120,12 +127,11 @@
  - Tunnel segments
  - Tunnel arches
  - Torches (with light source)
- - Lanterns/standing torches
+ - Lanterns / standing torches
  - Crop furrows
  - Crops
  - Button
  - Flags
- - Power shards
 
 ### Mobs
 
@@ -133,4 +139,4 @@
  - Sheep
  - Cows
  - Chickens
- - Turrets
+ - Turret bullets
