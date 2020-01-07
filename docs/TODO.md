@@ -4,7 +4,6 @@
 ## Features
 <!----------------------------------------------------------------------------->
 
- - Turrets should kill the player
  - Notify the player once all Power Shards have been collected
  - Particle effects when picking up a Power Shard
  - Sound effects
