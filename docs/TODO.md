@@ -4,7 +4,6 @@
 ## Features
 <!----------------------------------------------------------------------------->
 
- - Turrets should kill the player
  - Notify the player once all Power Shards have been collected
  - Particle effects when picking up a Power Shard
  - Sound effects
@@ -79,6 +78,7 @@
 
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
+ - Reconcile twin-barrelled turret with single projectile being fired
 
 ### Skybox
 
