@@ -78,6 +78,7 @@
 
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
+ - Reconcile twin-barrelled turret with single projectile being fired
 
 ### Skybox
 
