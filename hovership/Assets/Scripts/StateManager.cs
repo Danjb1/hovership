@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using UnityEngine;
+
 /**
 * Singleton for managing overall game state.
 */
@@ -6,6 +8,8 @@ public class StateManager {
 
     // Singleton instance
     private static StateManager instance;
+
+    public int numPowerShards;
 
     /**
      * Current game state.
@@ -74,8 +78,14 @@ public class StateManager {
     public void AddPowerShardsCollected(int n) {
         powerShardsCollected += n;
 
+        // Inform listeners
         foreach (IPowerShardListener listener in powerShardListeners) {
             listener.PowerShardCollected(powerShardsCollected);
+        }
+
+        // Check for victory
+        if (powerShardsCollected >= numPowerShards) {
+            SetFlightMode(true);
         }
     }
 
