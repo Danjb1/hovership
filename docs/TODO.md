@@ -6,6 +6,7 @@
 
  - Turrets should kill the player
  - Collecting all Power Shards should enable flight
+ - Particle effects when picking up a Power Shard
  - Sound effects
  - Music
  - Configure launcher
@@ -14,10 +15,6 @@
 <!----------------------------------------------------------------------------->
 ## Code
 <!----------------------------------------------------------------------------->
-
- - Particle effects when picking up a Power Shard
- - NPE in LevelCompleteMenuController.Start()
- - NPE when collecting a Power Shard
 
 ### Turrets
 
