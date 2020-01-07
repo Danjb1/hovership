@@ -34,6 +34,12 @@ public class TurretController : MonoBehaviour {
      */
     public float inaccuracySize;
 
+    /**
+     * The maximum range (in metres) at which the turret will attempt to engage
+     * the target.
+     */
+    public float maximumRange;
+
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
     ///////////////////////////////////////////////////////////////////////////
@@ -47,6 +53,11 @@ public class TurretController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
+     * The interval to wait for before shooting again.
+     */
+    private float secondsPerShot;
+
+    /**
      * The location at which the turret should aim this frame.
      */
     private Vector3 targetedPosition;
@@ -57,20 +68,49 @@ public class TurretController : MonoBehaviour {
     private Rigidbody targetRigidbody;
 
     /**
+     * The time in seconds since the turret's last shot.
+     */
+    private float timeSinceLastShot;
+
+    /**
+     * The distance to the target this frame, in metres.
+     */
+    private float currentRangeToTarget;
+
+    /**
      * Set up cron job to fire projectiles.
      */
     void Start() {
-        InvokeRepeating("Fire", 0f, (1 / fireRate));
+        secondsPerShot = 1 / fireRate;
+        timeSinceLastShot = 0f;
     }
 
     /**
      * Acquire target and compute point at which to aim.
      */
     void FixedUpdate() {
+
+        // Skip this frame, if the game is paused
+        if (StateManager.Instance.GetState() != GameState.PLAYING) {
+            return;
+        }
+
+        // Update reference to target
         if (targetRigidbody == null) {
             targetRigidbody = GetTargetRigidbody();
         }
+
+        // Aim turret
         targetedPosition = GetFireSolution();
+
+        // Register passage of time
+        timeSinceLastShot += Time.deltaTime;
+
+        // Fire, if we should this frame
+        if (timeSinceLastShot >= secondsPerShot) {
+            Fire();
+            timeSinceLastShot = 0;
+        }
     }
 
     /**
@@ -86,9 +126,9 @@ public class TurretController : MonoBehaviour {
      * reckoning.
      */
     private Vector3 GetFireSolution() {
-        float range = VectorUtils.GetResultant(
+        currentRangeToTarget = VectorUtils.GetResultant(
                 gameObject.transform.position, targetedPosition).magnitude;
-        float transitTime = range / muzzleVelocity;
+        float transitTime = maximumRange / muzzleVelocity;
         Vector3 projectedPosition =
                 targetRigidbody.position + targetRigidbody.velocity * transitTime;
         return PreventExcessDepression(projectedPosition);
@@ -106,11 +146,14 @@ public class TurretController : MonoBehaviour {
     }
 
     /**
-     * Fires a copy of the stored projectile at the target position.
+     * Fires a copy of the stored projectile at the target position, provided it
+     * is in range.
      */
     private void Fire() {
-        GameObject projectile = CreateProjectile();
-        projectile.GetComponent<Rigidbody>().velocity = CalculateLaunchImpulse();
+        if (currentRangeToTarget <= maximumRange) {
+            GameObject projectile = CreateProjectile();
+            projectile.GetComponent<Rigidbody>().velocity = CalculateLaunchImpulse();
+        }
     }
 
     /**
