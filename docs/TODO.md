@@ -4,6 +4,7 @@
 ## Features
 <!----------------------------------------------------------------------------->
 
+ - Turrets should kill the player
  - Notify the player once all Power Shards have been collected
  - Particle effects when picking up a Power Shard
  - Sound effects
@@ -63,6 +64,9 @@
 
 ### Scene
 
+ - Add raised areas of land atop the Castle terrain
+ - Add windows / chimneys to town
+ - Add trees / rocks around the Castle terrain
  - Add distant islands / clouds within scene
 
 ### Terrain
@@ -75,7 +79,6 @@
 
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
- - Reconcile twin-barrelled turret with single projectile being fired
 
 ### Skybox
 
