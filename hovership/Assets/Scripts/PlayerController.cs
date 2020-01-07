@@ -734,9 +734,11 @@ public class PlayerController : MonoBehaviour, IHittable {
     }
 
     /**
-     * TODO: deduct health or similar
+     * Respawns if the player is hit by a projectile.
      */
-    public void RegisterHit() {}
+    public void RegisterHit() {
+        Respawn();
+    }
 
     /**
      * Moves the player back to the spawn point.

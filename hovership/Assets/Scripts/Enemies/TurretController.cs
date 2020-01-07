@@ -23,6 +23,17 @@ public class TurretController : MonoBehaviour {
      */
     public float fireRate;
 
+    /**
+     * The speed at which a fired projectile will leave the barrel, in metres
+     * per second.
+     */
+    public float muzzleVelocity;
+
+    /**
+     * The maximum inaccuracy ratio permitted, where 0.1 represents ±10%.
+     */
+    public float inaccuracySize;
+
     ///////////////////////////////////////////////////////////////////////////
     // Accessors
     ///////////////////////////////////////////////////////////////////////////
@@ -34,17 +45,6 @@ public class TurretController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////
     // TurretController
     ///////////////////////////////////////////////////////////////////////////
-
-    /**
-     * The speed at which a fired projectile will leave the barrel, in metres
-     * per second.
-     */
-    private const float MUZZLE_VELOCITY = 50f;
-
-    /**
-     * The maximum inaccuracy ratio permitted, where 0.1f represents ±10%.
-     */
-    private const float INACCURACY_SIZE = 0.05f;
 
     /**
      * The location at which the turret should aim this frame.
@@ -88,7 +88,7 @@ public class TurretController : MonoBehaviour {
     private Vector3 GetFireSolution() {
         float range = VectorUtils.GetResultant(
                 gameObject.transform.position, targetedPosition).magnitude;
-        float transitTime = range / MUZZLE_VELOCITY;
+        float transitTime = range / muzzleVelocity;
         Vector3 projectedPosition =
                 targetRigidbody.position + targetRigidbody.velocity * transitTime;
         return PreventExcessDepression(projectedPosition);
@@ -147,7 +147,7 @@ public class TurretController : MonoBehaviour {
      * point.
      */
     private Vector3 CalculateLaunchImpulse() {
-        return AddRandomness(MUZZLE_VELOCITY * Vector3.Normalize(
+        return AddRandomness(muzzleVelocity * Vector3.Normalize(
             VectorUtils.GetResultant(gameObject.transform.position, targetedPosition)));
     }
 
@@ -155,8 +155,8 @@ public class TurretController : MonoBehaviour {
      * Adds uncertainty to a vector, according to the stored ratio.
      */
     private Vector3 AddRandomness(Vector3 vector) {
-        float minRatio = 1 - INACCURACY_SIZE;
-        float maxRatio = 1 + INACCURACY_SIZE;
+        float minRatio = 1 - inaccuracySize;
+        float maxRatio = 1 + inaccuracySize;
         return new Vector3(
             vector.x * Random.Range(minRatio, maxRatio),
             vector.y * Random.Range(minRatio, maxRatio),
