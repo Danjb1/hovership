@@ -1,8 +1,20 @@
 # To Do
 
-## Code
+<!----------------------------------------------------------------------------->
+## Features
+<!----------------------------------------------------------------------------->
 
- - Add unit tests
+ - Turrets should kill the player
+ - Collecting all Power Shards should enable flight
+ - Sound effects
+ - Music
+ - Configure launcher
+ - Custom cursor
+
+<!----------------------------------------------------------------------------->
+## Code
+<!----------------------------------------------------------------------------->
+
  - Particle effects when picking up a Power Shard
  - NPE in LevelCompleteMenuController.Start()
  - NPE when collecting a Power Shard
@@ -39,26 +51,49 @@
  - Strange camera behaviour when touching the key to end the level
    - Probably just needs to centre on the player at the moment of completion
 
-## Unity
+<!----------------------------------------------------------------------------->
+## Unit Tests
+<!----------------------------------------------------------------------------->
 
- - Sound effects
- - Music
- - Configure launcher
- - Custom cursor
+ - Camera
+ - Player
+
+<!----------------------------------------------------------------------------->
+## Project
+<!----------------------------------------------------------------------------->
+
+ - Use glfs for large assets
+
+<!----------------------------------------------------------------------------->
+## Asset Enhancements
+<!----------------------------------------------------------------------------->
+
+### Scene
+
  - Add distant islands / clouds within scene
 
-## Asset Enhancements
+### Terrain
+
+ - Village terrain piece (some janky geometry at edges)
+ - Terrain pieces need bottoms!
+ - Normalise terrain pieces (use same scale / style for all)
+
+### Objects
 
  - House (add wooden beams?)
  - Chimney (doesn't fit properly with the house)
- - Village terrain piece (some janky geometry at edges)
- - Terrain pieces need bottoms!
+
+### Skybox
+
  - Mountains (more jaggedy snow-line)
- - Mountain bottoms should not be visible
     - Fade to transparent
     - OR have a textured floor plane that cuts through them
+ - Mountain bottoms should not be visible
+ - Apply blur effect
 
+<!----------------------------------------------------------------------------->
 ## New Assets
+<!----------------------------------------------------------------------------->
 
 ### Player
 
